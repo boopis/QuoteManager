@@ -1,0 +1,31 @@
+<div class="col-sm-4 col-sm-offset-4 signin">
+  <h2>Sign in</h2>
+
+  <%= simple_form_for(resource, :as => resource_name, 
+                      :url => session_path(resource_name),
+                      wrapper_mappings: { boolean: :vertical_boolean } ) do |f| %>
+    <%= f.input :email, label: false do %>
+      <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-user"></span>
+        <%= f.input_field :email, class: 'form-control', placeholder: 'Email' %>
+      </div>
+    <% end %>
+
+    <%= f.input :password, label: false do %>
+      <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-lock"></span>
+        <%= f.input_field :password, class: 'form-control', placeholder: 'Password' %>
+      </div>
+    <% end %>
+
+    <% if devise_mapping.rememberable? -%>
+      <%= f.input :remember_me, as: :boolean %>
+    <% end -%>
+
+    <%= f.button :submit, "Sign in", class: 'btn btn-theme btn-block' %>
+  <% end %>
+
+  <%= flash_messages layout_flash: false %>
+
+  <%= render "devise/shared/links" %>
+</div>
