@@ -4,22 +4,46 @@
       <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
 
       <ul>
-      <% @form.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <% @form.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="add-fields">
+    <%= link_to_add_fields "email", f, :fields %><br>
+    <%= link_to_add_fields "radio", f, :fields %><br>
+    <%= link_to_add_fields "select", f, :fields %><br>
+    <%= link_to_add_fields "paragraph", f, :fields %><br>
+    <%= link_to_add_fields "check_box", f, :fields %><br>
   </div>
-  <div class="field">
-    <%= f.label :fields %><br>
-    <%= f.text_field :fields %>
+
+  <div class="added-fields">
+
+    <div class="form-name">
+      <%= f.label :name, "Form Name" %>
+      <%= f.text_field :name %>
+    </div>
+    
+    <div class="form-field-list">
+
+    <% if @form.fields? %>
+      <% @form.fields.each do |id, field| %>
+        <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
+          <%= render field['type'], f: field_type, options: field['options'] %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <div class="form-field"></div>
+
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
 <% end %>

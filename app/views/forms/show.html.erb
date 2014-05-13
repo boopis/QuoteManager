@@ -1,14 +1,58 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @form.name %>
-</p>
+<%= content_tag :h3, @form.name %>
 
-<p>
-  <strong>Fields:</strong>
-  <%= @form.fields %>
-</p>
+<%= form_for(@request) do |f| %>
+  <%= f.hidden_field :form_id, value: @form.id %>
+  <% @form.fields.each do |id, field| %>
+    <%= f.fields_for :request_fields, OpenStruct.new(field), index: id do |rf| %>
+      <% case field['type'] %>
+        <% when 'email' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <%= rf.email_field :request %>
+        <% when 'radio' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <% if field['options'] %> 
+            <% field['options'].each do |option| %>
+              <%= rf.label option['name'] %>
+              <%= rf.radio_button :request, option['name'] %>
+            <% end %>
+          <% end %>
+        <% when 'paragraph' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <%= rf.text_area :request %>
+        <% when 'select' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <% if field['options'] %> 
+            <%= rf.select :request, options_for_select(field['options'].map {|o| o['name']}) %>
+          <% end %>
+        <% when 'check_box' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <% if field['options'] %>
+            <% field['options'].each do |option| %>
+              <%= rf.label option['name'] %>
+              <%= rf.check_box :request, { :multiple => true }, option['name'], nil %>
+            <% end %>
+          <% end %>
+      <% end %>
+      <%= field['requried'] %><br>
+      <%= field['css'] %><br>
+    <% end %>
+  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
 
 <%= link_to 'Edit', edit_form_path(@form) %> |
 <%= link_to 'Back', forms_path %>

@@ -10,15 +10,18 @@ class FormsController < ApplicationController
   # GET /forms/1
   # GET /forms/1.json
   def show
+    @request = Request.new
   end
 
   # GET /forms/new
   def new
     @form = Form.new
+    @fb = Form.new
   end
 
   # GET /forms/1/edit
   def edit
+    @fb = Form.new
   end
 
   # POST /forms
@@ -69,6 +72,6 @@ class FormsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def form_params
-      params.require(:form).permit(:name, :fields)
+      params.require(:form).permit(:name, fields: [:label, :type, :required, :css, options: [:name]])
     end
 end

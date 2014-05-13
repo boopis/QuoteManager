@@ -1,0 +1,21 @@
+<div class="form-field">
+<h3>Paragraph Field</h3>
+<fieldset>
+  <%= f.hidden_field :type, value: 'paragraph' %>
+  <div class="field">
+    <%= f.label :label %><br />
+    <%= f.text_field :label %>
+  </div>
+  <div class="field">
+    <%= f.label :required %><br />
+    <%= f.select :required, [['', false], ['required', true] ] %>
+  </div>
+  <div class="field">
+    <%= f.label :css %><br />
+    <%= f.text_area :css %>
+  </div>
+  <div class="remove">
+    <%= link_to '[remove]', '#', class: 'remove_fields' %>
+  </div>
+</fieldset>
+</div>
