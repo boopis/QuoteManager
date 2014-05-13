@@ -3,10 +3,10 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav"> 
       <ul class="nav nav-pills nav-stacked">
         <%= sidebar_nav(root_path, "Dashboard", "fa fa-dashboard") %>
-        <%= submenu_nav('#', "Forms", "fa fa-edit", {'All Forms' => forms_path, 'New Form' => new_form_path}) %>
+        <%= submenu_nav('#', "Forms", "fa fa-edit", 'forms', {'All Forms' => forms_path, 'New Form' => new_form_path}) %>
         <%= sidebar_nav(requests_path, "Requests", "fa fa-question-circle") %>
         <%= sidebar_nav(quotes_path, "Quotes", "fa fa-comments") %>
-        <%= submenu_nav('#', "Contacts", "fa fa-users", {'All Contacts' => '#', 'New Contact' => '#'}) %>
+        <%= submenu_nav('#', "Contacts", "fa fa-users", 'welcome', {'All Contacts' => '#', 'New Contact' => '#'}) %>
       </ul>
     </div>
   </section>

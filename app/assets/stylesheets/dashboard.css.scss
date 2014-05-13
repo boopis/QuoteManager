@@ -1,6 +1,8 @@
 html, body {
 	font-family: 'Open Sans', sans-serif;
 	-webkit-font-smoothing: antialiased;
+	height: 100%;
+	min-height: 100%;
 }
 body {
 	color: #344644;
@@ -906,4 +908,8 @@ blockquote.pull-right:before {
 }
 svg {
 	width: 100% !important;
+}
+.fill {
+	height: 100%;
+	min-height: 100%;
 }

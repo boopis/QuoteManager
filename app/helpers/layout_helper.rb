@@ -24,8 +24,8 @@ module LayoutHelper
     end
   end
 
-  def submenu_nav(link_path, link_text, link_icon, submenu={})
-    li_class = current_page?(link_path) ? 'active' : ''
+  def submenu_nav(link_path, link_text, link_icon, controller, submenu={})
+    li_class = params[:controller] == controller ? 'active' : ''
 
     content_tag(:li, class: li_class) do
       content = link_to link_path, class: 'dropdown-toggle' do
