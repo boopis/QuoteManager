@@ -1,14 +1,10 @@
-<h1>General Specs for RFP/RFQ Saas Service</h1>
-
-<hr>
+<h1>General Specs</h1>
 
 <ul>
-	<li>Multi-User Data Separated Service<span>(less users, more data/user)</span></li>
+	<li>Multi-User Data Separated Service <br><span>(less users, more data/user)</span></li>
 	<li>Subdomains are created by shopify subdomains unless subdomain already exists. If &exist; subdomain &and; &not;(login &or; email) &rarr; generate account Shopify domain + account id else login</li>
 	<li>User can create account without Shopify account. Account is validated against existing accounts before creation</li>
 </ul>
-
-<hr>
 
 <h2>Steps</h2>
 
@@ -96,7 +92,7 @@ belongs_to form through response
 
 <h3>Quote Fields</h3>
 <ul>
-	<li>Price (multiple), has_many <span>line item pricing will be multiple while main (base) price is embedded</span></li>
+	<li>Price (multiple), has_many <br><span>line item pricing will be multiple while main (base) price is embedded</span></li>
 	<li>Terms (multiple), has_many</li>
 	<li>Expiration (single)</li>
 	<li>Token</li>
