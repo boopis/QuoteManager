@@ -11,39 +11,64 @@
     </div>
   <% end %>
 
-  <div class="add-fields">
-    <%= link_to_add_fields "email", f, :fields %><br>
-    <%= link_to_add_fields "radio", f, :fields %><br>
-    <%= link_to_add_fields "select", f, :fields %><br>
-    <%= link_to_add_fields "paragraph", f, :fields %><br>
-    <%= link_to_add_fields "check_box", f, :fields %><br>
+  <div class="col-md-3 hidden-xs hidden-sm">
+    <div class="main-box" id="external-events">
+      <h2>Add fields</h2>
+      <div class="external-event label-primary" data-eventclass="label-primary">
+        <%= link_to_add_fields "email", f, :fields %>
+      </div>
+      <div class="external-event label-danger" data-eventclass="label-danger">
+        <%= link_to_add_fields "radio", f, :fields %>
+      </div>
+      <div class="external-event label-success" data-eventclass="label-success">
+        <%= link_to_add_fields "select", f, :fields %>
+      </div>
+      <div class="external-event label-warning" data-eventclass="label-warning">
+        <%= link_to_add_fields "paragraph", f, :fields %>
+      </div>
+      <div class="external-event label-info" data-eventclass="label-info">
+        <%= link_to_add_fields "check_box", f, :fields %>
+      </div>
+      <div class="external-event label-default" data-eventclass="label-default">My Event 6</div>
+      <div class="form-group">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="drop-remove" value="option1"> Remove after drop
+        </label>
+      </div>
+    </div>
   </div>
 
-  <div class="added-fields">
+  <div class="col-md-9">
+    <div class="main-box">
 
-    <div class="form-name">
-      <%= f.label :name, "Form Name" %>
-      <%= f.text_field :name %>
-    </div>
-    
-    <div class="form-field-list">
+      <div class="added-fields">
 
-    <% if @form.fields? %>
-      <% @form.fields.each do |id, field| %>
-        <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
+        <div class="form-name">
+          <%= f.label :name, "Form Name" %>
+          <%= f.text_field :name %>
+        </div>
+
+        <div class="form-field-list">
+
+          <% if @form.fields? %>
+          <% @form.fields.each do |id, field| %>
+          <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
           <%= render field['type'], f: field_type, options: field['options'] %>
-        <% end %>
-      <% end %>
-    <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
 
-    <div class="form-field"></div>
+          <div class="form-field"></div>
+
+        </div>
+
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+
+      </div>
 
     </div>
-
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-
   </div>
 
 <% end %>
