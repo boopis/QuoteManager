@@ -18,6 +18,7 @@ QuoteManager::Application.routes.draw do
     resources :requests
     resources :quotes
     devise_for :users
+    resources :users, only: [:show]
   end
   
   constraints(SubdomainBlank) do
