@@ -1,4 +1,4 @@
-<%= form_for(@form) do |f| %>
+<%= form_for @form, html: { class: "form-inline builder" } do |f| %>
   <% if @form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
@@ -43,19 +43,19 @@
 
       <div class="added-fields">
 
-        <div class="form-name">
-          <%= f.label :name, "Form Name" %>
-          <%= f.text_field :name %>
+        <div class="form-group">
+          <%= f.label :name, "Form Name", class: "sr-only" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "Form Name" %>
         </div>
 
         <div class="form-field-list">
 
           <% if @form.fields? %>
-          <% @form.fields.each do |id, field| %>
-          <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
-          <%= render field['type'], f: field_type, options: field['options'] %>
-          <% end %>
-          <% end %>
+            <% @form.fields.each do |id, field| %>
+              <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
+              <%= render field['type'], f: field_type, options: field['options'] %>
+              <% end %>
+            <% end %>
           <% end %>
 
           <div class="form-field"></div>
@@ -63,7 +63,7 @@
         </div>
 
         <div class="actions">
-          <%= f.submit %>
+          <%= f.submit class: "btn btn-success" %>
         </div>
 
       </div>

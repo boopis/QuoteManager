@@ -12,6 +12,6 @@ module FormsHelper
     fields = f.fields_for(association, index: "") do |builder|  
       render(name, f: builder)  
     end  
-    link_to('Add Options', '#', class: "add_options", data: {fields: fields.gsub("\n", "")})
+    link_to('Add Options', '#', class: "add_options btn btn-primary", data: {fields: fields.gsub("\n", "")})
   end
 end

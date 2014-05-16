@@ -1,8 +1,6 @@
 <div class="option-field">
-<fieldset>
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>    <%= link_to '[remove]', '#', class: 'remove_options' %>
+    <%= f.label :name, class: "sr-only" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "option name" %>    <%= link_to '[remove]', '#', class: 'remove_options' %>
   </div>
-</fieldset>
 </div>
