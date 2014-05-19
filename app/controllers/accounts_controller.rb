@@ -23,7 +23,7 @@ class AccountsController < ApplicationController
     if @account
       redirect_to new_user_session_url(subdomain: @account.subdomain)
    else
-      redirect_to new_account_path, flash: { :alert => 'Invalid Account' }
+      redirect_to new_account_path, flash: { :alert => 'Account is invalid. Create an account.' }
    end
   end
 

@@ -10,7 +10,10 @@
 	@extend .alert;
 	@extend .alert-warning;
 }
-
+#flash_alert {
+	@extend .alert;
+	@extend .alert-info;
+}
 /* Base Styles
 --------------------------------------------------------------------- */
 
