@@ -35,7 +35,8 @@ module LayoutHelper
       end
       content += content_tag(:ul, class: 'submenu') do
         submenu.each do |k, v|
-          concat content_tag(:li, (link_to k, v))
+          a_class = current_page?(v) ? 'active' : ''
+          concat content_tag(:li, (link_to k, v, class: a_class))
         end
       end
     end

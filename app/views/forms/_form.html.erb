@@ -1,74 +1,68 @@
-<%= form_for @form, html: { class: "form-inline builder" } do |f| %>
-  <% if @form.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
+<div class="container clearfix">
+  <div class="row formbuilder">
 
-      <ul>
-      <% @form.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <%= form_for @form, html: { class: "form-inline builder" } do |f| %>
+      <% if @form.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
 
-  <div class="col-md-3 hidden-xs hidden-sm">
-    <div class="main-box" id="external-events">
-      <h2>Add fields</h2>
-      <div class="external-event label-primary" data-eventclass="label-primary">
-        <%= link_to_add_fields "email", f, :fields %>
-      </div>
-      <div class="external-event label-danger" data-eventclass="label-danger">
-        <%= link_to_add_fields "radio", f, :fields %>
-      </div>
-      <div class="external-event label-success" data-eventclass="label-success">
-        <%= link_to_add_fields "select", f, :fields %>
-      </div>
-      <div class="external-event label-warning" data-eventclass="label-warning">
-        <%= link_to_add_fields "paragraph", f, :fields %>
-      </div>
-      <div class="external-event label-info" data-eventclass="label-info">
-        <%= link_to_add_fields "check_box", f, :fields %>
-      </div>
-      <div class="external-event label-default" data-eventclass="label-default">My Event 6</div>
-      <div class="form-group">
-        <label class="checkbox-inline">
-          <input type="checkbox" id="drop-remove" value="option1"> Remove after drop
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-9">
-    <div class="main-box">
-
-      <div class="added-fields">
-
-        <div class="form-group">
-          <%= f.label :name, "Form Name", class: "sr-only" %>
-          <%= f.text_field :name, class: "form-control", placeholder: "Form Name" %>
-        </div>
-
-        <div class="form-field-list">
-
-          <% if @form.fields? %>
-            <% @form.fields.each do |id, field| %>
-              <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
-              <%= render field['type'], f: field_type, options: field['options'] %>
-              <% end %>
-            <% end %>
+          <ul>
+          <% @form.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
           <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-          <div class="form-field"></div>
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 main pull-right">
+        <div class="main-box">
+
+          <div class="added-fields">
+
+            <div class="form-group">
+              <%= f.label :name, "Form Name", class: "sr-only" %>
+              <%= f.text_field :name, class: "form-control", placeholder: "Form Name" %>
+            </div>
+
+            <div class="form-field-list">
+
+              <% if @form.fields? %>
+                <% @form.fields.each do |id, field| %>
+                  <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
+                  <%= render field['type'], f: field_type, options: field['options'] %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <div class="form-field"></div>
+
+            </div>
+
+            <div class="actions">
+              <%= f.submit class: "btn btn-success" %>
+            </div>
+
+          </div>
 
         </div>
-
-        <div class="actions">
-          <%= f.submit class: "btn btn-success" %>
-        </div>
-
       </div>
 
-    </div>
-  </div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 side pull-left">
+        <div class="main-box">
+          <h2>Add fields</h2>
+          <div class="list-group">
+            <%= link_to_add_fields "Text Field", "text", "fa fa-pencil", f, :fields %>
+            <%= link_to_add_fields "Paragraph", "paragraph", "fa fa-edit", f, :fields %>
+            <%= link_to_add_fields "Email", "email", "fa fa-envelope", f, :fields %>
+            <%= link_to_add_fields "Radio", "radio", "fa fa-th-list", f, :fields %>
+            <%= link_to_add_fields "Select", "select", "fa fa-bars", f, :fields %>
+            <%= link_to_add_fields "Check Box", "check_box", "fa fa-check-square-o", f, :fields %>
+          </div>
+        </div>
+      </div>
 
-<% end %>
+    <% end %>
+
+  </div>
+</div>
+

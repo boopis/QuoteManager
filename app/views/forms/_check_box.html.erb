@@ -6,7 +6,9 @@
     <%= f.text_field :label, class: "form-control", placeholder: "Checkbox Group Name" %>
     <div class="rr">
       <%= f.check_box :required %> <%= f.label 'required?' %>
-      <%= link_to '[remove]', '#', class: 'remove_fields' %>
+      <%= link_to '#', class: 'remove_fields' do %>
+        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
+      <% end %>
     </div>
   </div>
 

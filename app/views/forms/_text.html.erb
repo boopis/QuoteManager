@@ -1,0 +1,13 @@
+<div class="form-field">
+  <%= f.hidden_field :type, value: 'text' %>
+
+  <div class="form-group">
+    <%= f.label :label, class: "sr-only" %>
+    <%= f.text_field :label, class: "form-control", placeholder: "Text Field Name" %>
+    <div class="rr">
+      <%= f.check_box :required %> <%= f.label 'required?' %>
+      <%= link_to '[remove]', '#', class: 'remove_fields' %>
+    </div>
+  </div>
+
+</div>

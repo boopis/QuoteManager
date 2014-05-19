@@ -1,3 +1,12 @@
+Todo
+<br>
+add styling to remove add fields and options
+<br>
+fix jquery to remove delay of remove fields to fade out
+<br>
+fix checkbox storage of required field
+<br>
+
 <h1>General Specs</h1>
 
 <ul>
