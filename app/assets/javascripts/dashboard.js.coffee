@@ -11,3 +11,6 @@ $ ($) ->
     else
       $item.children(".submenu").slideUp "fast"
     return
+
+  # $("#sidebar").affix offset:
+  #   top: $("header").height()

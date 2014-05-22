@@ -1,13 +1,15 @@
-Todo
-<br>
-add styling to remove add fields and options
-<br>
-fix jquery to remove delay of remove fields to fade out
-<br>
-fix checkbox storage of required field
-<br>
+##Todo
 
-<h1>General Specs</h1>
+*style rest of form add_fields
+*style requests page
+*style quotations page and add unique token
+
+*Completed 5/22/14*
+*~~add styling to remove add fields and options~~
+*~~fix jquery to remove delay of remove fields to fade out~~
+*~~fix checkbox storage of required field~~
+
+#General Specs
 
 <ul>
 	<li>Multi-User Data Separated Service <br><span>(less users, more data/user)</span></li>

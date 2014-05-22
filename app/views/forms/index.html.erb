@@ -1,29 +1,31 @@
-<h1>Listing forms</h1>
+<% @forms.each do |form| %>
+  <div class="col-lg-3 col-sm-6 col-xs-12">
+    <div class="main-box infographic-box">
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+      <span class="name"><%= form.name %></span>
+        <% form.fields.each do |id, field| %>
+          <span class="left"><%= field['label'] %></span>
+          <span class="right"><%= field['type'] %></span>
+          <div class="clearfix"></div>
+        <% end %>
+      <div class="row">
+        <div class="col-md-4">
+          <%= link_to form, class: "nounderline" do %>
+            <i class="fa fa-search-plus blue"></i>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <%= link_to edit_form_path(form), class: "nounderline" do %>
+            <i class="fa fa-pencil red"></i>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <%= link_to requests_path(form_id: form.id), class: "nounderline" do %>
+            <i class="fa fa-reply green"></i>
+          <% end %>
+        </div>
+      </div>
 
-  <tbody>
-    <% @forms.each do |form| %>
-      <tr>
-        <td><%= form.name %></td>
-        <td><%= link_to 'Show', form %></td>
-        <td><%= link_to 'Edit', edit_form_path(form) %></td>
-        <td><%= link_to 'Requests', requests_path(form_id: form.id) %></td>
-        <td><%= link_to 'Destroy', form, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Form', new_form_path %>
+    </div>
+  </div>
+<% end %>

@@ -1,5 +1,7 @@
 $(document).on 'click', 'form .add_fields', (event) ->
-  $('.form-field').last().after($(this).data('fields'))
+  time = new Date().getTime()
+  regexp = new RegExp($(this).data('id'), 'g')
+  $('.form-field').last().after($(this).data('fields').replace(regexp, time))
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_fields', (event) ->

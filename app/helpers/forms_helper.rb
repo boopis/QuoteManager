@@ -5,7 +5,7 @@ module FormsHelper
     fields = f.fields_for(association, new_object, index: id) do |builder|
       render(type, f: builder)
     end
-    link_to("#", class: "list-group-item add_fields", data: {fields: fields.gsub("\n", "")}) do
+    link_to("#", class: "list-group-item add_fields", data: {id: id, fields: fields.gsub("\n", "")}) do
       content_tag(:i, name, class: icon)
     end
   end
@@ -14,6 +14,6 @@ module FormsHelper
     fields = f.fields_for(association, index: "") do |builder|  
       render(name, f: builder)  
     end  
-    link_to('Add Options', '#', class: "add_options btn btn-primary", data: {fields: fields.gsub("\n", "")})
+    link_to('Add Options', '#', class: "add_options fa fa-plus-circle", data: {fields: fields.gsub("\n", "")})
   end
 end

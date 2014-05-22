@@ -65,7 +65,7 @@
 }
 
 .builder .add_options {
-	margin-top: 7px;
+	margin: 15px 0px;
 }
 
 .builder .option-field,
@@ -89,6 +89,7 @@
 	margin: 5px 0px;
 }
 
-.formbuilder i:before {
+.formbuilder i:before,
+.formbuilder a.add_options:before {
 	padding-right: 5px;
 }
