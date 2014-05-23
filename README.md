@@ -1,16 +1,16 @@
 ##Todo
 
-+Fix Json update field to remove fields
-+style requests page
-+style quotations page and add unique token
+* Fix Json update field to remove fields
+* style requests page
+* style quotations page and add unique token
 
-+Completed 5/23/14
-+~~style rest of form add_fields~~
+######Completed 5/23/14
+* ~~style rest of form add_fields~~
 
-+Completed 5/22/14
-+~~add styling to remove add fields and options~~
-+~~fix jquery to remove delay of remove fields to fade out~~
-+~~fix checkbox storage of required field~~
+######Completed 5/22/14
+* ~~add styling to remove add fields and options~~
+* ~~fix jquery to remove delay of remove fields to fade out~~
+* ~~fix checkbox storage of required field~~
 
 #General Specs
 
