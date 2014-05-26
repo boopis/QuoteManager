@@ -1,8 +1,10 @@
 ##Todo
 
-* Fix Json update field to remove fields
 * style requests page
 * style quotations page and add unique token
+
+######Completed 5/26/14
+* ~~fix Json update field to remove fields~~
 
 ######Completed 5/23/14
 * ~~style rest of form add_fields~~

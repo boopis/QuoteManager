@@ -5,8 +5,18 @@
 <%= form_for(@request) do |f| %>
   <%= f.hidden_field :form_id, value: @form.id %>
   <% @form.fields.each do |id, field| %>
-    <%= f.fields_for :request_fields, OpenStruct.new(field), index: id do |rf| %>
+    <%= f.fields_for :fields, OpenStruct.new(field), index: id do |rf| %>
       <% case field['type'] %>
+        <% when 'text' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <%= rf.text_field :request %>
+        <% when 'paragraph' %>
+          <%= rf.label field['label'] %><br>
+          <%= rf.hidden_field :label, value: field['label'] %>
+          <%= rf.hidden_field :type, value: field['type'] %>
+          <%= rf.text_area :request %>
         <% when 'email' %>
           <%= rf.label field['label'] %><br>
           <%= rf.hidden_field :label, value: field['label'] %>
@@ -22,11 +32,6 @@
               <%= rf.radio_button :request, option['name'] %>
             <% end %>
           <% end %>
-        <% when 'paragraph' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <%= rf.text_area :request %>
         <% when 'select' %>
           <%= rf.label field['label'] %><br>
           <%= rf.hidden_field :label, value: field['label'] %>

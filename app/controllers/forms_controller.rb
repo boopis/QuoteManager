@@ -21,7 +21,7 @@ class FormsController < ApplicationController
 
   # GET /forms/1/edit
   def edit
-    @fb = Form.new
+    @fb = Form.find(params[:id])
   end
 
   # POST /forms

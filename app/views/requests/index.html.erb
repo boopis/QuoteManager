@@ -1,27 +1,106 @@
-<h1>Listing requests</h1>
+<h1>Listing Requests</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Fields</th>
-      <th>Form</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="main-box clearfix">
+      <% if params[:form_id].present? %>
 
-  <tbody>
-    <% @requests.each do |request| %>
-      <tr>
-        <td><%= request.fields %></td>
-        <td><%= request.form %></td>
-        <td><%= link_to 'Show', request %></td>
-        <td><%= link_to 'Edit', edit_request_path(request) %></td>
-        <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        <div class="clearfix">
+          <h2 class="pull-left">Requests</h2>
 
-<br>
+          <div class="pull-right daterange-filter">
+            <%= form_tag requests_path, :method => :get do %>
+              <%= select_tag :form_id, options_for_select(@forms.map {|f| [f.name, f.id]}, params[:form_id]) %>
+              <%= submit_tag "Show", :name => nil %>
+            <% end %>
+          </div>
 
-<%= link_to 'New Request', new_request_path %>
+          <div class="pull-right daterange-filter">
+            <i class="icon-calendar"></i>
+            <span>April 27, 2014 - May 26, 2014</span> <b class="caret"></b>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <% @header.fields.each do |id, field| %>
+                  <th>
+                    <%= link_to "#" do %>
+                      <%= content_tag(:span, field['label']) %>
+                    <% end %>
+                  </th>
+                <% end %>
+                <th class="text-center"><span>Status</span></th>
+                <th class="col-md-2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @requests.each do |request| %>
+                <tr>
+                  <% @header.fields.each do |id, field| %>
+                    <td><%= request.fields[id]['request'] if request.fields[id] %></td>
+                  <% end %>
+                  <td class="text-center">
+                    <span class="label label-primary">Pending</span>
+                  </td>
+                  <td style="width: 15%;">
+                    <%= link_to request, class: "table-link" do %>
+                      <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                      </span>
+                    <% end %>
+                    <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
+                      <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                      </span>
+                    <% end %>
+                    <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                      <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                      </span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <ul class="pagination pull-right">
+          <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+        </ul>
+    
+      <% else %>
+
+        <div class="clearfix">
+          <h2 class="pull-left">Live Stats</h2>
+          
+            <div id="reportrange" class="pull-right daterange-filter">
+            <i class="icon-calendar"></i>
+            <span></span> <b class="caret"></b>
+          </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+            <div id="graph-line"></div>
+          </div>
+        </div>
+
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Create Request', new_request_path %>

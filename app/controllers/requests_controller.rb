@@ -4,7 +4,9 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.all
+    @requests = Request.where(form_id: params[:form_id])
+    @header = Form.find(params[:form_id]) if params[:form_id].present?
+    @forms = Form.all
   end
 
   # GET /requests/1
@@ -69,6 +71,8 @@ class RequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:fields, :form_id)
+      params.require(:request).permit(:form_id).tap do |whitelisted|
+        whitelisted[:fields] = params[:request][:fields]
+      end    
     end
 end
