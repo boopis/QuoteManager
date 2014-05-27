@@ -1,4 +1,5 @@
 class QuotesController < ApplicationController
+  before_action :check_token, only: [:show]
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 
   # GET /quotes
@@ -15,10 +16,13 @@ class QuotesController < ApplicationController
   # GET /quotes/new
   def new
     @quote = Quote.new
+    @qb = Quote.new
+    @request = Request.find(params[:request_id])
   end
 
   # GET /quotes/1/edit
   def edit
+    @qb = Quote.find(params[:id])
   end
 
   # POST /quotes

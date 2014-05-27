@@ -1,7 +1,12 @@
 ##Todo
+* add remove field to add_term section
+* confirm that quote form page is working properly
+* add calculations to quote page
+* add Templates resource
 
-* style requests page
-* style quotations page and add unique token
+######Completed 5/27/14
+* ~~style requests page~~
+* ~~style quotations page and add unique token~~
 
 ######Completed 5/26/14
 * ~~fix Json update field to remove fields~~

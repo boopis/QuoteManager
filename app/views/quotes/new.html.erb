@@ -1,5 +1,14 @@
-<h1>New quote</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', quotes_path %>
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="main-box">
+      <h2>New Quote</h2>
+      <%= render 'form' %>   
+    </div>
+  </div>  
+  <div class="col-lg-6 col-md-6">
+    <div class="main-box">
+      <h2>Request Details</h2>
+        <%= render 'request_details' %>   
+    </div>
+  </div>  
+</div>
