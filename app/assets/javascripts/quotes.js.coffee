@@ -7,8 +7,14 @@ $(document).ready ->
   #   autoclose: true
 
 $ ->
-  $("#datetimepicker1").datetimepicker 
-    language: "pt-BR"
+  today = new Date()
+  dd = today.getDate()
+  mm = today.getMonth()+1
+  yyyy = today.getFullYear()
+  today = mm+'/'+dd+'/'+yyyy;
+
+  $("#quote_expires_at").datetimepicker
+    minDate: today
 
 $(document).on 'click', 'form .add_terms', (event) ->
   time = new Date().getTime()

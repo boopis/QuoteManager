@@ -40,10 +40,14 @@
               <% @requests.each do |request| %>
                 <tr>
                   <% @header.fields.each do |id, field| %>
-                    <% if request.fields[id]['request'].kind_of?(Array) %>
-                      <td><%= request.fields[id]['request'].join(",") if request.fields[id] %></td>
+                    <% if request.fields[id] %>
+                      <% if request.fields[id]['request'].kind_of?(Array) %>
+                        <td><%= request.fields[id]['request'].join(",") %></td>
+                      <% else %>
+                        <td><%= request.fields[id]['request'] %></td>
+                      <% end %>
                     <% else %>
-                      <td><%= request.fields[id]['request'] if request.fields[id] %></td>
+                      <td></td>
                     <% end %>
                   <% end %>
                   <td class="text-center">

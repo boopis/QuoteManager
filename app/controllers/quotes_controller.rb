@@ -1,4 +1,6 @@
 class QuotesController < ApplicationController
+  skip_before_filter :authenticate_user!, only: [:show]
+
   before_action :check_token, only: [:show]
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 
@@ -23,6 +25,7 @@ class QuotesController < ApplicationController
   # GET /quotes/1/edit
   def edit
     @qb = Quote.find(params[:id])
+    @request = Request.find(@qb.request_id)
   end
 
   # POST /quotes
@@ -65,14 +68,28 @@ class QuotesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_quote
-      @quote = Quote.find(params[:id])
-    end
+private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_quote
+    @quote = Quote.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def quote_params
-      params.require(:quote).permit(:amount, :token, :expires_at, :request_id, terms: [:description, :amount])
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def quote_params
+    params.require(:quote).permit(:amount, :token, :expires_at, :request_id, terms: [:description, :amount])
+  end
+
+  def token_validity
+    token = Quote.find_by_token(params[:token])
+  end
+
+  def check_token
+    unless user_signed_in?
+      if token_validity.nil?
+        redirect_to root_url, alert: "Not authorized"
+      elsif token_validity.expires_at <= Time.now
+        redirect_to root_url, alert: "Offer has expired"
+      end
     end
+  end
 end

@@ -17,8 +17,11 @@
     <div class="form-group col-md-6">
       <%= f.label :expires_at, "Expiration Date" %>
       <div class="input-group">
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        <%= f.text_field :expires_at, class: "form-control", placeholder: "Expiration Date" %>
+        <span class="input-group-addon">
+          <i class="fa fa-calendar"></i>  
+          <i data-time-icon="fa fa-clock-o" data-date-icon="fa fa-calendar"></i>
+        </span>
+        <%= f.text_field :expires_at, data: {"date-format" => "YYYY/MM/DD hh:mm:ss"}, class: "form-control", placeholder: "Expiration Date" %>
       </div>
       <span class="help-block">format yy-mm-dd</span>
     </div>
@@ -34,17 +37,15 @@
     </div>
 
   </div>
-
-  <div class="well">
-    <div id="datetimepicker1" class="input-append date">
-      <input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
-      <span class="add-on">
-        <i data-time-icon="fa fa-clock" data-date-icon="fa fa-calendar">
-        </i>
-      </span>
-    </div>
-  </div>
   
+  <% if @quote.terms? %>
+    <% @quote.terms.each do |id, term| %>
+      <%= f.fields_for :terms, OpenStruct.new(term), index: id do |builder| %>
+        <%= render 'terms', f: builder %>
+      <% end %>
+    <% end %>
+  <% end %>
+
   <div class="term-field"></div>
 
   <%= link_to_add_terms "Add Terms", f, :terms %>

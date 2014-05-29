@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   
   before_filter :load_schema, :authenticate_user!
 
-
 private
 
   def load_schema

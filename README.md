@@ -1,8 +1,12 @@
 ##Todo
-* add remove field to add_term section
-* confirm that quote form page is working properly
+
 * add calculations to quote page
 * add Templates resource
+* add replace terms with items and add terms resource and attach to quote
+
+######Completed 5/29/14
+* ~~add remove field to add_term section
+* ~~confirm that quote form page is working properly
 
 ######Completed 5/27/14
 * ~~style requests page~~
