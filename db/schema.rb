@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140512073340) do
+ActiveRecord::Schema.define(version: 20140605102317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,13 +31,14 @@ ActiveRecord::Schema.define(version: 20140512073340) do
   end
 
   create_table "quotes", force: true do |t|
-    t.decimal  "amount",     precision: 10, scale: 2
-    t.json     "terms"
+    t.decimal  "amount",      precision: 10, scale: 2
+    t.json     "options"
     t.string   "token"
     t.datetime "expires_at"
     t.integer  "request_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
   end
 
   add_index "quotes", ["request_id"], name: "index_quotes_on_request_id", using: :btree

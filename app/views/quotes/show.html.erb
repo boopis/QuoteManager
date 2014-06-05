@@ -1,29 +1,49 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Amount:</strong>
-  <%= @quote.amount %>
-</p>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="main-box">
+      <h2>Quote</h2>
+      <p>
+        <strong>Amount:</strong>
+        <%= @quote.amount %>
+      </p>
 
-<p>
-  <strong>Terms:</strong>
-  <%= @quote.terms %>
-</p>
+      <p>
+        <strong>Description:</strong>
+        <%= @quote.description %>
+      </p>
 
-<p>
-  <strong>Token:</strong>
-  <%= @quote.token %>
-</p>
+      <p>
+        <strong>Options:</strong>
+        <% @quote.options.each do |id, option| %>
+        <p>Description: <%= option['description'] %><br>
+          Amount: <%= option['amount'] %></p>
+          <% end %>
+        </p>
 
-<p>
-  <strong>Expires at:</strong>
-  <%= @quote.expires_at %>
-</p>
+        <p>
+          <strong>Token:</strong>
+          <%= @quote.token %>
+        </p>
 
-<p>
-  <strong>Request:</strong>
-  <%= @quote.request %>
-</p>
+        <p>
+          <strong>Expires at:</strong>
+          <%= @quote.expires_at %>
+        </p>
+    </div>
+  </div>  
+
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="main-box">
+      <h2>Request Details</h2>
+      <%= render 'request_details' %>   
+    </div>
+  </div>  
+
+</div>
+
+
 
 <%= link_to 'Edit', edit_quote_path(@quote) %> |
 <%= link_to 'Back', quotes_path %>

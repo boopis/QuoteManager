@@ -16,12 +16,12 @@ $ ->
   $("#quote_expires_at").datetimepicker
     minDate: today
 
-$(document).on 'click', 'form .add_terms', (event) ->
+$(document).on 'click', 'form .add_quote_options', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
-  $('.term-field').last().after($(this).data('terms').replace(regexp, time))
+  $('.quote-option-field').last().after($(this).data('options').replace(regexp, time))
   event.preventDefault()
 
-$(document).on 'click', 'form .remove_terms', (event) ->
-  $(this).closest('.term-field').remove()
+$(document).on 'click', 'form .remove_quote_options', (event) ->
+  $(this).closest('.quote-option-field').remove()
   event.preventDefault()

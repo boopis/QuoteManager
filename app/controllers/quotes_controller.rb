@@ -76,7 +76,7 @@ private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def quote_params
-    params.require(:quote).permit(:amount, :token, :expires_at, :request_id, terms: [:description, :amount])
+    params.require(:quote).permit(:amount, :token, :expires_at, :request_id, :description, options: [:description, :amount])
   end
 
   def token_validity

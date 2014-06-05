@@ -1,16 +1,19 @@
 ##Todo
 
+* figure out a way to deliniate emails in forms and other resources
 * add styling to requests index page
 * add styling to quotes index page
-* flesh out quote builder page details / specs
-* add replace terms with items and add terms resource and attach to quote
+* add terms resource and attach to quote
 * add calculations to quote page
 * add Templates resource
 * add Contacts resource with relevant companies resource
 * add revenues and expenses resource from accounting app
+* flesh out quote builder page details / specs
+* spend entire day fleshing out specs for payment features and other minor details
 
 ######Completed 6/5/14
 * ~~change all forms page to a list rather than blocks~~
+* ~~replace terms with options~~
 
 ######Completed 5/29/14
 * ~~add remove field to add_term section~~
