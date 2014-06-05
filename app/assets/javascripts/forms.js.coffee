@@ -17,7 +17,8 @@ $(document).on 'click', 'form .remove_options', (event) ->
   event.preventDefault()
 
 ready = ->
-  $('.form-field-list').sortable ->
+  $('.form-field-list').sortable
+    distance: 15
   	handle: '.form-field'
 
 $(document).ready(ready)

@@ -1,66 +1,118 @@
-<% @forms.each_slice(3) do |row| %>
+<div class="row">
   <div class="col-lg-12">
-    <div class="row">
-      <% row.each do |form| %>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="main-box infographic-box">
+    <div class="main-box clearfix">
+      <div class="clearfix">
+        <h2 class="pull-left">Forms</h2>
 
-            <span class="name"><%= form.name %></span>
-            <ul class="fa-ul">
-              <% form.fields.each do |id, field| %>
-                <% case field['type'] %>
-                  <% when 'text' %>
-                    <li><span class="fa-li fa fa-pencil"></span><%= field['label'] %></li>
-                  <% when 'paragraph' %>
-                    <li><span class="fa-li fa fa-edit"></span><%= field['label'] %></li>
-                  <% when 'email' %>
-                    <li><span class="fa-li fa fa-envelope"></span><%= field['label'] %></li>
-                  <% when 'radio' %>
-                    <% if field['options'] %> 
-                      <li><span class="fa-li fa fa fa-check-circle"></span><%= field['label'] %></li>
-                      <% field['options'].each do |option| %>
-                        <li class="buffer left-10"><span class="fa-li fa fa-check-circle-o"></span><%= option['name'] %></li>
-                      <% end %>
-                    <% end %>
-                  <% when 'select' %>
-                    <li><span class="fa-li fa fa-bars"></span><%= field['label'] %></li>
-                    <% if field['options'] %> 
-                      <% field['options'].each do |option| %>
-                        <li class="buffer left-10"><span class="fa-li fa fa-minus"></span><%= option['name'] %></li>
-                      <% end %>
-                    <% end %>
-                  <% when 'check_box' %>
-                    <li><span class="fa-li fa fa-check-square"></span><%= field['label'] %></li>
-                    <% if field['options'] %> 
-                      <% field['options'].each do |option| %>
-                        <li class="buffer left-10"><span class="fa-li fa fa-check-square-o"></span><%= option['name'] %></li>
-                      <% end %>
-                    <% end %>
-                <% end %>
-              <% end %>
-            </ul>
-
-            <div class="row buffer top-20 bottom-10">
-              <div class="col-md-4">
-                <%= link_to form, title: "Show Form", class: "nounderline" do %>
-                  <i class="fa fa-search-plus red"></i>
-                <% end %>
-              </div>
-              <div class="col-md-4">
-                <%= link_to edit_form_path(form), title: "Edit Form", class: "nounderline" do %>
-                  <i class="fa fa-pencil blue"></i>
-                <% end %>
-              </div>
-              <div class="col-md-4">
-                <%= link_to requests_path(form_id: form.id), title: "Requests", class: "nounderline" do %>
-                  <i class="fa fa-reply green"></i>
-                <% end %>
-              </div>
-            </div>
-
+        <div class="filter-block pull-right">
+          <div class="form-group pull-left">
+            <input type="text" class="form-control" placeholder="Search...">
+            <i class="fa fa-search search-icon"></i>
           </div>
+
+          <%= link_to new_form_path, class: "btn btn-primary pull-right" do %>
+            <i class="fa fa-plus-circle fa-lg"></i> New form
+          <% end %>
         </div>
-      <% end %>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><a href="#"><span>Form</span></a></th>
+              <th><span>Fields</span></th>
+              <th class="text-center"><span>Status</span></th>
+              <th class="text-center"><a href="#" class="desc"><span>Date updated</span></a></th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @forms.each do |form| %>
+            <tr>
+              <td><%= form.name %></td>
+              <td>
+                <ul class="fa-ul">
+                  <% form.fields.each do |id, field| %>
+                    <% case field['type'] %>
+                      <% when 'text' %>
+                        <li><span class="fa-li fa fa-pencil"></span><%= field['label'] %></li>
+                      <% when 'paragraph' %>
+                        <li><span class="fa-li fa fa-edit"></span><%= field['label'] %></li>
+                      <% when 'email' %>
+                        <li><span class="fa-li fa fa-envelope"></span><%= field['label'] %></li>
+                      <% when 'radio' %>
+<!--                         <% if field['options'] %> 
+                          <li><span class="fa-li fa fa fa-check-circle"></span><%= field['label'] %></li>
+                          <% field['options'].each do |option| %>
+                            <li class="buffer left-10"><span class="fa-li fa fa-check-circle-o"></span><%= option['name'] %></li>
+                          <% end %>
+                        <% end %> -->
+                      <% when 'select' %>
+                        <li><span class="fa-li fa fa-bars"></span><%= field['label'] %></li>
+<!--                         <% if field['options'] %> 
+                          <% field['options'].each do |option| %>
+                            <li class="buffer left-10"><span class="fa-li fa fa-minus"></span><%= option['name'] %></li>
+                          <% end %>
+                        <% end %> -->
+                      <% when 'check_box' %>
+                        <li><span class="fa-li fa fa-check-square"></span><%= field['label'] %></li>
+<!--                         <% if field['options'] %> 
+                          <% field['options'].each do |option| %>
+                            <li class="buffer left-10"><span class="fa-li fa fa-check-square-o"></span><%= option['name'] %></li>
+                          <% end %>
+                        <% end %> -->
+                    <% end %>
+                  <% end %>
+                </ul>
+              </td>
+              <td class="text-center">
+                <span class="label label-warning">Inactive</span>
+              </td>
+              <td class="text-center">
+                <%= form.updated_at.strftime("%m-%d-%Y") %>
+              </td>
+              <td style="width: 15%;">
+                <%= link_to form, title: "Show Form", class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+                <%= link_to edit_form_path(form), title: "Edit Form", class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+                <%= link_to requests_path(form_id: form.id), title: "Requests", class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-reply fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>                
+<!--                 <a href="#" class="table-link danger">
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a> -->
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <ul class="pagination pull-right">
+        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+      </ul>
     </div>
   </div>
-<% end %>
+</div>
+
