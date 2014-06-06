@@ -4,8 +4,7 @@
   <thead>
     <tr>
       <th>Amount</th>
-      <th>Terms</th>
-      <th>Token</th>
+      <th>Options</th>
       <th>Expires at</th>
       <th>Request</th>
       <th colspan="3"></th>
@@ -16,8 +15,11 @@
     <% @quotes.each do |quote| %>
       <tr>
         <td><%= quote.amount %></td>
-        <td><%= quote.options %></td>
-        <td><%= quote.token %></td>
+        <td>
+          <% quote.options.each do |id, option| %>
+            <%= option['amount'] %>: <%= option['description'] %><br>
+          <% end %>
+        </td>
         <td><%= quote.expires_at %></td>
         <td><%= quote.request %></td>
         <td><%= link_to 'Show', quote %></td>

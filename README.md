@@ -1,7 +1,8 @@
 ##Todo
 
-* figure out a way to deliniate emails in forms and other resources
+* figure out a way to deliniate emails in forms and other resources unless other contacts will be accommodated
 * add styling to requests index page
+* add styling to quote page and create js form parser
 * add styling to quotes index page
 * add terms resource and attach to quote
 * add calculations to quote page
