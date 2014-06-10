@@ -11,7 +11,7 @@
           </div>
 
           <%= link_to new_form_path, class: "btn btn-primary pull-right" do %>
-            <i class="fa fa-plus-circle fa-lg"></i> New form
+            <i class="fa fa-plus-circle fa-lg"></i> New Form
           <% end %>
         </div>
       </div>
@@ -70,7 +70,7 @@
                 <span class="label label-warning">Inactive</span>
               </td>
               <td class="text-center">
-                <%= form.updated_at.strftime("%m-%d-%Y") %>
+                <%= form.updated_at.strftime("%b-%d-%Y") %>
               </td>
               <td style="width: 15%;">
                 <%= link_to form, title: "Show Form", class: "table-link" do %>
@@ -91,12 +91,6 @@
                     <i class="fa fa-reply fa-stack-1x fa-inverse"></i>
                   </span>
                 <% end %>                
-<!--                 <a href="#" class="table-link danger">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a> -->
               </td>
             </tr>
             <% end %>

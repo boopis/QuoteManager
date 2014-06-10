@@ -1,9 +1,9 @@
 ##Todo
 
+* add validation options
+* add contact fields to form options
 * figure out a way to deliniate emails in forms and other resources unless other contacts will be accommodated
-* add styling to requests index page
-* add styling to quote page and create js form parser
-* add styling to quotes index page
+* add styling to quote page and create js form parser w analytics
 * add terms resource and attach to quote
 * add calculations to quote page
 * add Templates resource
@@ -12,9 +12,19 @@
 * flesh out quote builder page details / specs
 * spend entire day fleshing out specs for payment features and other minor details
 
+###Things to think about
+* Currency conversions and selections for settings
+
+######Completed 6/10/14
+* ~~add styling to requests show page~~
+* ~~add styling to quotes index page~~
+* ~~add styling to quotes show page~~
+
 ######Completed 6/5/14
 * ~~change all forms page to a list rather than blocks~~
 * ~~replace terms with options~~
+* ~~add styling to requests index page~~
+
 
 ######Completed 5/29/14
 * ~~add remove field to add_term section~~

@@ -1,5 +1,5 @@
 <dl class="dl-horizontal">
-  <% @quote.request.fields.each do |id, field| %>
+  <% @request.fields.each do |id, field| %>
     <dt><%= field['label'] %></dt>
     <% if field['request'].kind_of?(Array) %>
       <dd><%= field['request'].join(",") %></dd>

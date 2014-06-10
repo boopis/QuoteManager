@@ -1,14 +1,29 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Fields:</strong>
-  <%= @request.fields %>
-</p>
-
-<p>
-  <strong>Form:</strong>
-  <%= @request.form %>
-</p>
-
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+<div class="row"> 
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="main-box">
+      <h2>Request Details for <%= @request.form.name %></h2>
+      <dl class="dl-horizontal">
+        <% @request.fields.each do |id, field| %>
+          <dt><%= field['label'] %></dt>
+          <% if field['request'].kind_of?(Array) %>
+            <dd><%= field['request'].join(",") %></dd>
+          <% else %>
+            <dd><%= field['request'] %></dd>
+          <% end %>
+        <% end %>
+      </dl> 
+    </div>
+  </div> 
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="main-box">
+      <h2>Request Analytics</h2>
+        <p>Display IP Address</p> 
+        <p>Display Language</p> 
+        <p>Display Country / Territory</p> 
+        <p>Display amount of time it took to complete form</p> 
+        <p>Display referrer / traffic source</p> 
+        <p>Display operating system</p> 
+        <p>Display unique or returning</p> 
+    </div>
+  </div>  
+</div>
