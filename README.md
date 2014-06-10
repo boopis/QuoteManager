@@ -1,16 +1,22 @@
 ##Todo
 
-* add validation options
-* add contact fields to form options
-* figure out a way to deliniate emails in forms and other resources unless other contacts will be accommodated
-* add styling to quote page and create js form parser w analytics
-* add terms resource and attach to quote
-* add calculations to quote page
-* add Templates resource
-* add Contacts resource with relevant companies resource
-* add revenues and expenses resource from accounting app
-* flesh out quote builder page details / specs
-* spend entire day fleshing out specs for payment features and other minor details
+1. Add validation options for form fields
+2. Add contact fields to form options
+3. Figure out a way to deliniate emails in forms and other resources unless other contacts will be accommodated
+4. Add styling to quote page and create js form parser w analytics
+5. Add calculations to quote page
+6. Flesh out quote builder page details / specs
+7. spend entire day fleshing out specs for payment features and other minor details
+8. Add Resources
+  * Terms
+  * Templates
+  * Contacts
+  * Companies - belongs_to Contacts
+  * Revenues
+  * Expenses
+9. Edit Resources
+  * Add analytics JSON field to Requests Resource
+  * Add analytics JSON field to Quotes Resource
 
 ###Things to think about
 * Currency conversions and selections for settings
