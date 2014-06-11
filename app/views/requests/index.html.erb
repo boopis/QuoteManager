@@ -1,25 +1,25 @@
-<h1>Listing Requests</h1>
-
 <div class="row">
   <div class="col-lg-12">
     <div class="main-box clearfix">
-      <% if params[:form_id].present? %>
+      <div class="clearfix">
+        <h2 class="pull-left">Requests</h2>
+        <div class="dropdown pull-right daterange-filter">
+          <a role="button" data-toggle="dropdown">
+            <span>Request Type</span>
+            <b class="caret"></b>
+          </a>
 
-        <div class="clearfix">
-          <h2 class="pull-left">Requests</h2>
-
-          <div class="pull-right daterange-filter">
-            <%= form_tag requests_path, :method => :get do %>
-              <%= select_tag :form_id, options_for_select(@forms.map {|f| [f.name, f.id]}, params[:form_id]) %>
-              <%= submit_tag "Show", :name => nil %>
+          <ul class="dropdown-menu" role="menu">
+            <% @forms.each do |form| %>
+              <li>
+                <%= link_to form.name, requests_path(form_id: form.id) %>
+              </li>
             <% end %>
-          </div>
-
-          <div class="pull-right daterange-filter">
-            <i class="icon-calendar"></i>
-            <span>April 27, 2014 - May 26, 2014</span> <b class="caret"></b>
-          </div>
+          </ul>
         </div>
+      </div>
+
+      <% if params[:form_id].present? %>
 
         <div class="table-responsive">
           <table class="table">
@@ -90,21 +90,7 @@
     
       <% else %>
 
-        <div class="clearfix">
-          <h2 class="pull-left">Live Stats</h2>
-          
-            <div id="reportrange" class="pull-right daterange-filter">
-            <i class="icon-calendar"></i>
-            <span></span> <b class="caret"></b>
-          </div>
-          </div>
-          
-          <div class="row">
-            <div class="col-md-12">
-            <div id="graph-line"></div>
-            Display stats from requests coming in
-          </div>
-        </div>
+        <p>Fill this space with imporatat information</p>
 
       <% end %>
 
