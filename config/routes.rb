@@ -17,6 +17,7 @@ QuoteManager::Application.routes.draw do
     resources :forms
     resources :requests
     resources :quotes
+    resources :contacts
     devise_for :users
     resources :users, only: [:show]
   end

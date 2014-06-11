@@ -6,7 +6,7 @@
         <%= sidebar_nav(forms_path, "Forms", "fa fa-edit") %>
         <%= sidebar_nav(requests_path, "Requests", "fa fa-question-circle") %>
         <%= sidebar_nav(quotes_path, "Quotes", "fa fa-comments") %>
-        <%= submenu_nav('#', "Contacts", "fa fa-users", 'welcome', {'All Contacts' => '#', 'New Contact' => '#'}) %>
+        <%= submenu_nav("#", "Contacts", "fa fa-users", 'contacts', {'All Contacts' => contacts_path, 'New Contact' => new_contact_path}) %>
       </ul>
     </div>
   </section>
