@@ -1,11 +1,8 @@
 ##Todo
 
-* Add calculations to quote page
-
 * Add Resources
   * Terms
   * Templates
-  * Contacts
   * Companies - belongs_to Contacts
   * Revenues
   * Expenses
@@ -18,6 +15,8 @@
 
 * Flesh out quote builder page details / specs
 
+* Add calculations to quote page / customer facing page
+
 * Edit Resources
   * Add analytics JSON field to Requests Resource
   * Add analytics JSON field to Quotes Resource
@@ -26,6 +25,10 @@
 
 ###Things to think about
 * Currency conversions and selections for settings
+
+######Completed 6/11/14
+* ~~add contacts resource~~
+* ~~restyled requests index page~~
 
 ######Completed 6/10/14
 * ~~add styling to requests show page~~
