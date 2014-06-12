@@ -54,11 +54,16 @@
 
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 side pull-left">
         <div class="main-box">
-          <h2>Add fields</h2>
+          <h2>Contact Fields</h2>
+          <div class="list-group">
+            <%= link_to_add_contact_fields "Name", "forms/contact/name", "contact-name", "fa fa-user", f, :fields %>
+            <%= link_to_add_contact_fields "Phone", "forms/contact/phone", "contact-phone", "fa fa-phone", f, :fields %>
+            <%= link_to_add_contact_fields "Email", "forms/contact/email", "contact-email", "fa fa-envelope", f, :fields %>
+          </div>
+          <h2>Custom Fields</h2>
           <div class="list-group">
             <%= link_to_add_fields "Text Field", "text", "fa fa-pencil", f, :fields %>
             <%= link_to_add_fields "Paragraph", "paragraph", "fa fa-edit", f, :fields %>
-            <%= link_to_add_fields "Email *", "email", "fa fa-envelope", f, :fields %>
             <%= link_to_add_fields "Radio", "radio", "fa fa-check-circle", f, :fields %>
             <%= link_to_add_fields "Select", "select", "fa fa-bars", f, :fields %>
             <%= link_to_add_fields "Check Box", "check_box", "fa fa-check-square", f, :fields %>

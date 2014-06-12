@@ -90,9 +90,16 @@
 }
 
 .formbuilder .add_fields i:before,
+.formbuilder .add_contact_fields i:before,
+.formbuilder .cant_add_fields i:before,
 .formbuilder .remove_fields i:before,
+.formbuilder .remove_contact_fields i:before,
 .formbuilder a.add_options:before {
 	padding-right: 5px;
+}
+.formbuilder .cant_add_fields {
+	background-color: #F5F5F5;
+	color: #808080;
 }
 .formbuilder .input-group {
 	width: 250px;

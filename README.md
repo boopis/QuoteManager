@@ -7,7 +7,7 @@
   * Revenues
   * Expenses
 
-* Add contact fields to form options
+* Add contact fields save option with form resource
 
 * Add validation options for form fields
 
@@ -25,6 +25,9 @@
 
 ###Things to think about
 * Currency conversions and selections for settings
+
+######Completed 6/12/14
+* ~added portion of contact fields to form resource
 
 ######Completed 6/11/14
 * ~~add contacts resource~~

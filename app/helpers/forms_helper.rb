@@ -10,6 +10,17 @@ module FormsHelper
     end
   end
 
+  def link_to_add_contact_fields(name, type, tid, icon, f, association)
+    new_object = OpenStruct.new(@fb.fields)
+    id = new_object.object_id
+    fields = f.fields_for(association, new_object, index: id) do |builder|
+      render(type, f: builder)
+    end
+    link_to("#", class: "list-group-item add_contact_fields", id: tid, data: {id: id, fields: fields.gsub("\n", "")}) do
+      content_tag(:i, name, class: icon)
+    end
+  end
+
   def link_to_add_options(name, f, association)
     fields = f.fields_for(association, index: "") do |builder|  
       render(name, f: builder)  
