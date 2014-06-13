@@ -28,6 +28,8 @@ class RequestsController < ApplicationController
   def create
     @request = Request.new(request_params)
 
+    if params[:]
+
     respond_to do |format|
       if @request.save
         format.html { redirect_to @request, notice: 'Request was successfully created.' }

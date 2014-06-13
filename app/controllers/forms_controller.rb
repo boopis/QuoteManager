@@ -17,7 +17,6 @@ class FormsController < ApplicationController
   def new
     @form = Form.new
     @fb = Form.new
-    @contact = Contact.new
   end
 
   # GET /forms/1/edit
@@ -29,7 +28,6 @@ class FormsController < ApplicationController
   # POST /forms.json
   def create
     @form = Form.new(form_params)
-    @contact = Contact.new(contact_params)
 
     respond_to do |format|
       if @form.save
@@ -75,9 +73,5 @@ class FormsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def form_params
       params.require(:form).permit(:name, fields: [:label, :type, :required, :css, options: [:name]])
-    end
-
-    def contact_params
-      params.require(:contact).permit(:name, :phone, :email)
     end
 end
