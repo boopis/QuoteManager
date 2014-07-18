@@ -9,6 +9,23 @@ module LayoutHelper
     end
   end
 
+  def admin_messages
+    capture do
+      flash.each do |name, msg|
+
+        name = name.to_sym
+        name = :success if name == :notice
+        name = :error   if name == :alert
+
+        concat content_tag(:div, 
+                           content_tag(:button, raw("&times;"), class: "close", data: {dismiss: "alert"}) +
+                           content_tag(:i, "", class: "fa fa-#{name == :success ? "check-circle" : "warning"} fa-fw fa-lg") +
+                           msg.html_safe, 
+                           class: "alert alert-#{name} fade in")
+      end
+    end
+  end
+
   def show_layout_flash?
     @layout_flash.nil ? true : @layout_flash
   end
