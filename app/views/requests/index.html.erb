@@ -1,99 +1,95 @@
-<div class="row">
-  <div class="col-lg-12">
-    <div class="main-box clearfix">
-      <div class="clearfix">
-        <h2 class="pull-left">Requests</h2>
-        <div class="dropdown pull-right daterange-filter">
-          <a role="button" data-toggle="dropdown">
-            <span>Request Type</span>
-            <b class="caret"></b>
-          </a>
+<div class="main-box clearfix">
+  <div class="clearfix">
+    <h2 class="pull-left">Requests</h2>
+    <div class="dropdown pull-right daterange-filter">
+      <a role="button" data-toggle="dropdown">
+        <span>Request Type</span>
+        <b class="caret"></b>
+      </a>
 
-          <ul class="dropdown-menu" role="menu">
-            <% @forms.each do |form| %>
-              <li>
-                <%= link_to form.name, requests_path(form_id: form.id) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-
-      <% if params[:form_id].present? %>
-
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <% @header.fields.each do |id, field| %>
-                  <th>
-                    <%= link_to "#" do %>
-                      <%= content_tag(:span, field['label']) %>
-                    <% end %>
-                  </th>
-                <% end %>
-                <th class="text-center"><span>Status</span></th>
-                <th class="col-md-2"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @requests.each do |request| %>
-                <tr>
-                  <% @header.fields.each do |id, field| %>
-                    <% if request.fields[id] %>
-                      <% if request.fields[id]['request'].kind_of?(Array) %>
-                        <td><%= request.fields[id]['request'].join(",") %></td>
-                      <% else %>
-                        <td><%= request.fields[id]['request'] %></td>
-                      <% end %>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% end %>
-                  <td class="text-center">
-                    <span class="label label-primary">Pending</span>
-                  </td>
-                  <td style="width: 15%;">
-                    <%= link_to request, class: "table-link" do %>
-                      <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                      </span>
-                    <% end %>
-                    <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
-                      <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
-                      </span>
-                    <% end %>
-                    <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
-                      <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                      </span>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-        <ul class="pagination pull-right">
-          <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-        </ul>
-    
-      <% else %>
-
-        <p>Fill this space with imporatant information</p>
-
-      <% end %>
-
+      <ul class="dropdown-menu" role="menu">
+        <% @forms.each do |form| %>
+          <li>
+            <%= link_to form.name, requests_path(form_id: form.id) %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
+
+  <% if params[:form_id].present? %>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <% @header.fields.each do |id, field| %>
+              <th>
+                <%= link_to "#" do %>
+                  <%= content_tag(:span, field['label']) %>
+                <% end %>
+              </th>
+            <% end %>
+            <th class="text-center"><span>Status</span></th>
+            <th class="col-md-2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @requests.each do |request| %>
+            <tr>
+              <% @header.fields.each do |id, field| %>
+                <% if request.fields[id] %>
+                  <% if request.fields[id]['request'].kind_of?(Array) %>
+                    <td><%= request.fields[id]['request'].join(",") %></td>
+                  <% else %>
+                    <td><%= request.fields[id]['request'] %></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class="text-center">
+                <span class="label label-primary">Pending</span>
+              </td>
+              <td style="width: 15%;">
+                <%= link_to request, class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+                <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+                <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pagination pull-right">
+      <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+    </ul>
+
+  <% else %>
+
+    <p>Fill this space with imporatant information</p>
+
+  <% end %>
+
 </div>

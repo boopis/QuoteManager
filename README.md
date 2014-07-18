@@ -26,6 +26,12 @@
 ###Things to think about
 * Currency conversions and selections for settings
 
+######Complete
+* build contacts from form submission if email doesn't already exist
+
+######Completed 7/18/14
+* ~~added styling to form/show and contact/new~~
+
 ######Completed 6/12/14
 * ~~added portion of contact fields to form resource~~
 
@@ -161,4 +167,19 @@ belongs_to form through response
 	<li>Terms (multiple), has_many</li>
 	<li>Expiration (single)</li>
 	<li>Token</li>
+</ul>
+
+<h3>Formbuilder</h3>
+<ul>
+	<li>Main Form</li>
+	<ul>
+		<li>Check option for Single or Double Columns</li>
+		<li>Single column use bootstrap class form-horizontal</li>
+		<li>Double column use bootstrap class form-inline each(2)</li>
+	</ul>
+	<li>Individual Fields</li>
+	<ul>
+		<li>Inline option for radio and checkboxes</li>
+		<li>Multiple select for select field</li>
+	</ul>
 </ul>

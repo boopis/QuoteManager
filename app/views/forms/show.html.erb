@@ -1,73 +1,106 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 side pull-left">
+    <div class="main-box">
+      <div class="clearfix">
+        <h2 class="pull-left"><%= @form.name %></h2>
+      </div>
 
-<%= content_tag :h3, @form.name %>
+      <%= form_for @request do |f| %>
+        <%= f.hidden_field :form_id, value: @form.id %>
+        <% @form.fields.each do |id, field| %>
+          <%= f.fields_for :fields, OpenStruct.new(field), index: id do |rf| %>
+            <% case field['type'] %>
+              <% when 'name' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= rf.text_field :request, class: "form-control" %>
+                </div>
+              <% when 'phone' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= rf.text_field :request, class: "form-control" %>
+                </div>
+              <% when 'email' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= rf.email_field :request, class: "form-control" %>
+                </div>
+              <% when 'text' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= rf.text_field :request, class: "form-control" %>
+                </div>
+              <% when 'paragraph' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= rf.text_area :request, class: "form-control" %>
+                </div>
+              <% when 'radio' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <% if field['options'] %> 
+                    <% field['options'].each do |option| %>
+                      <div class="radio">
+                        <%= rf.label option['name'] %>
+                        <%= rf.radio_button :request, option['name'] %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% when 'select' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <% if field['options'] %> 
+                    <%= rf.select :request, options_for_select(field['options'].map {|o| o['name']}), {prompt: :blank}, class: "form-control" %>
+                  <% end %>
+                </div>
+              <% when 'check_box' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <% if field['options'] %>
+                    <% field['options'].each do |option| %>
+                      <div class="checkbox">
+                        <%= rf.label option['name'] %>
+                        <%= rf.check_box :request, { :multiple => true }, option['name'], nil %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+            <% end %><!-- end case -->
+          <% end %><!-- end fields_for -->
+        <% end %><!-- end form.fields.each -->
+        <div class="actions">
+          <%= f.submit "Submit", class: "btn btn-success" %>
+        </div>
+      <% end %><!-- end form_for -->
 
-<%= form_for(@request) do |f| %>
-  <%= f.hidden_field :form_id, value: @form.id %>
-  <% @form.fields.each do |id, field| %>
-    <%= f.fields_for :fields, OpenStruct.new(field), index: id do |rf| %>
-      <% case field['type'] %>
-        <% when 'name' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <%= rf.text_field :request %>
-        <% when 'phone' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <%= rf.text_field :request %>
-        <% when 'email' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <%= rf.email_field :request %>
-        <% when 'text' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <%= rf.text_field :request %>
-        <% when 'paragraph' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <%= rf.text_area :request %>
-        <% when 'radio' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <% if field['options'] %> 
-            <% field['options'].each do |option| %>
-              <%= rf.label option['name'] %>
-              <%= rf.radio_button :request, option['name'] %>
-            <% end %>
-          <% end %>
-        <% when 'select' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <% if field['options'] %> 
-            <%= rf.select :request, options_for_select(field['options'].map {|o| o['name']}) %>
-          <% end %>
-        <% when 'check_box' %>
-          <%= rf.label field['label'] %><br>
-          <%= rf.hidden_field :label, value: field['label'] %>
-          <%= rf.hidden_field :type, value: field['type'] %>
-          <% if field['options'] %>
-            <% field['options'].each do |option| %>
-              <%= rf.label option['name'] %>
-              <%= rf.check_box :request, { :multiple => true }, option['name'], nil %>
-            <% end %>
-          <% end %>
-      <% end %>
-      <%= field['requried'] %><br>
-      <%= field['css'] %><br>
-    <% end %>
-  <% end %>
-  <div class="actions">
-    <%= f.submit %>
+    </div>
   </div>
-<% end %>
+
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 side pull-right">
+    <div class="main-box">
+      <div class="clearfix">
+        <h2 class="pull-left">Guide</h2>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%= link_to 'Edit', edit_form_path(@form) %> |
 <%= link_to 'Back', forms_path %>

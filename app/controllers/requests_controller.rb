@@ -1,5 +1,5 @@
 class RequestsController < ApplicationController
-  before_action :set_request, only: [:show, :edit, :update, :destroy]
+  before_action :set_request, only: [:show, :destroy]
 
   # GET /requests
   # GET /requests.json
@@ -14,15 +14,6 @@ class RequestsController < ApplicationController
   def show
   end
 
-  # GET /requests/new
-  def new
-    @request = Request.new
-  end
-
-  # GET /requests/1/edit
-  def edit
-  end
-
   # POST /requests
   # POST /requests.json
   def create
@@ -34,20 +25,6 @@ class RequestsController < ApplicationController
         format.json { render :show, status: :created, location: @request }
       else
         format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /requests/1
-  # PATCH/PUT /requests/1.json
-  def update
-    respond_to do |format|
-      if @request.update(request_params)
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        format.json { render :show, status: :ok, location: @request }
-      else
-        format.html { render :edit }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end

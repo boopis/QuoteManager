@@ -19,7 +19,7 @@ class QuotesController < ApplicationController
   def new
     @quote = Quote.new
     @qb = Quote.new
-    @request = Request.find(params[:request_id])
+    @request = Request.find(params[:request_id]) if params[:request_id]
   end
 
   # GET /quotes/1/edit

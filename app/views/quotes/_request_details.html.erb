@@ -1,10 +1,15 @@
-<dl class="dl-horizontal">
-  <% @request.fields.each do |id, field| %>
-    <dt><%= field['label'] %></dt>
-    <% if field['request'].kind_of?(Array) %>
-      <dd><%= field['request'].join(",") %></dd>
-    <% else %>
-      <dd><%= field['request'] %></dd>
+<% if @request.present? %>
+  <dl class="dl-horizontal">
+    <% @request.fields.each do |id, field| %>
+      <dt><%= field['label'] %></dt>
+      <% if field['request'].kind_of?(Array) %>
+        <dd><%= field['request'].join(",") %></dd>
+      <% else %>
+        <dd><%= field['request'] %></dd>
+      <% end %>
     <% end %>
-  <% end %>
-</dl>
+  </dl>
+<% else %>
+  <p>Quote not associated with request.</p>
+<% end %>
+

@@ -111,3 +111,8 @@
 .builder .actions {
 	margin-top: 7px;
 }
+
+.required:after {
+	content: " *";
+	color: red;
+}
