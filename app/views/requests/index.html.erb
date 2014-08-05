@@ -88,7 +88,57 @@
 
   <% else %>
 
-    <p>Fill this space with imporatant information</p>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <%= link_to "#" do %>
+                <%= content_tag(:span, 'ID') %>
+              <% end %>
+            </th>
+            <th class="text-center"><span>Summary</span></th>
+            <th class="text-center"><span>Form</span></th>
+            <th class="text-center"><span>Status</span></th>
+            <th class="col-md-2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @all_requests.each do |request| %>
+            <tr>
+              <td><%= request.id %></td>
+              <td>
+                <%= request.fields.map{|id, field| "#{field['label']}: #{field['request']}"}.join(" --|-- ") %>
+              </td>
+              <td><%= request.form.name if request.form.present? %></td>
+              <td class="text-center">
+                <span class="label label-primary">Pending</span>
+              </td>
+              <td style="width: 15%;">
+                <%= link_to request, class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+                <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+                <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
   <% end %>
 

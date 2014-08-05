@@ -1,6 +1,5 @@
 class QuotesController < ApplicationController
-  skip_before_filter :authenticate_user!, only: [:show]
-
+  before_filter :authenticate_user!, except: [:show]
   before_action :check_token, only: [:show]
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 

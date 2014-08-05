@@ -1,9 +1,11 @@
 class RequestsController < ApplicationController
+  before_filter :authenticate_user!, except: [:create]
   before_action :set_request, only: [:show, :destroy]
 
   # GET /requests
   # GET /requests.json
   def index
+    @all_requests = Request.all
     @requests = Request.where(form_id: params[:form_id])
     @header = Form.find(params[:form_id]) if params[:form_id].present?
     @forms = Form.all

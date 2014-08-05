@@ -1,5 +1,8 @@
 class FormsController < ApplicationController
   before_action :set_form, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:show]
+  
+  after_filter  :add_origin_header
 
   # GET /forms
   # GET /forms.json

@@ -1,9 +1,17 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-  
-  before_filter :load_schema, :authenticate_user!
+  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+  before_filter :load_schema
+
+  def add_origin_header
+    # For testing on your local machine on a normal browser, change this to your machine's IP
+    # headers['Access-Control-Allow-Origin'] = 'http://localhost:8888';
+    headers['Access-Control-Allow-Origin'] = 'http://product-rfq.myshopify.com';
+    headers['Access-Control-Allow-Credentials'] = 'true';
+    headers['Access-Control-Allow-Methods'] = 'GET, POST';
+    headers['Access-Control-Allow-Headers'] = 'X-Requested-With';
+  end
 
 private
 
