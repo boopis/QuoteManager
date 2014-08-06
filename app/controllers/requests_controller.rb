@@ -20,10 +20,23 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
+    email = params[:request][:fields].find{|k,v| v['type'] == 'email'}
+    name = params[:request][:fields].find{|k,v| v['type'] == 'name'}
+    phone = params[:request][:fields].find{|k,v| v['type'] == 'phone'}
+    email = email.last['request'] if email.present?
+    name = name.last['request'] if name.present?
+    phone = phone.last['request'] if phone.present?
 
     respond_to do |format|
       if @request.save
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
+        if email.present?
+          contact = Contact.find_by_email(email) || Contact.new
+          contact.email = email if contact.email.blank?
+          contact.name = name if contact.name.blank?
+          contact.phone = phone if contact.phone.blank?
+          contact.save
+        end
+        format.html { redirect_to @request, notice: "Request was successfully created. email: #{email}, name: #{name}, phone: #{phone}" }
         format.json { render :show, status: :created, location: @request }
       else
         format.html { render :new }
