@@ -7,15 +7,11 @@
   * Revenues
   * Expenses
 
-* Add contact fields save option with form resource
-
 * Add validation options for form fields
 
-* Add styling to quote page and create js form parser w analytics
-
-* Flesh out quote builder page details / specs
-
 * Add calculations to quote page / customer facing page
+
+* Generate emails when receiving request (to admin) and saving quote (to requestor) 
 
 * Edit Resources
   * Add analytics JSON field to Requests Resource
@@ -27,7 +23,25 @@
 * Currency conversions and selections for settings
 
 ######Complete
-* build contacts from form submission if email doesn't already exist
+* Generate callback to send alert to referrer
+* Add client side validations
+* Add server side validations
+* Add minor styling additions
+* Add analytics fields to form
+* Add file upload field
+* Add product resource to either correspond to existing store or option to add new products
+
+######Completed 8/7/14
+* ~~built contacts from form submission if email doesn't already exist~~
+
+######Completed 8/6/14
+* ~~created js parser to grab form from this app and generate form on shopify~~
+
+######Completed 8/5/14
+* ~~created shopify form to be sent to this app~~
+
+######Completed 8/4/14
+* ~~created scriptag for shopify to grab contents of quoteable item based on product tag~~
 
 ######Completed 7/18/14
 * ~~added styling to form/show and contact/new~~

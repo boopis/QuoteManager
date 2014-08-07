@@ -26,17 +26,20 @@ class RequestsController < ApplicationController
     email = email.last['request'] if email.present?
     name = name.last['request'] if name.present?
     phone = phone.last['request'] if phone.present?
+    back = request.referrer
+
+    if email.present?
+      contact = Contact.find_by_email(email) || Contact.new
+      contact.email = email if contact.email.blank?
+      contact.name = name if contact.name.blank?
+      contact.phone = phone if contact.phone.blank?
+      contact.save
+      @request.contact = contact
+    end
 
     respond_to do |format|
       if @request.save
-        if email.present?
-          contact = Contact.find_by_email(email) || Contact.new
-          contact.email = email if contact.email.blank?
-          contact.name = name if contact.name.blank?
-          contact.phone = phone if contact.phone.blank?
-          contact.save
-        end
-        format.html { redirect_to @request, notice: "Request was successfully created. email: #{email}, name: #{name}, phone: #{phone}" }
+        format.html { redirect_to back, notice: 'Request was successfully created' }
         format.json { render :show, status: :created, location: @request }
       else
         format.html { render :new }

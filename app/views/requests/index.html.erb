@@ -99,6 +99,7 @@
             </th>
             <th class="text-center"><span>Summary</span></th>
             <th class="text-center"><span>Form</span></th>
+            <th class="text-center"><span>Created</span></th>
             <th class="text-center"><span>Status</span></th>
             <th class="col-md-2"></th>
           </tr>
@@ -108,9 +109,10 @@
             <tr>
               <td><%= request.id %></td>
               <td>
-                <%= request.fields.map{|id, field| "#{field['label']}: #{field['request']}"}.join(" --|-- ") %>
+                <%= request.fields.map{|id, field| "<i class='fa fa-angle-double-right'></i><b> #{field['label']}</b>: #{field['request']}"}.join(" ").html_safe %>
               </td>
               <td><%= request.form.name if request.form.present? %></td>
+              <td><%= request.created_at.strftime("%b-%d-%Y")  %></td>
               <td class="text-center">
                 <span class="label label-primary">Pending</span>
               </td>

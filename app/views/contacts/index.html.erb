@@ -21,6 +21,7 @@
           <th><a href="#"><span>Name</span></a></th>
           <th><span>Phone</span></th>
           <th><span>E-Mail</span></th>
+          <th class="text-center"><span>Requests</span></th>
           <th class="text-center"><a href="#" class="desc"><span>Date updated</span></a></th>
           <th>&nbsp;</th>
         </tr>
@@ -31,6 +32,7 @@
           <td><%= contact.name %></td>
           <td><%= contact.phone %></td>
           <td><%= contact.email %></td>
+          <td class="text-center"><%= contact.requests.count %></td>
           <td class="text-center">
             <%= contact.updated_at.strftime("%b-%d-%Y") %>
           </td>
