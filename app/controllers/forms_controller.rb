@@ -31,6 +31,7 @@ class FormsController < ApplicationController
   # POST /forms.json
   def create
     @form = Form.new(form_params)
+    @fb = Form.new
 
     respond_to do |format|
       if @form.save

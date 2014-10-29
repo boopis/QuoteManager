@@ -1,13 +1,13 @@
 <%= form_for @form, html: { class: "form-inline builder formbuilder" } do |f| %>
   <% if @form.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
-
+    <div class="alert alert-block alert-danger fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h4>
       <ul>
       <% @form.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
-      </ul>
+      </ul>    
     </div>
   <% end %>
 

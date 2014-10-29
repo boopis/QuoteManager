@@ -1,34 +1,47 @@
 <div class="main-box clearfix">
   <div class="clearfix">
     <h2 class="pull-left">Requests</h2>
+
+    <% if params[:q].present? && params[:q][:form_id_eq].present? %>
+      <div class="request-search-form pull-right">
+        <%= search_form_for @q, html: {class: "form-inline"} do |f| %>    
+          <%= f.hidden_field :form_id_eq, value: params[:q][:form_id_eq] %>
+          <div class="form-group">
+            <%= f.select :key, options_for_select(Form.find(params[:q][:form_id_eq]).fields.map{|k,v|[v['label'],k]}, params[:q][:key]), {:include_blank => 'select field'}, class: "form-control" %>        
+          </div>
+          <div class="form-group">
+            <%= f.text_field :term, value: params[:q][:term], :placeholder => 'Search...', class: "form-control input-sm w-100" %>
+          </div>
+          <%= f.submit "Search", class: "btn btn-info btn-sm" %>
+          <%= link_to "Clear", request.path, class: "btn btn-danger btn-sm" %>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="dropdown pull-right daterange-filter">
       <a role="button" data-toggle="dropdown">
         <span>Request Type</span>
         <b class="caret"></b>
       </a>
-
       <ul class="dropdown-menu" role="menu">
-        <% @forms.each do |form| %>
+        <% Form.all.each do |form| %>
           <li>
-            <%= link_to form.name, requests_path(form_id: form.id) %>
+            <%= link_to form.name, requests_path(resource, :'q[form_id_eq]' => form.id) %>
           </li>
         <% end %>
       </ul>
     </div>
+
   </div>
 
-  <% if params[:form_id].present? %>
+  <% if params[:q].present? && params[:q][:form_id_eq].present? %>
 
     <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
             <% @header.fields.each do |id, field| %>
-              <th>
-                <%= link_to "#" do %>
-                  <%= content_tag(:span, field['label']) %>
-                <% end %>
-              </th>
+              <th><span><%= field['label'] %></span></th>
             <% end %>
             <th class="text-center"><span>Status</span></th>
             <th class="col-md-2"></th>
@@ -92,20 +105,16 @@
       <table class="table">
         <thead>
           <tr>
-            <th>
-              <%= link_to "#" do %>
-                <%= content_tag(:span, 'ID') %>
-              <% end %>
-            </th>
+            <th><%= sort_link @q, :id, "<span>ID</span>".html_safe %></th>
             <th class="text-center"><span>Summary</span></th>
             <th class="text-center"><span>Form</span></th>
-            <th class="text-center"><span>Created</span></th>
+            <th><%= sort_link @q, :created_at, "<span>Created</span>".html_safe %></th>
             <th class="text-center"><span>Status</span></th>
             <th class="col-md-2"></th>
           </tr>
         </thead>
         <tbody>
-          <% @all_requests.each do |request| %>
+          <% @requests.each do |request| %>
             <tr>
               <td><%= request.id %></td>
               <td>

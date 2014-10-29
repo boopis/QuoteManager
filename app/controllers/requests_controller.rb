@@ -1,14 +1,20 @@
 class RequestsController < ApplicationController
   before_filter :authenticate_user!, except: [:create]
   before_action :set_request, only: [:show, :destroy]
+  
+  skip_before_filter :verify_authenticity_token
+  after_filter  :add_origin_header
 
   # GET /requests
   # GET /requests.json
   def index
-    @all_requests = Request.all
-    @requests = Request.where(form_id: params[:form_id])
-    @header = Form.find(params[:form_id]) if params[:form_id].present?
+    @q = Request.search(params[:q])
+    @requests = @q.result.page(params[:page]).per(25)
+    @header = Form.find(params[:q][:form_id_eq]) if params[:q].present? && params[:q][:form_id_eq].present?
     @forms = Form.all
+    if params[:q].present? && params[:q][:key].present?
+      @requests = @q.result.find_json(params[:q][:key],params[:q][:term])
+    end
   end
 
   # GET /requests/1
@@ -40,7 +46,7 @@ class RequestsController < ApplicationController
     respond_to do |format|
       if @request.save
         format.html { redirect_to back, notice: 'Request was successfully created' }
-        format.json { render :show, status: :created, location: @request }
+        format.json { render json: @request.to_json, status: :created }
       else
         format.html { render :new }
         format.json { render json: @request.errors, status: :unprocessable_entity }

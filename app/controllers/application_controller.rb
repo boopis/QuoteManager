@@ -7,10 +7,11 @@ class ApplicationController < ActionController::Base
   def add_origin_header
     # For testing on your local machine on a normal browser, change this to your machine's IP
     # headers['Access-Control-Allow-Origin'] = 'http://localhost:8888';
-    headers['Access-Control-Allow-Origin'] = '*';
-    headers['Access-Control-Allow-Credentials'] = 'true';
-    headers['Access-Control-Allow-Methods'] = 'GET, POST';
-    headers['Access-Control-Allow-Headers'] = 'X-Requested-With';
+    headers["Access-Control-Allow-Origin"] = "*"
+    headers["Access-Control-Allow-Methods"] = %w{GET POST PUT}.join(",")
+    headers["Access-Control-Allow-Headers"] = %w{Origin Accept Content-Type X-Requested-With X-CSRF-Token}.join(",")
+
+    head(:ok) if request.request_method == "OPTIONS"
   end
 
 private
