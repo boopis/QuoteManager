@@ -80,15 +80,15 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: QuoteManager_production
-  #username: QuoteManager
-  #password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
+#production:
+  #<<: *default
+  #database: QuoteManager_production
+  ##username: QuoteManager
+  ##password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
 
-staging:
-  <<: *default
-  database: QuoteManager_staging
-  #username: QuoteManager
-  #password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
+#staging:
+  #<<: *default
+  #database: QuoteManager_staging
+  ##username: QuoteManager
+  ##password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
 
