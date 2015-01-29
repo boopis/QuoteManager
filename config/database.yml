@@ -12,3 +12,15 @@ development:
 test: 
   <<: *default
   database: QuoteManager_test
+
+#production:
+  #<<: *default
+  #database: QuoteManager_production
+  #username: QuoteManager
+  #password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
+
+#staging:
+  #<<: *default
+  #database: QuoteManager_production
+  #username: QuoteManager
+  #password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
