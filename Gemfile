@@ -12,7 +12,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'devise', '~> 3.2.4'
-gem 'apartment', '~> 0.24.3'
+gem 'apartment'
 gem 'simple_form', '~> 3.1.0.rc1'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'carrierwave', '~> 0.10.0'
