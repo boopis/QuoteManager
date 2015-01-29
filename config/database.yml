@@ -81,12 +81,12 @@ test:
 production:
   <<: *default
   database: QuoteManager_production
-  username: QuoteManager
-  password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
+  #username: QuoteManager
+  #password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
 
 staging:
   <<: *default
   database: QuoteManager_staging
-  username: QuoteManager
-  password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
+  #username: QuoteManager
+  #password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
 
