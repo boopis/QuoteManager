@@ -5,23 +5,10 @@ default: &default
   pool: 5
   port: 5432 
 
-development:
+development: 
   <<: *default
   database: QuoteManager_development
 
-test:
+test: 
   <<: *default
   database: QuoteManager_test
-
-#production:
-  #<<: *default
-  #database: QuoteManager_production
-  ##username: QuoteManager
-  ##password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
-
-#staging:
-  #<<: *default
-  #database: QuoteManager_staging
-  ##username: QuoteManager
-  ##password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
-
