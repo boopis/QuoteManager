@@ -23,6 +23,8 @@ gem 'ransack', '~> 1.5.0'
 gem 'kaminari', '~> 0.16.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 
+gem 'pry', group: :development
+
 gem 'puma'
 
 group :production, :staging do

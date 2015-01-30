@@ -7,7 +7,7 @@ class FormsController < ApplicationController
   # GET /forms
   # GET /forms.json
   def index
-    @forms = Form.all
+    @forms = Form.page(params[:page]).per(25)
   end
 
   # GET /forms/1
