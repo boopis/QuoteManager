@@ -6,7 +6,7 @@ class QuotesController < ApplicationController
   # GET /quotes
   # GET /quotes.json
   def index
-    @quotes = Quote.all
+    @quotes = Quote.page(params[:page]).per(25)
   end
 
   # GET /quotes/1
