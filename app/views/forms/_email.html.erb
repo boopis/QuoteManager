@@ -10,7 +10,7 @@
       <%= f.text_field :label, class: "form-control", placeholder: "Email Field Label" %>
     </div>
     <div class="rr">
-      <%= f.check_box :required %> <%= f.label 'required?' %>
+      <%= f.check_box "validate[required]" %> <%= f.label 'required?' %>
       <%= link_to '#', class: 'remove_contact_fields', id: 'contact-email' do %>
         <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
       <% end %>

@@ -26,7 +26,6 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
-    email = params[:request][:fields].find{|k,v| v['type'] == 'email'}
     name = params[:request][:fields].find{|k,v| v['type'] == 'name'}
     phone = params[:request][:fields].find{|k,v| v['type'] == 'phone'}
     email = email.last['request'] if email.present?
