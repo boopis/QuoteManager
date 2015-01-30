@@ -25,7 +25,9 @@ class RequestsController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
-    @request = Request.new(request_params)
+    req_params = request_params
+    form = Form.find(req_params[:form_id].to_i)
+    @request = Request.new(req_params)
     name = params[:request][:fields].find{|k,v| v['type'] == 'name'}
     phone = params[:request][:fields].find{|k,v| v['type'] == 'phone'}
     email = email.last['request'] if email.present?
@@ -42,13 +44,16 @@ class RequestsController < ApplicationController
       @request.contact = contact
     end
 
+    # Check and get errors list
+    errors = form.map_destination_data(req_params)
+
     respond_to do |format|
-      if @request.save
+      if errors.messages.size == 0 && @request.save
         format.html { redirect_to back, notice: 'Request was successfully created' }
         format.json { render json: @request.to_json, status: :created }
       else
-        format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.html { redirect_to back, notice: 'Please enter required fields' }
+        format.json { render json: errors, status: :unprocessable_entity }
       end
     end
   end
