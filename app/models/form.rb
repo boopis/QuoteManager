@@ -46,6 +46,7 @@ class Form < ActiveRecord::Base
     self.fields.each do |key, value|
       
       if value["validate"].present?
+
         value["validate"].each do |k, v|
           
           if v == '1'
@@ -54,6 +55,7 @@ class Form < ActiveRecord::Base
             end
           end
         end
+
       end
 
     end
