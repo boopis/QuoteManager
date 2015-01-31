@@ -10,7 +10,7 @@
       <%= f.text_field :label, class: "form-control", placeholder: "Radio Group Name" %>
     </div>
     <div class="rr">
-      <%= f.check_box :required %> <%= f.label 'required?' %>
+      <%= f.check_box "validate[validates_presence_of]" %> <%= f.label 'required?' %>
       <%= link_to '#', class: 'remove_fields' do %>
         <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
       <% end %>
