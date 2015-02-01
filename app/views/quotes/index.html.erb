@@ -41,8 +41,10 @@
             <%= quote.expires_at.strftime("%l:%M %P %Z") %>
           </td>
           <td>
-            <% quote.request.fields.each do |id, request| %>
-              <%= request['label'] %>: <%= request['request'] %><br>
+            <% if quote.request.present? %>
+              <% quote.request.fields.each do |id, request| %>
+                <%= request['label'] %>: <%= request['request'] %><br>
+              <% end %>
             <% end %>
           </td>
           <td class="text-center">
