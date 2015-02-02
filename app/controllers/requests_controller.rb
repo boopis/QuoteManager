@@ -57,7 +57,7 @@ class RequestsController < ApplicationController
           format.html { redirect_to back, notice: 'Request was successfully created' }
           format.json { render json: @request.to_json, status: :created }
         else
-          format.html { redirect_to back, alert: 'Input Fields are invalid' }
+          format.html { redirect_to back, alert: 'You need to enter all required fields' }
           format.json { render json: errors, status: :unprocessable_entity }
         end
       end
