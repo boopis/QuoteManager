@@ -59,9 +59,11 @@ namespace :deploy do
 
   desc "Config nginx"
   task :config_nginx do
-    sudo "rm /etc/nginx/sites-enabled/default"
-    sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
-    sudo "service nginx start"
+    on roles(:app), in: :sequence, wait: 1 do
+      execute :rm, "/etc/nginx/sites-enabled/default"
+      execute :ln, "-nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+      execute :service, "nginx start"
+    end
   end
 
   desc 'Initial Deploy'
