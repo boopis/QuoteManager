@@ -6,6 +6,3 @@ require 'capistrano/rails'
 require 'capistrano/bundler'
 require 'capistrano/rvm'
 require 'capistrano/puma'
-
-Rake::Task[:production].invoke
-invoke :production
