@@ -1,9 +1,11 @@
-environment ENV['RACK_ENV']
-threads 0,5
+#!/usr/bin/env puma
+ 
+app_root = "/home/deployer/applications/quote_manager/"
 
-on_worker_boot do
-  ActiveSupport.on_load(:active_record) do
-    config = ActiveRecord::Base.configurations[Rails.env] || Rails.application.config.database_configuration[Rails.env]
-    ActiveRecord::Base.establish_connection(config)
-  end
-end
+threads 0, 4
+workers 2
+environment "production"
+ 
+bind  "unix:///var/tmp/project.sock"
+pidfile "#{app_root}/run/puma/project.pid"
+stdout_redirect "#{app_root}/log/puma/project.log"
