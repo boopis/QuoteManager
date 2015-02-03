@@ -15,7 +15,7 @@ test:
 production:
  <<: *default
  database: QuoteManager_production
- username: QuoteManager
+ username: quotemanager
  password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
 
 staging:

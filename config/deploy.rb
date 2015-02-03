@@ -1,5 +1,4 @@
 # Change these
-server '104.236.187.115', roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:boopis/QuoteManager.git'
 set :application,     'quote_manager'
