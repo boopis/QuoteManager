@@ -1,5 +1,5 @@
 # Change these
-server "104.236.187.115", :app, :web, :db, :primary => true
+server '104.236.187.115', roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:boopis/QuoteManager.git'
 set :application,     'quote_manager'
@@ -58,8 +58,8 @@ namespace :deploy do
     end
   end
 
-  desc "Setup environment before deploy"
-  task :config, roles: :app do
+  desc "Config nginx"
+  task :config_nginx do
     sudo "rm /etc/nginx/sites-enabled/default"
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
     sudo "service nginx start"
