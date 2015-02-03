@@ -44,14 +44,20 @@ class Form < ActiveRecord::Base
   # Active validator for each field in fields
   def active_dynamic_validator
     self.fields.each do |key, value|
-      value["validate"].each do |k, v|
-        
-        if v == '1'
-          self.singleton_class.instance_eval do 
-            self.send(k, "f#{key}".to_sym)
+      
+      if value["validate"].present?
+
+        value["validate"].each do |k, v|
+          
+          if v == '1'
+            self.singleton_class.instance_eval do 
+              self.send(k, "f#{key}".to_sym)
+            end
           end
         end
+
       end
+
     end
   end
 end
