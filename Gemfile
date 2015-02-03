@@ -10,6 +10,8 @@ gem 'jquery-ui-rails', '~> 4.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
+gem 'execjs'
+gem 'therubyracer'
 
 gem 'devise', '~> 3.2.4'
 gem 'apartment'
