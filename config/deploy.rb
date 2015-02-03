@@ -60,7 +60,9 @@ namespace :deploy do
 
   desc "Setup environment before deploy"
   task :config, roles: :app do
+    sudo "rm /etc/nginx/sites-enabled/default"
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+    sudo "service nginx start"
   end
 
   desc 'Initial Deploy'
