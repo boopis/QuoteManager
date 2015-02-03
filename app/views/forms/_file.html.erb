@@ -1,0 +1,20 @@
+<div class="form-field">
+  <%= f.hidden_field :type, value: 'file' %>
+
+  <div class="form-group">
+    <%= f.label :label, class: "sr-only" %>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-file-text"></i>
+      </span>
+      <%= f.text_field :label, class: "form-control", placeholder: "File Field Name" %>
+    </div>
+    <div class="rr">
+      <%= f.check_box "validate[validates_presence_of]" %> <%= f.label 'required?' %>
+      <%= link_to '#', class: 'remove_fields' do %>
+        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
+      <% end %>
+    </div>
+  </div>
+
+</div>
