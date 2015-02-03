@@ -7,7 +7,7 @@ class FormsController < ApplicationController
   # GET /forms
   # GET /forms.json
   def index
-    @forms = Form.all
+    @forms = Form.page(params[:page]).per(25)
   end
 
   # GET /forms/1
@@ -76,6 +76,8 @@ class FormsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def form_params
-      params.require(:form).permit(:name, fields: [:label, :type, :required, :css, options: [:name]])
+      p = params.require(:form).permit(:name, fields: [:label, :type, :validate, :css, options: [:name]])
+      p[:fields] = params[:form][:fields]
+      p
     end
 end

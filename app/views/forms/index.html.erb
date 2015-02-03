@@ -41,6 +41,8 @@
                     <li><span class="fa-li fa fa-envelope"></span><%= field['label'] %></li>
                   <% when 'text' %>
                     <li><span class="fa-li fa fa-pencil"></span><%= field['label'] %></li>
+                  <% when 'file' %>
+                    <li><span class="fa-li fa fa-file-text"></span><%= field['label'] %></li>
                   <% when 'paragraph' %>
                     <li><span class="fa-li fa fa-edit"></span><%= field['label'] %></li>
                   <% when 'radio' %>
@@ -99,13 +101,6 @@
       </tbody>
     </table>
   </div>
-  <ul class="pagination pull-right">
-    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-  </ul>
+
+  <%= paginate @forms, :pagination_class => "pull-right"%>
 </div>

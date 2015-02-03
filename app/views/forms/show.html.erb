@@ -12,42 +12,49 @@
             <% case field['type'] %>
               <% when 'name' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.text_field :request, class: "form-control" %>
                 </div>
               <% when 'phone' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.text_field :request, class: "form-control" %>
                 </div>
               <% when 'email' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.email_field :request, class: "form-control" %>
                 </div>
               <% when 'text' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.text_field :request, class: "form-control" %>
                 </div>
+              <% when 'file' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= rf.file_field :request, class: "form-control" %>
+                </div>
               <% when 'paragraph' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.text_area :request, class: "form-control" %>
                 </div>
               <% when 'radio' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <% if field['options'] %> 
@@ -61,7 +68,7 @@
                 </div>
               <% when 'select' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <% if field['options'] %> 
@@ -70,7 +77,7 @@
                 </div>
               <% when 'check_box' %>
                 <div class="form-group">
-                  <%= rf.label field['label'], class: "#{field['required'] == "1" ? "required" : ""}" %>
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <% if field['options'] %>

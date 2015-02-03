@@ -19,3 +19,6 @@ doc/
 *~
 .project
 .DS_Store
+
+/public/assets
+/public/assets/*.*
