@@ -60,9 +60,9 @@ namespace :deploy do
   desc "Config nginx"
   task :config_nginx do
     on roles(:app), in: :sequence, wait: 1 do
-      execute :rm, "/etc/nginx/sites-enabled/default"
-      execute :ln, "-nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
-      execute :service, "nginx start"
+      execute "sudo rm /etc/nginx/sites-enabled/default"
+      execute "sudo ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+      execute "sudo service nginx start"
     end
   end
 
