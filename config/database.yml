@@ -6,15 +6,15 @@ default: &default
 
 development: 
   <<: *default
-  database: QuoteManager_development
+  database: quotemanager_development
 
 test: 
   <<: *default
-  database: QuoteManager_test
+  database: quotemanager_test
 
 production:
  <<: *default
- database: QuoteManager_production
+ database: quotemanager_production
  username: quotemanager
  password: <%= ENV['QUOTEMANAGER_DATABASE_PASSWORD'] %>
 
