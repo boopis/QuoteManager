@@ -1,6 +1,6 @@
 class FormsController < ApplicationController
-  before_action :set_form, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, except: [:show]
+  before_action :set_form, only: [:show, :edit, :update, :destroy], except: [:form_inline]
+  before_filter :authenticate_user!, except: [:show, :form_inline]
   
   after_filter  :add_origin_header
 
@@ -65,6 +65,14 @@ class FormsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to forms_url }
       format.json { head :no_content }
+    end
+  end
+
+  # GET /form-inline/1
+  def form_inline
+    @form = Form.find(params[:id])
+    respond_to do |format|
+      format.js { render '/forms/form_inline.js' }
     end
   end
 
