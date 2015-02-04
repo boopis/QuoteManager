@@ -14,12 +14,16 @@ QuoteManager::Application.routes.draw do
   
   constraints(SubdomainPresent) do
     root 'dashboard#index', as: :subdomain_root
+
     resources :forms
+    get '/formjs' => 'forms#formjs'
+
     resources :requests
     resources :quotes
     resources :contacts
     devise_for :users
     resources :users, only: [:show]
+
   end
   
   constraints(SubdomainBlank) do
