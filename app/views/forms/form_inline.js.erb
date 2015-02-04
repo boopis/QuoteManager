@@ -1,27 +1,8 @@
-<% binding.pry %>
-function getJSON(url, resolve, reject) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET',url,true);
-  xhr.responseType = 'json';
-  xhr.onload = function() {
-    var status = xhr.status;
-    if (status == 200) {
-      resolve(xhr.response);
-    } else {
-      reject(status);
-    }
-  };
-  xhr.onerror = function() {
-    reject(xhr.response);
-  };
-  xhr.send();
-};
-
 function postForm(form) {
   if (validate(form)) {
     var xhr = new XMLHttpRequest();
     var fData = new FormData(form)
-    xhr.open('POST',form.action,true);
+      xhr.open('POST',form.action,true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 201) {
         document.getElementById('qm-modal-inner').innerHTML = '<h2>Success!</h2>';
@@ -36,7 +17,7 @@ function postForm(form) {
 
 function validate(form) {
   var a = form.getElementsByClassName('qm-required')
-  var errors = 0;
+    var errors = 0;
   for (var ii=0; ii<a.length; ii++) {
     a[ii].classList.remove('qm-error');
     var group = 0;
@@ -49,10 +30,10 @@ function validate(form) {
         }
         if (child.type == "email") {
           var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;          
-          if (!re.test(child.value)) {          
-            a[ii].className = a[ii].className + " qm-error";
-            errors ++;
-          }
+            if (!re.test(child.value)) {          
+              a[ii].className = a[ii].className + " qm-error";
+              errors ++;
+            }
         }
         if (child.type == "tel" && child.value.length < 1 ) {
           a[ii].className = a[ii].className + " qm-error";
@@ -82,7 +63,7 @@ function validate(form) {
   if (errors < 1) { return true }
 }
 
-function renderForm(url,fId,json_product) {
+function renderForm(url, form, json_product) {
   var a = document.getElementById('qm-modal');
   if (a) {
     setProduct(json_product);
@@ -92,7 +73,7 @@ function renderForm(url,fId,json_product) {
     a.style.display = 'block';
   } else {
     setProduct(json_product);
-    buildForm(url,fId);
+    buildForm(url, form);
   }
 }
 
@@ -123,68 +104,68 @@ function setProduct(json_product) {
 }
 
 function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, id) {
-    var w = document.createElement('div'),
-        x = document.createElement('label'),
-        y = document.createElement('input'),
-        u = document.createElement('input'),
-        v = document.createElement('input'),
-        qmRequire = required ? ' qm-required' : '';
+  var w = document.createElement('div'),
+      x = document.createElement('label'),
+      y = document.createElement('input'),
+      u = document.createElement('input'),
+      v = document.createElement('input'),
+      qmRequire = required ? ' qm-required' : '';
 
-    w.className = 'qm-group qm-' + type + qmRequire;
-    x.innerHTML = label;
-    x.htmlFor = id;
-    y.type = fieldType;
-    y.id = id;
-    y.name = reqFieldsReq;
-    y.required = required.toString();
-    u.type = 'hidden';
-    u.name = reqFieldsLbl;
-    u.value = label;
-    v.type = 'hidden';
-    v.name = reqFieldsType;
-    v.value = type;
-    w.appendChild(x);
-    w.appendChild(y);
-    w.appendChild(u);
-    w.appendChild(v);
+  w.className = 'qm-group qm-' + type + qmRequire;
+  x.innerHTML = label;
+  x.htmlFor = id;
+  y.type = fieldType;
+  y.id = id;
+  y.name = reqFieldsReq;
+  y.required = required.toString();
+  u.type = 'hidden';
+  u.name = reqFieldsLbl;
+  u.value = label;
+  v.type = 'hidden';
+  v.name = reqFieldsType;
+  v.value = type;
+  w.appendChild(x);
+  w.appendChild(y);
+  w.appendChild(u);
+  w.appendChild(v);
 
-    return w;
+  return w;
 }
 
 function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, options, id) {
-    var w = document.createElement('div'),
-        x = document.createElement('label'),
-        t = document.createElement('input'),
-        u = document.createElement('input'),
-        isCheckbox = fieldType == 'checkbox' ? '[]' : '',
-        qmRequire = required ? ' qm-required' : '';
+  var w = document.createElement('div'),
+      x = document.createElement('label'),
+      t = document.createElement('input'),
+      u = document.createElement('input'),
+      isCheckbox = fieldType == 'checkbox' ? '[]' : '',
+      qmRequire = required ? ' qm-required' : '';
 
-    w.className = 'qm-group qm-' + fieldType + qmRequire;
-    x.innerHTML = label;
-    t.type = 'hidden';
-    t.name = reqFieldsLbl;
-    t.value = label;
-    u.type = 'hidden';
-    u.name = reqFieldsType;
-    u.value = type;
-    w.appendChild(x);
-    w.appendChild(t);
-    w.appendChild(u);
-    for (var y in options) {
-        var v = document.createElement('label');
-        var z = document.createElement('input');
-        v.innerHTML = options[y]['name'];
-        v.htmlFor = id + '_' + options[y]['name'].toLowerCase().split(' ').join('_');
-        z.id = id +'_' + options[y]['name'].toLowerCase().split(' ').join('_');
-        z.required = required.toString();
-        z.type ='checkbox';
-        z.value = options[y]['name'];
-        z.name =  reqFieldsReq + isCheckbox;
-        w.appendChild(z);
-        w.appendChild(v);
-    }
+  w.className = 'qm-group qm-' + fieldType + qmRequire;
+  x.innerHTML = label;
+  t.type = 'hidden';
+  t.name = reqFieldsLbl;
+  t.value = label;
+  u.type = 'hidden';
+  u.name = reqFieldsType;
+  u.value = type;
+  w.appendChild(x);
+  w.appendChild(t);
+  w.appendChild(u);
+  for (var y in options) {
+    var v = document.createElement('label');
+    var z = document.createElement('input');
+    v.innerHTML = options[y]['name'];
+    v.htmlFor = id + '_' + options[y]['name'].toLowerCase().split(' ').join('_');
+    z.id = id +'_' + options[y]['name'].toLowerCase().split(' ').join('_');
+    z.required = required.toString();
+    z.type ='checkbox';
+    z.value = options[y]['name'];
+    z.name =  reqFieldsReq + isCheckbox;
+    w.appendChild(z);
+    w.appendChild(v);
+  }
 
-    return w;
+  return w;
 }
 
 // Find product's option by element id, class, product's name
@@ -192,240 +173,242 @@ function searchProductOption (opt) {
   // Search in product variant area
 }
 
-function buildForm(url,fId) {
+function buildForm(url, form) {
 
-    var a = document.createElement('div');
-    a.id = 'qm-modal';
-    a.style.display = 'visible';
-    a.style.position = 'fixed';
-    a.style.zIndex = '10000';
-    a.style.top = '0';
-    a.style.left = '0';
-    a.style.right = '0';
-    a.style.bottom = '0';
-    a.style.overflowX = 'hidden';
-    a.style.overflowY = 'auto';
-    a.style.background = 'rgba(0,0,0,0.7)';
+  var a = document.createElement('div');
+  a.id = 'qm-modal';
+  a.style.display = 'visible';
+  a.style.position = 'fixed';
+  a.style.zIndex = '10000';
+  a.style.top = '0';
+  a.style.left = '0';
+  a.style.right = '0';
+  a.style.bottom = '0';
+  a.style.overflowX = 'hidden';
+  a.style.overflowY = 'auto';
+  a.style.background = 'rgba(0,0,0,0.7)';
 
-    var al = document.createElement('img');
-    al.id = 'qm-ajax-loader';
-    al.src = '//cdn.shopify.com/s/global/lightbox/v204/loading.gif';
-    al.style.position = 'fixed';
-    al.style.left = '50%';
-    al.style.top = '45%';
+  var al = document.createElement('img');
+  al.id = 'qm-ajax-loader';
+  al.src = '//cdn.shopify.com/s/global/lightbox/v204/loading.gif';
+  al.style.position = 'fixed';
+  al.style.left = '50%';
+  al.style.top = '45%';
 
-    a.appendChild(al);
+  a.appendChild(al);
 
-    document.getElementsByTagName('body')[0].appendChild(a);
+  document.getElementsByTagName('body')[0].appendChild(a);
 
-    getJSON(url+'forms/'+fId+'.json', function(d) {
+  if (form && form.id) {
 
-        var b = document.createElement('div');
-        b.id = 'qm-modal-inner';
-        b.style.display = 'none';
-        b.style.zIndex = '10001';
-        b.style.margin = '30px auto';
-        b.style.top = '30px';
-        b.style.position = 'relative';
-        b.style.background = '#fff';
-        b.style.width = '600px';
-        b.style.padding = '10px 20px';
-        b.style.border = '5px solid #999';
-        b.style.borderRadius = '10px';
-        b.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+    d = form;
 
-        var c = document.createElement('form');
-        c.style.padding = '10px';
-        c.action = url+'requests.json';
-        c.enctype = 'application/json';
-        c.id = 'qm-form';
+    var b = document.createElement('div');
+    b.id = 'qm-modal-inner';
+    b.style.display = 'none';
+    b.style.zIndex = '10001';
+    b.style.margin = '30px auto';
+    b.style.top = '30px';
+    b.style.position = 'relative';
+    b.style.background = '#fff';
+    b.style.width = '600px';
+    b.style.padding = '10px 20px';
+    b.style.border = '5px solid #999';
+    b.style.borderRadius = '10px';
+    b.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
 
-        var l = document.createElement('input');
-        l.type = 'hidden';
-        l.name = 'request[form_id]';
-        l.value = d['id'];
-        c.appendChild(l);
+    var c = document.createElement('form');
+    c.style.padding = '10px';
+    c.action = url+'requests.json';
+    c.enctype = 'application/json';
+    c.id = 'qm-form';
 
-        var m = document.createElement('div');
-        var n = document.createElement('div');
-        var o = document.createElement('label');
-        var p = document.createElement('label');
-        var q = document.createElement('input');
-        var r = document.createElement('input');
-        var aa = document.createElement('input');
-        var ab = document.createElement('input');
+    var l = document.createElement('input');
+    l.type = 'hidden';
+    l.name = 'request[form_id]';
+    l.value = d['id'];
+    c.appendChild(l);
 
-        var quote = JSON.parse(sessionStorage.getItem('qm-rfq'));
+    var m = document.createElement('div');
+    var n = document.createElement('div');
+    var o = document.createElement('label');
+    var p = document.createElement('label');
+    var q = document.createElement('input');
+    var r = document.createElement('input');
+    var aa = document.createElement('input');
+    var ab = document.createElement('input');
 
-        m.className = 'qm-group';
-        n.className = 'qm-group';
-        o.htmlFor = 'product';
-        o.innerHTML = 'Product';
-        p.htmlFor = 'variant';
-        p.innerHTML = 'Variants';
-        q.type = 'text';
-        q.id = 'qm-product-title'
-        q.name = '';
-        q.readOnly = 'true';
-        q.value = quote.productTitle;
-        r.type = 'text';
-        r.id = 'qm-variant-text'
-        r.name = '';
-        r.readOnly = 'true';
-        r.value = quote.variantText;  
-        aa.type = 'hidden';
-        aa.id = 'qm-product-id'
-        aa.name = '';
-        aa.value = quote.productId;
-        ab.type = 'hidden';
-        ab.id = 'qm-variant-id'
-        ab.name = '';
-        ab.value = quote.variantId;
+    var quote = JSON.parse(sessionStorage.getItem('qm-rfq'));
 
-        m.appendChild(o);
-        m.appendChild(q);
-        m.appendChild(aa);
-        n.appendChild(p);
-        n.appendChild(r);
-        n.appendChild(ab);
+    m.className = 'qm-group';
+    n.className = 'qm-group';
+    o.htmlFor = 'product';
+    o.innerHTML = 'Product';
+    p.htmlFor = 'variant';
+    p.innerHTML = 'Variants';
+    q.type = 'text';
+    q.id = 'qm-product-title'
+      q.name = '';
+    q.readOnly = 'true';
+    q.value = quote.productTitle;
+    r.type = 'text';
+    r.id = 'qm-variant-text'
+      r.name = '';
+    r.readOnly = 'true';
+    r.value = quote.variantText;  
+    aa.type = 'hidden';
+    aa.id = 'qm-product-id'
+      aa.name = '';
+    aa.value = quote.productId;
+    ab.type = 'hidden';
+    ab.id = 'qm-variant-id'
+      ab.name = '';
+    ab.value = quote.variantId;
 
-        c.appendChild(m);
-        c.appendChild(n);
+    m.appendChild(o);
+    m.appendChild(q);
+    m.appendChild(aa);
+    n.appendChild(p);
+    n.appendChild(r);
+    n.appendChild(ab);
 
-        var f = document.createElement('div');
-        var h = document.createElement('a'); 
-        var g = document.createElement('h4');
+    c.appendChild(m);
+    c.appendChild(n);
 
-        f.style.padding = '10px';
-        f.style.borderBottom = '1px solid #e5e5e5';
-        h.style.float = 'right';
-        h.id = 'modal_close';
-        h.href = '#';
-        h.text = 'x';
-        h.onclick = function() { a.style.display = 'none'; return false; }
+    var f = document.createElement('div');
+    var h = document.createElement('a'); 
+    var g = document.createElement('h4');
 
-        g.style.margin = '0';
-        g.innerHTML = d['name'];
-        f.appendChild(h); 
-        f.appendChild(g);  
-        b.appendChild(f);
+    f.style.padding = '10px';
+    f.style.borderBottom = '1px solid #e5e5e5';
+    h.style.float = 'right';
+    h.id = 'modal_close';
+    h.href = '#';
+    h.text = 'x';
+    h.onclick = function() { a.style.display = 'none'; return false; }
 
-        var i = d['fields'],
-            w = document.createElement('div');
+    g.style.margin = '0';
+    g.innerHTML = d['name'];
+    f.appendChild(h); 
+    f.appendChild(g);  
+    b.appendChild(f);
 
-        for (var e in i) {
-            var required = i[e]['validate']['validates_presence_of'] == '1',
-                reqFieldsReq = 'request[fields]['+e+'][request]',
-                reqFieldsLbl = 'request[fields]['+e+'][label]',
-                reqFieldsType = 'request[fields]['+e+'][type]',
-                type = i[e]['type'],
-                label = i[e]['label'],
-                qmRequire = required ? ' qm-required' : '';
+    var i = d['fields'],
+        w = document.createElement('div');
 
-            switch(type) {
-                case 'name':
-                    w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+    for (var e in i) {
+      var required = i[e]['validate']['validates_presence_of'] == '1',
+        reqFieldsReq = 'request[fields]['+e+'][request]',
+                     reqFieldsLbl = 'request[fields]['+e+'][label]',
+                     reqFieldsType = 'request[fields]['+e+'][type]',
+                     type = i[e]['type'],
+                     label = i[e]['label'],
+                     qmRequire = required ? ' qm-required' : '';
 
-                    c.appendChild(w);
-                    break;
-                case 'phone':
-                    w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'tel', e);
+      switch(type) {
+        case 'name':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
 
-                    c.appendChild(w);            
-                    break;
-                case 'email':
-                    w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'email', e);
+          c.appendChild(w);
+          break;
+        case 'phone':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'tel', e);
 
-                    c.appendChild(w);              
-                    break;
-                case 'text':
-                    w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+          c.appendChild(w);            
+          break;
+        case 'email':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'email', e);
 
-                    c.appendChild(w);              
-                    break;
-                case 'paragraph':
-                    w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+          c.appendChild(w);              
+          break;
+        case 'text':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
 
-                    c.appendChild(w);                 
-                    break;
-                case 'radio':
-                    w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'radio', i[e]['options'], e);
+          c.appendChild(w);              
+          break;
+        case 'paragraph':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
 
-                    c.appendChild(w);
-                    break;
-                case 'check_box':
-                    w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'checkbox', i[e]['options'], e);
+          c.appendChild(w);                 
+          break;
+        case 'radio':
+          w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'radio', i[e]['options'], e);
 
-                    c.appendChild(w);
-                    break;
-                case 'select':
-                    var u = document.createElement('div');
-                    var x = document.createElement('label');
-                    var s = document.createElement('input');
-                    var t = document.createElement('input');
-                    var w = document.createElement('select');
-                    var v = document.createElement('option');
-                    u.className = 'qm-group qm-select' + qmRequire;
-                    x.innerHTML = label;
-                    s.type = 'hidden';
-                    s.name = reqFieldsLbl;
-                    s.value = label;
-                    t.type = 'hidden';
-                    t.name = reqFieldsType;
-                    t.value = type;
-                    w.name = reqFieldsReq;
-                    w.required = required.toString();
-                    v.text = 'Select Option';
-                    v.value = '';
-                    u.appendChild(x);
-                    u.appendChild(s);
-                    u.appendChild(t);
-                    u.appendChild(w);
-                    w.add(v);
-                    for (var y in i[e]['options']) {
-                        var z = document.createElement('option');
-                        z.value = i[e]['options'][y]['name'];
-                        z.text = i[e]['options'][y]['name'];
-                        w.add(z);
-                    }
-                    c.appendChild(u);
-                    break;
-            }
-        }
+          c.appendChild(w);
+          break;
+        case 'check_box':
+          w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'checkbox', i[e]['options'], e);
 
-        var j = document.createElement('div');
-        var k = document.createElement('button');
-        j.className = 'qm-actions';
-        k.type = 'submit';
-        k.id = 'qm-submit';
-        k.innerText = 'Submit';
-        k.onclick = function() { postForm(c);  return false; }
+          c.appendChild(w);
+          break;
+        case 'select':
+          var u = document.createElement('div');
+          var x = document.createElement('label');
+          var s = document.createElement('input');
+          var t = document.createElement('input');
+          var w = document.createElement('select');
+          var v = document.createElement('option');
+          u.className = 'qm-group qm-select' + qmRequire;
+          x.innerHTML = label;
+          s.type = 'hidden';
+          s.name = reqFieldsLbl;
+          s.value = label;
+          t.type = 'hidden';
+          t.name = reqFieldsType;
+          t.value = type;
+          w.name = reqFieldsReq;
+          w.required = required.toString();
+          v.text = 'Select Option';
+          v.value = '';
+          u.appendChild(x);
+          u.appendChild(s);
+          u.appendChild(t);
+          u.appendChild(w);
+          w.add(v);
+          for (var y in i[e]['options']) {
+            var z = document.createElement('option');
+            z.value = i[e]['options'][y]['name'];
+            z.text = i[e]['options'][y]['name'];
+            w.add(z);
+          }
+          c.appendChild(u);
+          break;
+      }
+    }
 
-        j.appendChild(k);
-        c.appendChild(j);
-        b.appendChild(c);
-        a.appendChild(b);
-        showModal();
-    }, function(err) {
-        a.removeChild(al);
-        var b = document.createElement('div');
-        b.id = 'qm-modal-inner';
-        b.style.zIndex = '10001';
-        b.style.margin = '30px auto';
-        b.style.top = '30px';
-        b.style.position = 'relative';
-        b.style.background = '#fff';
-        b.style.width = '600px';
-        b.style.padding = '10px 20px';
-        b.style.border = '5px solid #999';
-        b.style.borderRadius = '10px';
-        b.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
-        b.innerHTML = '<h2>Uh Oh. There seems to be a problem!</h2><p>'+err+'</p>';
-        a.appendChild(b); 
-        setTimeout(function(){
-          a.remove();
-        },2000)
-    });    
+    var j = document.createElement('div');
+    var k = document.createElement('button');
+    j.className = 'qm-actions';
+    k.type = 'submit';
+    k.id = 'qm-submit';
+    k.innerText = 'Submit';
+    k.onclick = function() { postForm(c);  return false; }
+
+    j.appendChild(k);
+    c.appendChild(j);
+    b.appendChild(c);
+    a.appendChild(b);
+    showModal();
+  } else {
+    a.removeChild(al);
+    var b = document.createElement('div');
+    b.id = 'qm-modal-inner';
+    b.style.zIndex = '10001';
+    b.style.margin = '30px auto';
+    b.style.top = '30px';
+    b.style.position = 'relative';
+    b.style.background = '#fff';
+    b.style.width = '600px';
+    b.style.padding = '10px 20px';
+    b.style.border = '5px solid #999';
+    b.style.borderRadius = '10px';
+    b.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+    b.innerHTML = '<h2>Uh Oh. There seems to be a problem!</h2><p></p>';
+    a.appendChild(b); 
+    setTimeout(function(){
+      a.remove();
+    },2000)
+  }
 }
 
 function showModal() {
@@ -437,6 +420,17 @@ function showModal() {
     }
 }
 
+var form = <%= @form.to_json.html_safe %>;
+
 var json_product = {"id":231950045,"title":"test","handle":"test","description":"blah blah blah","published_at":"2014-02-03T21:55:00-05:00","created_at":"2014-02-03T23:55:37-05:00","vendor":"david","type":"test2","tags":["rfq"],"price":0,"price_min":0,"price_max":3400,"available":true,"price_varies":true,"compare_at_price":null,"compare_at_price_min":0,"compare_at_price_max":0,"compare_at_price_varies":false,"variants":[{"id":872978185,"title":"quiet / v2 / large","options":["quiet","v2","large"],"option1":"quiet","option2":"v2","option3":"large","price":1200,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":true,"taxable":true,"barcode":"","featured_image":null},{"id":523889853,"title":"sexy / Default Title / small","options":["sexy","Default Title","small"],"option1":"sexy","option2":"Default Title","option3":"small","price":0,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":false,"taxable":false,"barcode":"","featured_image":null},{"id":872978621,"title":"stud / v34 / medium","options":["stud","v34","medium"],"option1":"stud","option2":"v34","option3":"medium","price":3400,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":true,"taxable":true,"barcode":"","featured_image":null},{"id":875766609,"title":"say / bleh / big","options":["say","bleh","big"],"option1":"say","option2":"bleh","option3":"big","price":0,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":true,"taxable":true,"barcode":"","featured_image":null}],"images":[],"featured_image":null,"options":["monogram","name","size"],"content":"blah blah blah"}
+
+renderForm('http://boopis.lvh.me:3000/', form, json_product);
+
+// When user click to quote button and web browser attach script from http://boopis.lvh.me:3000/form-inline/2.js
+// Browser will show form with form_id = 2
+//var my_awesome_script = document.createElement('script');
+//my_awesome_script.setAttribute('src','http://boopis.lvh.me:3000/form-inline/2.js');
+//document.head.appendChild(my_awesome_script);
+
 document.getElementById('product-add-wrap').innerHTML='<div id="product-add-medallion" class=""></div><input type="submit" name="quote" id="quote" value="Quote" class="smooth">';  
-document.getElementById('quote').onclick = function() { renderForm('http://boopis.lvh.me:3000/',2,json_product); return false; } 
+//document.getElementById('quote').onclick = function() { renderForm('http://boopis.lvh.me:3000/',2,json_product); return false; } 
