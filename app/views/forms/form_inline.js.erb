@@ -1,21 +1,20 @@
-function getJSON(url) {
-  return new Promise(function(resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET',url,true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-      var status = xhr.status;
-      if (status == 200) {
-        resolve(xhr.response);
-      } else {
-        reject(status);
-      }
-    };
-    xhr.onerror = function() {
-      reject(xhr.response);
-    };
-    xhr.send();
-  });
+<% binding.pry %>
+function getJSON(url, resolve, reject) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET',url,true);
+  xhr.responseType = 'json';
+  xhr.onload = function() {
+    var status = xhr.status;
+    if (status == 200) {
+      resolve(xhr.response);
+    } else {
+      reject(status);
+    }
+  };
+  xhr.onerror = function() {
+    reject(xhr.response);
+  };
+  xhr.send();
 };
 
 function postForm(form) {
@@ -188,6 +187,11 @@ function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsT
     return w;
 }
 
+// Find product's option by element id, class, product's name
+function searchProductOption (opt) {
+  // Search in product variant area
+}
+
 function buildForm(url,fId) {
 
     var a = document.createElement('div');
@@ -214,7 +218,7 @@ function buildForm(url,fId) {
 
     document.getElementsByTagName('body')[0].appendChild(a);
 
-    getJSON(url+'forms/'+fId+'.json').then(function(d) {
+    getJSON(url+'forms/'+fId+'.json', function(d) {
 
         var b = document.createElement('div');
         b.id = 'qm-modal-inner';

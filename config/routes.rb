@@ -16,7 +16,7 @@ QuoteManager::Application.routes.draw do
     root 'dashboard#index', as: :subdomain_root
 
     resources :forms
-    get '/formjs' => 'forms#formjs'
+    get '/form-inline/:id' => 'forms#form_inline'
 
     resources :requests
     resources :quotes

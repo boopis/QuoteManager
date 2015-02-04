@@ -68,9 +68,12 @@ class FormsController < ApplicationController
     end
   end
 
-  # GET /forms/formjs
-  def formjs
-    render :partial => 'forms/formjs.js'
+  # GET /form-inline/1
+  def form_inline
+    @form = Form.find(params[:id])
+    respond_to do |format|
+      format.js { render '/forms/form_inline.js' }
+    end
   end
 
   private
