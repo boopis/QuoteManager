@@ -326,6 +326,11 @@ function buildForm(url, form) {
 
           c.appendChild(w);              
           break;
+        case 'file':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'file', e);
+
+          c.appendChild(w);              
+          break;
         case 'paragraph':
           w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
 
