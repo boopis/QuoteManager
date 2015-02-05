@@ -331,6 +331,11 @@ function buildForm(url, form) {
 
           c.appendChild(w);                 
           break;
+        case 'inpage':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+
+          c.appendChild(w);                 
+          break;
         case 'radio':
           w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'radio', i[e]['options'], e);
 
