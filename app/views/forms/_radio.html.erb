@@ -10,7 +10,7 @@
       <%= f.text_field :label, class: "form-control", placeholder: "Radio Group Name" %>
     </div>
     <div class="rr">
-      <% if required == '1'%>
+      <% if defined?(required) && required == '1'%>
         <%= f.check_box("validate[validates_presence_of]", :checked => 'checked') %> 
       <% else %>
         <%= f.check_box("validate[validates_presence_of]") %> 

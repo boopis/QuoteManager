@@ -3,8 +3,12 @@ module FormsHelper
     new_object = OpenStruct.new(@fb.fields)
     id = new_object.object_id
     fields = f.fields_for(association, new_object, index: id) do |builder|
-      required = new_object.to_h.values[0]['validate']['validates_presence_of']
-      render(type, f: builder, required: required )
+      if new_object.to_h.empty?
+        render(type, f: builder, required: '0' )
+      else 
+        required = new_object.to_h.values[0]['validate']['validates_presence_of']
+        render(type, f: builder, required: required )
+      end
     end
     link_to("#", class: "list-group-item add_fields", data: {id: id, fields: fields.gsub("\n", "")}) do
       content_tag(:i, name, class: icon)

@@ -36,6 +36,7 @@ class RequestsController < ApplicationController
 
       name = req_params[:params][:fields].find{|k,v| v['type'] == 'name'}
       phone = req_params[:params][:fields].find{|k,v| v['type'] == 'phone'}
+      email = req_params[:params][:fields].find{|k,v| v['type'] == 'email'}
       email = email.last['request'] if email.present?
       name = name.last['request'] if name.present?
       phone = phone.last['request'] if phone.present?
