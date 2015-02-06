@@ -28,6 +28,14 @@ function validate(form) {
           a[ii].className = a[ii].className + " qm-error";
           errors ++;
         }
+        if (child.type == 'file' && child.value == '') {
+          a[ii].className = a[ii].className + " qm-error";
+          errors ++;
+        }
+        if (child.type == 'inpage' && child.value.length < 1) {
+          a[ii].className = a[ii].className + " qm-error";
+          errors ++;
+        }
         if (child.type == "email") {
           var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;          
             if (!re.test(child.value)) {          
