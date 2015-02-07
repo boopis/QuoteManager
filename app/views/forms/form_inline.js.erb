@@ -220,6 +220,24 @@ function grabProductOption () {
   return jsonProduct;
 }
 
+function getInpageCustomData(objSpec) {
+
+  var result = '',
+      classObj = document.getElementsByClassName(objSpec),
+      idObj = document.getElementById(objSpec),
+      nameObj = ''; // todo: search by variant's option name?
+
+  if (idObj.length > 0) {
+
+    result = idObj[0].textContent;
+  } else if (classObj.length > 0) {
+
+    result = classObj[0].textContent;
+  }
+
+  return result;
+}
+
 function buildForm(url, form) {
 
   var a = document.createElement('div');
@@ -385,6 +403,19 @@ function buildForm(url, form) {
           break;
         case 'inpage':
           w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+
+          // Find data in page and insert it to inpage text input
+          var childs = w.children || w.childNotes,
+              i, length = childs.length;
+
+          for (i = 0; i < length; i++) {
+            var current = childs[i];
+
+            if (current.nodeName == 'INPUT' && current.type == 'text') {
+              
+              current.value = getInpageCustomData(label);
+            }
+          }
 
           c.appendChild(w);                 
           break;
