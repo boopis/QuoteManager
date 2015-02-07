@@ -111,13 +111,22 @@ function setProduct(json_product) {
   sessionStorage.setItem('qm-rfq', JSON.stringify(myQuote));
 }
 
-function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, id) {
+function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, id, field) {
   var w = document.createElement('div'),
       x = document.createElement('label'),
       y = document.createElement('input'),
       u = document.createElement('input'),
       v = document.createElement('input'),
       qmRequire = required ? ' qm-required' : '';
+
+  if (type == 'inpage') {
+
+    var t = document.createElement('input');  
+
+    t.type = 'hidden';
+    t.value = field[id].id_class;
+    t.name = 'request[fields]['+ id +'][id_class]';
+  }
 
   w.className = 'qm-group qm-' + type + qmRequire;
   x.innerHTML = label;
@@ -136,6 +145,7 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
   w.appendChild(y);
   w.appendChild(u);
   w.appendChild(v);
+  w.appendChild(t);
 
   return w;
 }
@@ -402,18 +412,19 @@ function buildForm(url, form) {
           c.appendChild(w);                 
           break;
         case 'inpage':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e, i);
 
           // Find data in page and insert it to inpage text input
           var childs = w.children || w.childNotes,
-              i, length = childs.length;
+              idOrClass = i[e].id_class,
+              j, length = childs.length;
 
-          for (i = 0; i < length; i++) {
-            var current = childs[i];
+          for (j = 0; j < length; j++) {
+            var current = childs[j];
 
             if (current.nodeName == 'INPUT' && current.type == 'text') {
               
-              current.value = getInpageCustomData(label);
+              current.value = getInpageCustomData(idOrClass);
             }
           }
 
