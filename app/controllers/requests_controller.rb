@@ -3,7 +3,7 @@ class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :destroy]
 
   skip_before_filter :verify_authenticity_token
-  after_filter  :add_origin_header
+  before_filter  :add_origin_header
 
   # GET /requests
   # GET /requests.json

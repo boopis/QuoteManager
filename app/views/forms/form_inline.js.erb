@@ -530,4 +530,4 @@ var json_product = grabProductOption();
 document.getElementById('product-add-wrap').innerHTML='<div id="product-add-medallion" class=""></div><input type="submit" name="quote" id="quote" value="Quote" class="smooth">';  
 
 // Render form on click new button
-document.getElementById('quote').onclick = function() { renderForm('<%= request.host_with_port %>', form, json_product); return false; } 
+document.getElementById('quote').onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form, json_product); return false; } 
