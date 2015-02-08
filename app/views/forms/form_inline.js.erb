@@ -119,15 +119,6 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
       v = document.createElement('input'),
       qmRequire = required ? ' qm-required' : '';
 
-  if (type == 'inpage') {
-
-    var t = document.createElement('input');  
-
-    t.type = 'hidden';
-    t.value = field[id].id_class;
-    t.name = 'request[fields]['+ id +'][id_class]';
-  }
-
   w.className = 'qm-group qm-' + type + qmRequire;
   x.innerHTML = label;
   x.htmlFor = id;
@@ -145,7 +136,17 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
   w.appendChild(y);
   w.appendChild(u);
   w.appendChild(v);
-  w.appendChild(t);
+
+  if (type == 'inpage') {
+
+    var t = document.createElement('input');  
+
+    t.type = 'hidden';
+    t.value = field[id].id_class;
+    t.name = 'request[fields]['+ id +'][id_class]';
+    w.appendChild(t);
+
+  }
 
   return w;
 }
@@ -237,7 +238,7 @@ function getInpageCustomData(objSpec) {
       idObj = document.getElementById(objSpec),
       nameObj = ''; // todo: search by variant's option name?
 
-  if (idObj.length > 0) {
+  if (idObj !== null && idObj.length > 0) {
 
     result = idObj[0].textContent;
   } else if (classObj.length > 0) {
@@ -294,7 +295,7 @@ function buildForm(url, form) {
 
     var c = document.createElement('form');
     c.style.padding = '10px';
-    c.action = url+'requests.json';
+    c.action = url+'/requests.json';
     c.enctype = 'application/json';
     c.id = 'qm-form';
 
@@ -304,51 +305,51 @@ function buildForm(url, form) {
     l.value = d['id'];
     c.appendChild(l);
 
-    var m = document.createElement('div');
-    var n = document.createElement('div');
-    var o = document.createElement('label');
-    var p = document.createElement('label');
-    var q = document.createElement('input');
-    var r = document.createElement('input');
-    var aa = document.createElement('input');
-    var ab = document.createElement('input');
+    // var m = document.createElement('div');
+    // var n = document.createElement('div');
+    // var o = document.createElement('label');
+    // var p = document.createElement('label');
+    // var q = document.createElement('input');
+    // var r = document.createElement('input');
+    // var aa = document.createElement('input');
+    // var ab = document.createElement('input');
 
-    var quote = JSON.parse(sessionStorage.getItem('qm-rfq'));
+    // var quote = JSON.parse(sessionStorage.getItem('qm-rfq'));
 
-    m.className = 'qm-group';
-    n.className = 'qm-group';
-    o.htmlFor = 'product';
-    o.innerHTML = 'Product';
-    p.htmlFor = 'variant';
-    p.innerHTML = 'Variants';
-    q.type = 'text';
-    q.id = 'qm-product-title'
-      q.name = '';
-    q.readOnly = 'true';
-    q.value = quote.productTitle;
-    r.type = 'text';
-    r.id = 'qm-variant-text'
-      r.name = '';
-    r.readOnly = 'true';
-    r.value = quote.variantText;  
-    aa.type = 'hidden';
-    aa.id = 'qm-product-id'
-      aa.name = '';
-    aa.value = quote.productId;
-    ab.type = 'hidden';
-    ab.id = 'qm-variant-id'
-      ab.name = '';
-    ab.value = quote.variantId;
+    // m.className = 'qm-group';
+    // n.className = 'qm-group';
+    // o.htmlFor = 'product';
+    // o.innerHTML = 'Product';
+    // p.htmlFor = 'variant';
+    // p.innerHTML = 'Variants';
+    // q.type = 'text';
+    // q.id = 'qm-product-title'
+    //   q.name = '';
+    // q.readOnly = 'true';
+    // q.value = quote.productTitle;
+    // r.type = 'text';
+    // r.id = 'qm-variant-text'
+    //   r.name = '';
+    // r.readOnly = 'true';
+    // r.value = quote.variantText;  
+    // aa.type = 'hidden';
+    // aa.id = 'qm-product-id'
+    //   aa.name = '';
+    // aa.value = quote.productId;
+    // ab.type = 'hidden';
+    // ab.id = 'qm-variant-id'
+    //   ab.name = '';
+    // ab.value = quote.variantId;
 
-    m.appendChild(o);
-    m.appendChild(q);
-    m.appendChild(aa);
-    n.appendChild(p);
-    n.appendChild(r);
-    n.appendChild(ab);
+    // m.appendChild(o);
+    // m.appendChild(q);
+    // m.appendChild(aa);
+    // n.appendChild(p);
+    // n.appendChild(r);
+    // n.appendChild(ab);
 
-    c.appendChild(m);
-    c.appendChild(n);
+    // c.appendChild(m);
+    // c.appendChild(n);
 
     var f = document.createElement('div');
     var h = document.createElement('a'); 
@@ -524,15 +525,9 @@ var form = <%= @form.to_json.html_safe %>;
 
 // Get product data
 var json_product = grabProductOption(); 
-//{"id":231950045,"title":"test","handle":"test","description":"blah blah blah","published_at":"2014-02-03T21:55:00-05:00","created_at":"2014-02-03T23:55:37-05:00","vendor":"david","type":"test2","tags":["rfq"],"price":0,"price_min":0,"price_max":3400,"available":true,"price_varies":true,"compare_at_price":null,"compare_at_price_min":0,"compare_at_price_max":0,"compare_at_price_varies":false,"variants":[{"id":872978185,"title":"quiet / v2 / large","options":["quiet","v2","large"],"option1":"quiet","option2":"v2","option3":"large","price":1200,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":true,"taxable":true,"barcode":"","featured_image":null},{"id":523889853,"title":"sexy / Default Title / small","options":["sexy","Default Title","small"],"option1":"sexy","option2":"Default Title","option3":"small","price":0,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":false,"taxable":false,"barcode":"","featured_image":null},{"id":872978621,"title":"stud / v34 / medium","options":["stud","v34","medium"],"option1":"stud","option2":"v34","option3":"medium","price":3400,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":true,"taxable":true,"barcode":"","featured_image":null},{"id":875766609,"title":"say / bleh / big","options":["say","bleh","big"],"option1":"say","option2":"bleh","option3":"big","price":0,"weight":0,"compare_at_price":null,"inventory_quantity":1,"inventory_management":null,"inventory_policy":"deny","available":true,"sku":"","requires_shipping":true,"taxable":true,"barcode":"","featured_image":null}],"images":[],"featured_image":null,"options":["monogram","name","size"],"content":"blah blah blah"}
 
-renderForm('http://boopis.lvh.me:3000/', form, json_product);
-
-// When user click to quote button and web browser attach script from http://boopis.lvh.me:3000/form-inline/2.js
-// Browser will show form with form_id = 2
-//var my_awesome_script = document.createElement('script');
-//my_awesome_script.setAttribute('src','http://boopis.lvh.me:3000/form-inline/2.js');
-//document.head.appendChild(my_awesome_script);
-
+// Replace add to cart text and if
 document.getElementById('product-add-wrap').innerHTML='<div id="product-add-medallion" class=""></div><input type="submit" name="quote" id="quote" value="Quote" class="smooth">';  
-//document.getElementById('quote').onclick = function() { renderForm('http://boopis.lvh.me:3000/',2,json_product); return false; } 
+
+// Render form on click new button
+document.getElementById('quote').onclick = function() { renderForm('<%= request.host_with_port %>', form, json_product); return false; } 
