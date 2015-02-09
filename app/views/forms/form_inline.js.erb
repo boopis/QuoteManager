@@ -261,7 +261,7 @@ function getInpageCustomData(objSpec) {
 
     var body = document.body.innerHTML,
         index = body.indexOf(objSpec),
-        elementName = body.substr(index + objSpec.length, 20).split('><')[0].replace(/\W+/g, ""),
+        elementName = body.substr(index + objSpec.length, 20).replace(/\s/g, '').split('><')[0].replace(/\W+/g, ""),
         el, elements;
 
     if (elementName.length > 0) {
@@ -278,15 +278,15 @@ function getInpageCustomData(objSpec) {
       }
 
       // Label + input field type
-      if (el && (el.nextSibling.nodeName == 'SELECT' || el.nextSibling.nodeName == 'INPUT')) {
+      if (el && (el.nextElementSibling.nodeName == 'SELECT' || el.nextElementSibling.nodeName == 'INPUT')) {
 
-        result = el.nextSibling.value;
+        result = el.nextElementSibling.value;
       } else if (el) { 
 
-        result = el.nextSibling.textContent.trim().split('\n')[0].trim();
-      } else {
+        result = el.nextElementSibling.textContent.trim().split('\n')[0].trim();
+      } else {  // we haven't found anything
 
-        result = el.parentNode.textContent.trim().split('\n')[0].trim();
+        result = ''; 
       }
     }
   } else { // other
