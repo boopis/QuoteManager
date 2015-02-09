@@ -233,17 +233,65 @@ function grabProductOption () {
 
 function getInpageCustomData(objSpec) {
 
+  if (!objSpec && objSpec.length == 0) {
+
+    return;
+  }
+
   var result = '',
       classObj = document.getElementsByClassName(objSpec),
       idObj = document.getElementById(objSpec),
-      nameObj = ''; // todo: search by variant's option name?
+      resultObj,
+      nameObj = ''; 
 
-  if (idObj !== null && idObj.length > 0) {
+  // Find element have id / class is objSpec
+  if (idObj) {
 
-    result = idObj[0].textContent;
-  } else if (classObj.length > 0) {
+    resultObj = idObj;
+  } else if (classObj && classObj.length > 0) {
 
-    result = classObj[0].textContent;
+    resultObj = classObj[0];
+  }
+
+  // If object is select DOM element, we get selected value
+  if (resultObj && resultObj.nodeName == 'SELECT') { // select type
+
+    result = resultObj.value;
+  } else if (resultObj == undefined) { // variant's option name
+
+    var body = document.body.innerHTML,
+        index = body.indexOf(objSpec),
+        elementName = body.substr(index + objSpec.length, 20).split('><')[0].replace(/\W+/g, ""),
+        el, elements;
+
+    if (elementName.length > 0) {
+
+      elements = document.getElementsByTagName(elementName);
+
+      for (var i = 0; i < elements.length; i++) {
+
+        // This element have objSpec string inside
+        if (elements[i].textContent.indexOf(objSpec) >= 0) {
+
+          el = elements[i];
+        }
+      }
+
+      // Label + input field type
+      if (el && (el.nextSibling.nodeName == 'SELECT' || el.nextSibling.nodeName == 'INPUT')) {
+
+        result = el.nextSibling.value;
+      } else if (el) { 
+
+        result = el.nextSibling.textContent.trim().split('\n')[0].trim();
+      } else {
+
+        result = el.parentNode.textContent.trim().split('\n')[0].trim();
+      }
+    }
+  } else { // other
+
+    result = resultObj.textContent.trim().split('\n')[0].trim();
   }
 
   return result;
