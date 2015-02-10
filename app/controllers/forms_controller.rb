@@ -70,9 +70,15 @@ class FormsController < ApplicationController
 
   # GET /form-inline/1
   def form_inline
-    @form = Form.find(params[:id])
+    form = Form.find(params[:id])
+
     respond_to do |format|
-      format.js { render '/forms/form_inline.js' }
+      format.js { 
+        render '/forms/form_inline.js', locals: { 
+          form: form, 
+          script: form.script
+        } 
+      }
     end
   end
 
