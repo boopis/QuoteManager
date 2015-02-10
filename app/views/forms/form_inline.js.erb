@@ -472,7 +472,7 @@ function buildForm(url, form) {
             var current = childs[j];
 
             if (current.nodeName == 'INPUT' && current.type == 'text') {
-              
+
               current.value = getInpageCustomData(idOrClass);
             }
           }
@@ -560,16 +560,20 @@ function buildForm(url, form) {
 }
 
 function showModal() {
-    document.getElementById('qm-ajax-loader').remove();
-    var a = document.getElementById('qm-modal');
-    var b = a.childNodes[0];
-    if (b.style.display == 'none') {
-      b.style.display = 'block';
-    }
+  document.getElementById('qm-ajax-loader').remove();
+  var a = document.getElementById('qm-modal');
+  var b = a.childNodes[0];
+  if (b.style.display == 'none') {
+    b.style.display = 'block';
+  }
 }
 
+/////////////////////// User custom javascript //////////////////////////////
+<%= script.html_safe %>
+/////////////////////////////////////////////////////////////////////////////
+
 // Form use for render
-var form = <%= @form.to_json.html_safe %>;
+var form = <%= form.to_json.html_safe %>;
 
 // Get product data
 var json_product = grabProductOption(); 

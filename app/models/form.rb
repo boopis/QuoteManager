@@ -71,4 +71,16 @@ class Form < ActiveRecord::Base
       end
     end
   end
+
+  def script 
+    script = ''
+
+    self.fields.each do |key, value|
+      if value['type'] == 'script' 
+        script = script + value['script']
+      end
+    end
+
+    script
+  end
 end

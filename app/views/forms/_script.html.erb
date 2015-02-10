@@ -1,0 +1,20 @@
+<div class="form-field">
+  <%= f.hidden_field :type, value: 'script' %>
+
+  <div class="form-group">
+    <%= f.label :label, class: "sr-only" %>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-cogs"></i>
+      </span>
+      <%= f.text_field :label, class: "form-control", placeholder: "Script field name" %>
+      <%= f.text_area :script, class: "form-control", placeholder: "Enter form inject javascript" %>
+    </div>
+    <div class="rr">
+      <%= link_to '#', class: 'remove_fields' do %>
+        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
+      <% end %>
+    </div>
+  </div>
+
+</div>
