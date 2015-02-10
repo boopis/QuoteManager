@@ -31,7 +31,7 @@
           <% if @form.fields? %>
             <% @form.fields.each do |id, field| %>
               <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
-                <%= render field['type'], f: field_type, options: field['options'], required: field['validate']['validates_presence_of'] %>
+                <%= render field['type'], f: field_type, options: field['options'] || [], required: field['validate']['validates_presence_of'] %>
               <% end %>
             <% end %>
           <% end %>

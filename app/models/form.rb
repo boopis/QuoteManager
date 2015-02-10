@@ -3,6 +3,7 @@ class Form < ActiveRecord::Base
 
   validates :name, presence: true
   validates :fields, presence: true
+  validate :empty_form_field_option
 
   # Define setter and getter for dynamic field
   def add_dynamic_field(field_name)
@@ -58,6 +59,16 @@ class Form < ActiveRecord::Base
 
       end
 
+    end
+  end
+
+  def empty_form_field_option
+    self.fields.each do |key, value|
+      type = value['type']
+      if((type == 'radio' || type == 'select' || type == 'check_box') && 
+         (value['options'].nil? || value['options'].length == 0)) 
+        errors.add("#{type} field".to_sym, "can't save with empty options")
+      end
     end
   end
 end
