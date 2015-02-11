@@ -38,6 +38,13 @@
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.text_field :request, class: "form-control" %>
                 </div>
+              <% when 'script' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= content_tag(:div, field['script']) %>
+                </div>
               <% when 'inpage' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
@@ -111,6 +118,42 @@
     <div class="main-box">
       <div class="clearfix">
         <h2 class="pull-left">Guide</h2>
+        <div class='clearfix'></div>
+        <p>
+          Form builder uses for creating request to vendor. You can add your form script by getting form script.  
+          Every form is built by many fields.
+          Fields are divided into 2 types: Contact fields and custom fields. 
+        </p>
+        <p>
+          Contact fields consist of:
+        </p>
+        <ul>
+          <li>Name field: To enter your name.</li>
+          <li>Email field: To enter your email address.</li>
+          <li>Phone field: To enter your phone number.</li>
+        </ul>
+        <p>
+          Custom fields consist of:
+        </p>
+        <ul>
+          <li>Text field: To add general information in string.</li>
+          <li>
+            Field field: To upload your image, product's specification. 
+            You can upload image file (png, jpg, gif) or archive file (zip).
+          </li>
+          <li>
+            In-page field: To enter HTML element's ID or class or product's option name which you want to get in your ecommerce website.
+          </li>
+          <li>
+            Paragraph field: To contain your information in paragraph.
+          </li>
+          <li>
+            Select field, radio field, checkbox field: To create multiple option choice. When your product's option have many value like color, size, type...
+          </li>
+          <li>
+            Script field: You can write your custom javascript. When your site load this form, the script will be included in form inline script file.
+          </li>
+        </ul>
       </div>
     </div>
   </div>
