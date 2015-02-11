@@ -44,4 +44,16 @@ module FormsHelper
     end  
     link_to('Add Options', '#', class: "add_options fa fa-plus-circle", data: {fields: fields.gsub("\n", "")})
   end
+
+  def form_custom_settings(settings, type)
+    if settings 
+      settings.each do |st| 
+        f.fields_for :settings, OpenStruct.new(st), index: "" do |builder|
+          render 'setting', f: builder, type: type
+        end
+      end
+    end
+
+    link_to(" Add #{type.capitalize}", '#', class: "add_setting fa fa-plus-circle")
+  end
 end
