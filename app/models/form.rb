@@ -72,15 +72,13 @@ class Form < ActiveRecord::Base
     end
   end
 
-  def script 
-    script = ''
+  def form_style 
+    styles = ''
 
-    self.fields.each do |key, value|
-      if value['type'] == 'script' 
-        script = script + value['script']
-      end
+    self.styles.each do |st|
+      styles = styles + st['style'] + ';'
     end
 
-    script
+    styles
   end
 end
