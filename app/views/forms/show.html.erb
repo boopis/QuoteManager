@@ -110,43 +110,17 @@
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 side pull-right">
     <div class="main-box">
       <div class="clearfix">
-        <h2 class="pull-left">Guide</h2>
+        <h2 class="pull-left">Add inline script guide</h2>
         <div class='clearfix'></div>
-        <p>
-          Form builder uses for creating request to vendor. You can add your form script by getting form script.  
-          Every form is built by many fields.
-          Fields are divided into 2 types: Contact fields and custom fields. 
-        </p>
-        <p>
-          Contact fields consist of:
-        </p>
-        <ul>
-          <li>Name field: To enter your name.</li>
-          <li>Email field: To enter your email address.</li>
-          <li>Phone field: To enter your phone number.</li>
-        </ul>
-        <p>
-          Custom fields consist of:
-        </p>
-        <ul>
-          <li>Text field: To add general information in string.</li>
-          <li>
-            Field field: To upload your image, product's specification. 
-            You can upload image file (png, jpg, gif) or archive file (zip).
-          </li>
-          <li>
-            In-page field: To enter HTML element's ID or class or product's option name which you want to get in your ecommerce website.
-          </li>
-          <li>
-            Paragraph field: To contain your information in paragraph.
-          </li>
-          <li>
-            Select field, radio field, checkbox field: To create multiple option choice. When your product's option have many value like color, size, type...
-          </li>
-          <li>
-            Script field: You can write your custom javascript. When your site load this form, the script will be included in form inline script file.
-          </li>
-        </ul>
+        <h5>
+          After created this form, you can add this inline form script to your site by 
+          following steps:
+        </h5>
+        <p>- Get your form id and your account url</p>
+        <%= image_tag("link.png", alt: 'your link and form id', style: 'margin-bottom: 15px;') %>
+
+        <p>- Open your website source code and add script tag. Replace script src your account url and your form id.</p>
+        <%= image_tag("add-script.png", alt: 'add script to your website') %>
       </div>
     </div>
   </div>
