@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20150211043150) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.json     "styles"
-    t.json     "scripts"
-    t.json     "settings"
+    t.text     "scripts"
+    t.json     "emails"
   end
 
   create_table "quotes", force: true do |t|

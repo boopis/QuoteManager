@@ -29,12 +29,23 @@ $(document).on 'click', 'form .remove_options', (event) ->
   $(this).closest('.option-field').remove()
   event.preventDefault()
 
-$(document).on 'click', 'form .add_setting', (event) ->
-  $(this).before($(this).data('fields'))
+$(document).on 'click', 'form .add-setting', (event) ->
+  type = $(this).data('type')
+  field = '<div class="setting-field"> \n' + 
+    '<div class="field"> \n' + 
+    '<input class="form-control" placeholder="Enter your ' + type + '"' +
+    ' id="form_' + type + 's" name="form['+ type + 's][][' + type + ']">' +
+    '<a href="#" class="remove-setting"> \n' + 
+    '<i class="fa fa-minus-circle"></i> \n' +
+    'Remove ' + type + '</a> \n' +
+    '</div> \n' + 
+    '</div>';
+
+  $(this).before(field)
   event.preventDefault()
 
-$(document).on 'click', 'form .remove_setting', (event) ->
-  $(this).closest('.option-field').remove()
+$(document).on 'click', 'form .remove-setting', (event) ->
+  $(this).closest('.setting-field').remove()
   event.preventDefault()
 
 
