@@ -347,6 +347,9 @@ function buildForm(url, form) {
     c.enctype = 'application/json';
     c.id = 'qm-form';
 
+    // Add style to form
+    c.style.cssText += '<%= form.form_style %>';
+
     var l = document.createElement('input');
     l.type = 'hidden';
     l.name = 'request[form_id]';
@@ -569,7 +572,7 @@ function showModal() {
 }
 
 /////////////////////// User custom javascript //////////////////////////////
-<%= script.html_safe %>
+<%= form.scripts.html_safe %>
 /////////////////////////////////////////////////////////////////////////////
 
 // Form use for render

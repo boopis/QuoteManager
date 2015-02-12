@@ -75,8 +75,7 @@ class FormsController < ApplicationController
     respond_to do |format|
       format.js { 
         render '/forms/form_inline.js', locals: { 
-          form: form, 
-          script: form.script
+          form: form
         } 
       }
     end
@@ -90,7 +89,13 @@ class FormsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def form_params
-      p = params.require(:form).permit(:name, fields: [:label, :type, :validate, :css, options: [:name]])
+      p = params.require(:form).permit(
+        :name, 
+        :scripts,
+        fields: [:label, :type, :validate, :css, options: [:name]], 
+        styles: [:style],
+        emails: [:email]
+      )
       p[:fields] = params[:form][:fields]
       p
     end
