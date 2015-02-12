@@ -113,3 +113,15 @@
   content: " *";
   color: red;
 }
+
+.builder .main-box {
+  padding: 12px;
+}
+
+.builder .form-field {
+  border-top: 1px solid #eee;
+  &:hover, &.active {
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+}

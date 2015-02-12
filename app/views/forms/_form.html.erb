@@ -27,7 +27,7 @@
         <%= link_to_add_fields "Paragraph", "paragraph", "fa fa-edit", f, :fields %>
         <%= link_to_add_fields "Radio", "radio", "fa fa-check-circle", f, :fields %>
         <%= link_to_add_fields "Select", "select", "fa fa-bars", f, :fields %>
-        <%= link_to_add_fields "Check Box", "check_box", "fa fa-check-square", f, :fields %>
+        <%= link_to_add_fields "Check Box", "checkbox", "fa fa-check-square", f, :fields %>
       </div>
     </div>
   </div>
@@ -40,6 +40,9 @@
         <ul class="nav nav-tabs">
           <li class="active"><a href="#rendered-form" data-toggle="tab">Form Render</a></li>
           <li class=""><a href="#user-guide" data-toggle="tab">Instructions</a></li>
+          <li class=""><a href="#style" data-toggle="tab">Styles</a></li>
+          <li class=""><a href="#js" data-toggle="tab">Javascripts</a></li>
+          <li class=""><a href="#settings" data-toggle="tab">Settings</a></li>
         </ul>
 
         <div class="tab-content">
@@ -59,7 +62,7 @@
                 <% if @form.fields? %>
                   <% @form.fields.each do |id, field| %>
                     <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
-                      <%= render field['type'], f: field_type, options: field['options'] || [], required: field['validate']['validates_presence_of'] %>
+                      <%= render field['type'], f: field_type, options: field['options'] || [], required: field['validate']['validates_presence_of'], id: id, field: field %>
                     <% end %>
                   <% end %>
                 <% end %>
@@ -115,6 +118,27 @@
               In settings tab, you can add email of your company. 
           </div>
 
+          <div class="tab-pane fade" id="style">
+            <p>Your custom form style: </p>
+            <%= f.text_area :styles, class: 'form-control', placeholder: 'Add your custom styles' %>
+            <div class='clearfix'></div>
+            <p>Number of column: </p>
+            <div class='clearfix'></div>
+            <%= f.radio_button :column_style, '1', :class => 'form-control', :checked => true %> 
+            <%= label :column_style_one, 'One column' %>
+            <%= f.radio_button :column_style, '2', :class => 'form-control' %>
+            <%= label :column_style_two, 'Two columns' %>
+          </div>
+
+          <div class="tab-pane fade" id="js">
+            <p>Your custom form scripts: </p>
+            <%= f.text_area :scripts, class: 'form-control', placeholder: 'Add your custom scripts' %>
+          </div>
+
+          <div class="tab-pane fade" id="settings">
+            <%= form_custom_settings(@form.emails, "email", f)%>
+          </div>
+
         </div>
       </div>
     </div>
@@ -122,27 +146,31 @@
 
   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 settings">
     <div class="main-box">
-      <div class="tabs-wrapper">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#css" data-toggle="tab">CSS</a></li>
-          <li class=""><a href="#js" data-toggle="tab">JS</a></li>
-          <li class=""><a href="#settings" data-toggle="tab">Settings</a></li>
-        </ul>
-
-        <div class="tab-content">
-          <div class="tab-pane fade active in" id="css">
-            <%= form_custom_settings(@form.styles, "style", f)%>
-          </div>
-
-          <div class="tab-pane fade" id="js">
-            <%= f.text_area :scripts, class: 'form-control', placeholder: 'Add your custom script' %>
-          </div>
-
-          <div class="tab-pane fade" id="settings">
-            <%= form_custom_settings(@form.emails, "email", f)%>
-          </div>
-        </div>
-      </div>
+      <h2>Field Options</h2>
+      <div class='clearfix'></div>
+      <ul class='list-unstyled'>
+        <li>
+          <label>CSS Class: </label>
+        </li>
+        <li>
+          <input id='option_css_class' data-name='css_class' class='form-control' type='text'>
+        </li>
+        <li>
+          <label>Placeholder: </label>
+        </li>
+        <li>
+          <input id='option_placeholder' data-name='placeholder' class='form-control' type='text'>
+        </li>       
+        <li>
+          <label>Description: </label>
+        </li>
+        <li>
+          <input id='option_description' data-name='description' class='form-control' type='text'>
+        </li>       
+        <li>
+          <input id="option_required" data-name='required' class='form-control' type="checkbox" value="0">
+          <label>Required? </label>
+        </li>
     </div>
   </div>
 

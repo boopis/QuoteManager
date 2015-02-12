@@ -92,8 +92,9 @@ class FormsController < ApplicationController
       p = params.require(:form).permit(
         :name, 
         :scripts,
-        fields: [:label, :type, :validate, :css, options: [:name]], 
-        styles: [:style],
+        :styles, 
+        :column_style,
+        fields: [:label, :type, :validate, :placeholder, :description, :css_class , options: [:name]], 
         emails: [:email]
       )
       p[:fields] = params[:form][:fields]
