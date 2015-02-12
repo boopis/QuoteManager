@@ -39,7 +39,7 @@ $(document).on 'click', 'form .add-setting', (event) ->
     '<i class="fa fa-minus-circle"></i> \n' +
     'Remove ' + type + '</a> \n' +
     '</div> \n' + 
-    '</div>';
+    '</div>'
 
   $(this).before(field)
   event.preventDefault()
@@ -48,8 +48,39 @@ $(document).on 'click', 'form .remove-setting', (event) ->
   $(this).closest('.setting-field').remove()
   event.preventDefault()
 
+$(document).on 'click', 'form .form-field', (event) ->
+  $('.form-field.active').removeClass('active')
+  $(this).addClass('active')
+  bindFormFieldOption($(this))
+  event.preventDefault()
+
+bindFormFieldOption = (formField) ->
+  props = [
+    'css_class'
+    'placeholder'
+    'description'
+    'required'
+  ]
+  props.forEach (el) ->
+    hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
+
+    if el == 'required'
+      checked = if hiddenValue == '1' then true else false
+      $('#option_' + el).prop 'checked', checked
+    else
+      $('#option_' + el).val hiddenValue
+    return
 
 ready = ->
+  $('.form-field').first().click()
+  $('.settings input').change (e) -> 
+    propName = $(this).data('name')
+    if @type == 'checkbox'
+      value = if $(this).is(':checked') then 1 else 0
+    else
+      value = $(this).val()
+    $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
+    return
   $('.tabs-wrapper .nav.nav-tabs a').click (e) ->
     e.preventDefault()
     $(this).tab 'show'

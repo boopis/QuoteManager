@@ -65,20 +65,11 @@ class Form < ActiveRecord::Base
   def empty_form_field_option
     self.fields.each do |key, value|
       type = value['type']
-      if((type == 'radio' || type == 'select' || type == 'check_box') && 
+      if((type == 'radio' || type == 'select' || type == 'checkbox') && 
          (value['options'].nil? || value['options'].length == 0)) 
         errors.add("#{type} field".to_sym, "can't save with empty options")
       end
     end
   end
 
-  def form_style 
-    styles = ''
-
-    self.styles.each do |st|
-      styles = styles + st['style'] + ';'
-    end
-
-    styles
-  end
 end

@@ -1,0 +1,14 @@
+<%= f.hidden_field :type, value: type %>
+<%= f.hidden_field :placeholder, :'data-name' => 'placeholder' %>
+<%= f.hidden_field :description, :'data-name' => 'description' %>
+<%= f.hidden_field :css_class, :'data-name' => 'css_class' %>
+
+<% unless field.empty? %>
+  <%= f.fields_for :validate, OpenStruct.new(field['validate']) do |ff| %>
+    <%= ff.hidden_field :validates_presence_of, :'data-name' => 'required' %>
+  <% end %>
+<% else %>
+  <%= f.fields_for :validate do |ff| %>
+    <%= ff.hidden_field :validates_presence_of, value: '0', :'data-name' => 'required' %>
+  <% end %>
+<% end %>
