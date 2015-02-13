@@ -114,7 +114,7 @@ function setProduct(json_product) {
 function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, id, field) {
   var w = document.createElement('div'),
       x = document.createElement('label'),
-      y = document.createElement('input'),
+      y = type !== 'paragraph' ? document.createElement('input') : document.createElement('textarea'),
       u = document.createElement('input'),
       v = document.createElement('input'),
       qmRequire = required ? ' qm-required' : '';
@@ -123,6 +123,8 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
   x.innerHTML = label;
   x.htmlFor = id;
   y.type = fieldType;
+  y.placeholder = field[id].placeholder;
+  y.className += ' ' + (field[id].css_class);
   y.id = id;
   y.name = reqFieldsReq;
   y.required = required.toString();
@@ -145,7 +147,6 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
     t.value = field[id].id_class;
     t.name = 'request[fields]['+ id +'][id_class]';
     w.appendChild(t);
-
   }
 
   return w;
@@ -347,9 +348,6 @@ function buildForm(url, form) {
     c.enctype = 'application/json';
     c.id = 'qm-form';
 
-    // Add style to form
-    c.style.cssText += '<%= form.form_style %>';
-
     var l = document.createElement('input');
     l.type = 'hidden';
     l.name = 'request[form_id]';
@@ -434,32 +432,32 @@ function buildForm(url, form) {
 
       switch(type) {
         case 'name':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e, i);
 
           c.appendChild(w);
           break;
         case 'phone':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'tel', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'tel', e, i);
 
           c.appendChild(w);            
           break;
         case 'email':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'email', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'email', e, i);
 
           c.appendChild(w);              
           break;
         case 'text':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e, i);
 
           c.appendChild(w);              
           break;
         case 'file':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'file', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'file', e, i);
 
           c.appendChild(w);              
           break;
         case 'paragraph':
-          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e);
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'textarea', e, i);
 
           c.appendChild(w);                 
           break;
@@ -483,12 +481,12 @@ function buildForm(url, form) {
           c.appendChild(w);                 
           break;
         case 'radio':
-          w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'radio', i[e]['options'], e);
+          w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'radio', i[e]['options'], e, i);
 
           c.appendChild(w);
           break;
-        case 'check_box':
-          w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'checkbox', i[e]['options'], e);
+        case 'checkbox':
+          w = createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'checkbox', i[e]['options'], e, i);
 
           c.appendChild(w);
           break;
@@ -574,6 +572,23 @@ function showModal() {
 /////////////////////// User custom javascript //////////////////////////////
 <%= form.scripts.html_safe %>
 /////////////////////////////////////////////////////////////////////////////
+
+/////////////////////// User custom styles  /////////////////////////////////
+var column_style = '<%= form.column_style == 1 ? " .qm-group { width: 98%; }" : " .qm-group { width: 48%; }" %>',
+    css = '<%= form.styles.gsub(/\s+/, " ").html_safe %>' + column_style,
+    head = document.head || document.getElementsByTagName('head')[0],
+    style = document.createElement('style');
+
+style.type = 'text/css';
+if (style.styleSheet){
+  style.styleSheet.cssText = css;
+} else {
+  style.appendChild(document.createTextNode(css));
+}
+
+head.appendChild(style);
+/////////////////////////////////////////////////////////////////////////////
+
 
 // Form use for render
 var form = <%= form.to_json.html_safe %>;

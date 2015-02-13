@@ -1,5 +1,9 @@
-<div class="form-field">
-  <%= f.hidden_field :type, value: 'file' %>
+<%= content_tag(:div, :class => 'form-field', :'data-id' => id) do %>
+  <% if defined? field %>
+    <%= render 'hidden_option', f: f, field: field, type: 'file' %>
+  <% else %>
+    <%= render 'hidden_option', f: f, field: {}, type: 'file' %>
+  <% end %>
 
   <div class="form-group">
     <%= f.label :label, class: "sr-only" %>
@@ -10,16 +14,10 @@
       <%= f.text_field :label, class: "form-control", placeholder: "File Field Name" %>
     </div>
     <div class="rr">
-      <% if defined?(required) && required == '1'%>
-        <%= f.check_box("validate[validates_presence_of]", :checked => 'checked') %> 
-      <% else %>
-        <%= f.check_box("validate[validates_presence_of]") %> 
-      <% end %>
-      <%= f.label 'required?' %>
       <%= link_to '#', class: 'remove_fields' do %>
         <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
       <% end %>
     </div>
   </div>
 
-</div>
+<% end %>

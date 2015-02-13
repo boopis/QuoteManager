@@ -48,26 +48,26 @@
                   <% when 'paragraph' %>
                     <li><span class="fa-li fa fa-edit"></span><%= field['label'] %></li>
                   <% when 'radio' %>
-<!--                         <% if field['options'] %> 
+                     <% if field['options'] %> 
                       <li><span class="fa-li fa fa fa-check-circle"></span><%= field['label'] %></li>
                       <% field['options'].each do |option| %>
                         <li class="buffer left-10"><span class="fa-li fa fa-check-circle-o"></span><%= option['name'] %></li>
                       <% end %>
-                    <% end %> -->
+                    <% end %> 
                   <% when 'select' %>
                     <li><span class="fa-li fa fa-bars"></span><%= field['label'] %></li>
-<!--                         <% if field['options'] %> 
+                      <% if field['options'] %> 
                       <% field['options'].each do |option| %>
                         <li class="buffer left-10"><span class="fa-li fa fa-minus"></span><%= option['name'] %></li>
                       <% end %>
-                    <% end %> -->
+                    <% end %>
                   <% when 'check_box' %>
                     <li><span class="fa-li fa fa-check-square"></span><%= field['label'] %></li>
-<!--                         <% if field['options'] %> 
+                    <% if field['options'] %> 
                       <% field['options'].each do |option| %>
                         <li class="buffer left-10"><span class="fa-li fa fa-check-square-o"></span><%= option['name'] %></li>
                       <% end %>
-                    <% end %> -->
+                    <% end %> 
                 <% end %>
               <% end %>
             </ul>

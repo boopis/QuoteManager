@@ -1,5 +1,9 @@
-<div class="form-field">
-  <%= f.hidden_field :type, value: 'check_box' %>
+<%= content_tag(:div, :class => 'form-field', :'data-id' => id) do %>
+  <% if defined? field %>
+    <%= render 'hidden_option', f: f, field: field, type: 'checkbox' %>
+  <% else %>
+    <%= render 'hidden_option', f: f, field: {}, type: 'checkbox' %>
+  <% end %>
 
   <div class="form-group">
     <%= f.label :label, class: "sr-only" %>
@@ -10,12 +14,6 @@
       <%= f.text_field :label, class: "form-control", placeholder: "Checkbox Group Name" %>
     </div>
     <div class="rr">
-      <% if defined?(required) && required == '1'%>
-        <%= f.check_box("validate[validates_presence_of]", :checked => 'checked') %> 
-      <% else %>
-        <%= f.check_box("validate[validates_presence_of]") %> 
-      <% end %>
-      <%= f.label 'required?' %>
       <%= link_to '#', class: 'remove_fields' do %>
         <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
       <% end %>
@@ -23,7 +21,7 @@
   </div>
 
   <div class="option-fields">
-    <% if defined? options %>
+    <% if defined?(options) && options %>
       <% options.each do |option| %>
         <%= f.fields_for :options, OpenStruct.new(option), index: "" do |builder| %>
           <%= render 'option', f: builder %>
@@ -33,4 +31,4 @@
     <%= link_to_add_options "option", f, :options %><br>
   </div>
 
-</div>
+<% end %>
