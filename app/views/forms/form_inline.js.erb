@@ -119,12 +119,11 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
       v = document.createElement('input'),
       qmRequire = required ? ' qm-required' : '';
 
-  w.className = 'qm-group qm-' + type + qmRequire;
+  w.className = 'qm-group qm-' + type + qmRequire + ' ' + field[id].css_class;
   x.innerHTML = label;
   x.htmlFor = id;
   y.type = fieldType;
   y.placeholder = field[id].placeholder;
-  y.className += ' ' + (field[id].css_class);
   y.id = id;
   y.name = reqFieldsReq;
   y.required = required.toString();
@@ -152,7 +151,7 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
   return w;
 }
 
-function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, options, id) {
+function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, options, id, field) {
   var w = document.createElement('div'),
       x = document.createElement('label'),
       t = document.createElement('input'),
@@ -160,7 +159,7 @@ function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsT
       isCheckbox = fieldType == 'checkbox' ? '[]' : '',
       qmRequire = required ? ' qm-required' : '';
 
-  w.className = 'qm-group qm-' + fieldType + qmRequire;
+  w.className = 'qm-group qm-' + fieldType + qmRequire + ' ' + field[id].css_class;
   x.innerHTML = label;
   t.type = 'hidden';
   t.name = reqFieldsLbl;
