@@ -3,7 +3,7 @@ class Form < ActiveRecord::Base
 
   validates :name, presence: true
   validates :fields, presence: true
-  validate :empty_form_field_option
+  validate :empty_form_field_option, :must_have_email_field
 
   # Define setter and getter for dynamic field
   def add_dynamic_field(field_name)
@@ -59,6 +59,16 @@ class Form < ActiveRecord::Base
 
       end
 
+    end
+  end
+
+  def must_have_email_field
+    is_contain_email_field = false
+    self.fields.each do |key, value|
+      is_contain_email_field = true if value['type'] == 'email'
+    end
+    unless is_contain_email_field
+      errors.add(:form, "can't save without email field")
     end
   end
 
