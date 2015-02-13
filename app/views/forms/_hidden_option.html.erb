@@ -1,5 +1,7 @@
 <%= f.hidden_field :type, value: type %>
-<%= f.hidden_field :placeholder, :'data-name' => 'placeholder' %>
+<% unless(type == 'radio' || type == 'checkbox' || type == 'select') %>
+  <%= f.hidden_field :placeholder, :'data-name' => 'placeholder' %>
+<% end %>
 <%= f.hidden_field :description, :'data-name' => 'description' %>
 <%= f.hidden_field :css_class, :'data-name' => 'css_class' %>
 

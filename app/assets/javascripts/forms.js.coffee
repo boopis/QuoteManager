@@ -61,6 +61,14 @@ bindFormFieldOption = (formField) ->
     'description'
     'required'
   ]
+  inputType = formField.find('input[id$="type"]').val()
+
+  # Hide placeholder with radio, checkbox, select field
+  if inputType == 'radio' or inputType == 'checkbox' or inputType == 'select'
+    $('#option_placeholder').parent().hide()
+  else
+    $('#option_placeholder').parent().show()
+
   props.forEach (el) ->
     hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
 
@@ -70,6 +78,7 @@ bindFormFieldOption = (formField) ->
     else
       $('#option_' + el).val hiddenValue
     return
+  return
 
 ready = ->
   $('.form-field').first().click()
