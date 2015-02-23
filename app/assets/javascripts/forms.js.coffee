@@ -7,7 +7,7 @@ $(document).on 'click', 'form .add_fields', (event) ->
 $(document).on 'click', 'form .add_contact_fields', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
-  $('.form-field').last().after($(this).data('fields').replace(regexp, time))
+  $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   $(this).removeClass('add_contact_fields').addClass('cant_add_fields')
   event.preventDefault()
 
@@ -27,6 +27,7 @@ $(document).on 'click', 'form .add_options', (event) ->
 
 $(document).on 'click', 'form .remove_options', (event) ->
   $(this).closest('.option-field').remove()
+  multiOptionsChanged()
   event.preventDefault()
 
 $(document).on 'click', 'form .add-setting', (event) ->
@@ -54,20 +55,89 @@ $(document).on 'click', 'form .form-field', (event) ->
   bindFormFieldOption($(this))
   event.preventDefault()
 
+$(document).on 'keyup', '.multi-options .form-control', (event) ->
+  multiOptionsChanged()
+
+multiOptionsChanged = ->
+  options = []
+  currentField = window.currentField
+  inputType = currentField.find('input[id$="type"]').val()
+  optionsHiddenField = currentField.find('input[data-name$="options"]')
+  optionTemp = ''
+  value = undefined
+  newOptions = ''
+  optionsField = $('.multi-options .option-field')
+  i = 0
+
+  while i < optionsField.length
+    value = $(optionsField[i]).find('.form-control').val()
+    if inputType == 'radio'
+      optionTemp = '<span>' + value + '</span><input id="name_1" name="name" type="radio" value="' + value + '">'
+    else if inputType == 'checkbox'
+      optionTemp = '<input id="name_1" name="name" type="checkbox" value="' + value + '">' + '<span>' + value + '</span>'
+    else if inputType == 'select'
+      optionTemp = '<option value="' + value + '">' + value + '</option>'
+    options.push name: value
+    newOptions += optionTemp
+    i++
+
+  if inputType == 'select'
+    newOptions = '<select><option value="">Select Option</option>' + newOptions + '</select>'
+  optionsHiddenField.val JSON.stringify(options)
+  window.currentField.find('.input-group').html $(newOptions)
+
+  return
+ 
+
+bindMultiOptionsField = ->
+  currentField = window.currentField
+  options = currentField.find('input[data-name$="options"]').val()
+  if options == ""
+    options = []
+  else
+    options = JSON.parse(options)
+  inputType = currentField.find('input[id$="type"]').val()
+  addOptionLink = $('.add_options')
+  newOption = undefined
+  i = 0
+
+  # clear old option field
+  $('.multi-options .option-field').remove()
+
+  while i < options.length
+    newOption = $(addOptionLink.data('fields'))
+    newOption.find('input').val options[i]['name']
+    $(addOptionLink).before newOption
+    i++
+
+  return
+
 bindFormFieldOption = (formField) ->
   props = [
     'css_class'
     'placeholder'
     'description'
     'required'
+    'label'
   ]
   inputType = formField.find('input[id$="type"]').val()
+  window.currentField = formField
 
   # Hide placeholder with radio, checkbox, select field
   if inputType == 'radio' or inputType == 'checkbox' or inputType == 'select'
-    $('#option_placeholder').parent().hide()
+    $('#option_placeholder').parent().addClass('hidden')
+    $('.multi-options').removeClass('hidden')
+    bindMultiOptionsField()
   else
-    $('#option_placeholder').parent().show()
+    $('#option_placeholder').parent().removeClass('hidden')
+    $('.multi-options').addClass('hidden')
+
+  if inputType == 'inpage'
+    $('#option_id_class').parent().removeClass('hidden')
+    $('#option_placeholder').parent().addClass('hidden')
+  else  
+    $('#option_placeholder').parent().removeClass('hidden')
+    $('#option_id_class').parent().addClass('hidden')
 
   props.forEach (el) ->
     hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
@@ -82,13 +152,22 @@ bindFormFieldOption = (formField) ->
 
 ready = ->
   $('.form-field').first().click()
-  $('.settings input').change (e) -> 
+  $("#style input:radio").change (e) ->
+    $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
+  $('#form_name').keyup (e) ->
+    $('.form-header b').text $(this).val()
+  $('.settings input').keyup (e) -> 
     propName = $(this).data('name')
     if @type == 'checkbox'
       value = if $(this).is(':checked') then 1 else 0
     else
       value = $(this).val()
     $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
+
+    if propName == 'placeholder'
+      window.currentField.find('.form-control').attr('placeholder', value)
+    else if propName == 'label'
+      window.currentField.find('label').text(value)
     return
   $('.tabs-wrapper .nav.nav-tabs a').click (e) ->
     e.preventDefault()

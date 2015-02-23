@@ -58,19 +58,23 @@
                 </div>
               </div>
 
-              <div class="form-field-list">
-                <% if @form.fields? %>
-                  <% @form.fields.each do |id, field| %>
-                    <%= f.fields_for :fields, OpenStruct.new(field), index: id do |field_type| %>
-                      <%= render field['type'], f: field_type, options: field['options'] || [], required: field['validate']['validates_presence_of'], id: id, field: field %>
+              <div class='form-inner-modal'>
+                <div class='form-header'>
+                  <a id="modal_close" href="#" style="float: right;">x</a>
+                  <%= content_tag :b, @form.name %>
+                </div>
+                <%= content_tag(:div, :class => 'form-field-list ' + 'column' + @form.column_style.to_s) do %>
+                  <% if @form.fields? %>
+                    <% @form.fields.each do |index, field| %>
+                      <%= f.fields_for :fields, OpenStruct.new(field), index: index do |field_type| %>
+                        <%= render field['type'], f: field_type, options: field['options'] || '[]', required: field['validate']['validates_presence_of'], id: index, field: field %>
+                      <% end %>
                     <% end %>
                   <% end %>
                 <% end %>
-                <div class="form-field"></div>
-              </div>
-
-              <div class="actions">
-                <%= f.submit class: "btn btn-success" %>
+                <div class='action'>
+                  <button>Submit</button>
+                </div>
               </div>
             </div>
           </div>
@@ -142,13 +146,22 @@
         </div>
       </div>
     </div>
+
+    <div class="actions clearfix">
+      <%= f.submit class: "btn btn-success" %>
+    </div>
   </div>
 
   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 settings">
     <div class="main-box">
-      <h2>Field Options</h2>
+      <h2>Field Properties</h2>
       <div class='clearfix'></div>
       <ul class='list-unstyled'>
+        <li>
+          <label>Field label: </label>
+          <div class='clearfix'></div>
+          <input id='option_label' data-name='label' class='form-control' type='text'>
+        </li>
         <li>
           <label>CSS Class: </label>
           <div class='clearfix'></div>
@@ -164,11 +177,30 @@
           <div class='clearfix'></div>
           <input id='option_description' data-name='description' class='form-control' type='text'>
         </li>
+        <li class='hidden inpage'>
+          <label>Product variant option, id, class: </label>
+          <div class='clearfix'></div>
+          <input id='option_id_class' data-name='id_class' class='form-control' type='text'>
+        </li>
         <li>
           <input id="option_required" data-name='required' class='form-control' type="checkbox" value="0">
           <label>Required? </label>
         </li>
-    </div>
+        <li class='hidden multi-options'>
+          <label>Options: </label>
+          <div class='clearfix'></div>
+          <div class="option-field">  
+            <div class="field">
+              <label class="sr-only" for="form_options__name">Name</label>
+              <input class="form-control" id="form_options__name" name="form[options][][name]" placeholder="option name" type="text">
+              <a class="remove_options" href="#">
+                <i class="fa fa-minus-circle"></i>
+              </a>
+            </div>
+          </div>
+          <%= link_to_add_options "option", f, :options %><br>
+        </li>
+      </div>
   </div>
 
 <% end %>

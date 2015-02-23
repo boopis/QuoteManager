@@ -5,31 +5,20 @@
     <%= render 'hidden_option', f: f, field: {}, type: 'select' %>
   <% end %>
 
-
   <div class="form-group">
-    <%= f.label :label, class: "sr-only" %>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="fa fa-bars"></i>
-      </span>
-      <%= f.text_field :label, class: "form-control", placeholder: "Select Group Name" %>
-    </div>
-    <div class="rr">
-      <%= link_to '#', class: 'remove_fields' do %>
-        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="option-fields">
-    <% if defined? options %>
-      <% options.each do |option| %>
-        <%= f.fields_for :options, OpenStruct.new(option), index: "" do |builder| %>
-          <%= render 'option', f: builder %>
-        <% end %>
-      <% end %>
+    <% if defined? field %>
+      <%= f.label field['label'] %>
+    <% else %>
+      <%= f.label '' %>
     <% end %>
-    <%= link_to_add_options "option", f, :options %><br>
+    <div class="input-group">
+      <% if defined? options %>
+        <%= select_tag :select_field, options_for_select(JSON.parse(options).collect {|op| [op.values[0], op.values[0]] })%>
+      <% end %>
+    </div>
+    <%= link_to '#', class: 'remove_fields' do %>
+      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
+    <% end %>
   </div>
 
 <% end %>
