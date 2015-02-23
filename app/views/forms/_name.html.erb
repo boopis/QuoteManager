@@ -7,17 +7,18 @@
 
  
   <div class="form-group">
-    <%= f.label :label, class: "sr-only" %>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="fa fa-user"></i>
-      </span>
-      <%= f.text_field :label, class: "form-control", placeholder: "Name Field Label" %>
-    </div>
-    <div class="rr">
-      <%= link_to '#', class: 'remove_contact_fields', id: 'contact-name' do %>
-        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
-      <% end %>
+    <% if defined? field %>
+      <%= f.label field['label'] %>
+      <div class="input-group">
+      <%= text_field_tag field['label'], nil, class: "form-control", placeholder: "#{field['placeholder']}" %>
+    <% else %>
+      <%= f.label '' %>
+      <div class="input-group">
+      <%= text_field_tag '', nil, class: "form-control", placeholder: "Enter your name" %>
+    <% end %>
+    <%= link_to '#', class: 'remove_fields', id: 'contact-name' do %>
+      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
+    <% end %>
     </div>
   </div>
 

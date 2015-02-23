@@ -6,18 +6,18 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :label, class: "sr-only" %>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="fa fa-pencil"></i>
-      </span>
-      <%= f.text_field :label, class: "form-control", placeholder: "Text Field Name" %>
-    </div>
-    <div class="rr">
-      <%= link_to '#', class: 'remove_fields' do %>
-        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
-      <% end %>
+    <% if defined? field %>
+      <%= f.label field['label'] %>
+      <div class="input-group">
+      <%= text_field_tag field['label'], nil, class: "form-control", placeholder: "#{field['placeholder']}" %>
+    <% else %>
+      <%= f.label '' %>
+      <div class="input-group">
+      <%= text_field_tag '', nil, class: "form-control", placeholder: "" %>
+    <% end %>
+    <%= link_to '#', class: 'remove_fields' do %>
+      <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
+    <% end %>
     </div>
   </div>
-
 <% end %>
