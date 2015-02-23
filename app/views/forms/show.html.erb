@@ -65,7 +65,7 @@
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <% if field['options'] %> 
-                    <% field['options'].each do |option| %>
+                    <% JSON.parse(field['options']).each do |option| %>
                       <div class="radio">
                         <%= rf.label option['name'] %>
                         <%= rf.radio_button :request, option['name'] %>
@@ -79,16 +79,16 @@
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <% if field['options'] %> 
-                    <%= rf.select :request, options_for_select(field['options'].map {|o| o['name']}), {prompt: :blank}, class: "form-control" %>
+                    <%= rf.select :request, options_for_select(JSON.parse(field['options']).map {|o| o['name']}), {prompt: :blank}, class: "form-control" %>
                   <% end %>
                 </div>
-              <% when 'check_box' %>
+              <% when 'checkbox' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <% if field['options'] %>
-                    <% field['options'].each do |option| %>
+                    <% JSON.parse(field['options']).each do |option| %>
                       <div class="checkbox">
                         <%= rf.label option['name'] %>
                         <%= rf.check_box :request, { :multiple => true }, option['name'], nil %>

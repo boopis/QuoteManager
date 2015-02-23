@@ -5,21 +5,21 @@
     <%= render 'hidden_option', f: f, field: {}, type: 'inpage' %>
   <% end %>
 
-
   <div class="form-group">
-    <%= f.label :label, class: "sr-only" %>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="fa fa-tag"></i>
-      </span>
-      <%= f.text_field :label, class: "form-control", placeholder: "In-Page field name" %>
-      <%= f.text_field :id_class, class: "form-control", placeholder: "Product option / id / class" %>
+    <% if defined? field %>
+      <%= f.label field['label'] %>
+      <div class="input-group">
+      <%= content_tag :span, 'Inpage field' %>
+    <% else %>
+      <%= f.label '' %>
+      <div class="input-group">
+      <%= content_tag :span, 'Inpage field' %>
+    <% end %>
+    <%= link_to '#', class: 'remove_fields', id: 'contact-email' do %>
+      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
+    <% end %>
     </div>
-    <div class="rr">
-      <%= link_to '#', class: 'remove_fields' do %>
-        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
-      <% end %>
-    </div>
+    <%= content_tag(:i, "", class: "fa fa-eye-slash invisible-icon") %>
   </div>
 
 <% end %>

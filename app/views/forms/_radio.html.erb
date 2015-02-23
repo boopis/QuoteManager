@@ -5,31 +5,22 @@
     <%= render 'hidden_option', f: f, field: {}, type: 'radio' %>
   <% end %>
 
-
   <div class="form-group">
-    <%= f.label :label, class: "sr-only" %>
+    <% if defined? field %>
+      <%= f.label field['label'] %>
+    <% else %>
+      <%= f.label '' %>
+    <% end %>
     <div class="input-group">
-      <span class="input-group-addon">
-        <i class="fa fa-check-circle"></i>
-      </span>
-      <%= f.text_field :label, class: "form-control", placeholder: "Radio Group Name" %>
-    </div>
-    <div class="rr">
-      <%= link_to '#', class: 'remove_fields' do %>
-        <%= content_tag(:i, "remove", class: "fa fa-minus-circle") %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="option-fields">
-    <% if defined? options %>
-      <% options.each do |option| %>
-        <%= f.fields_for :options, OpenStruct.new(option), index: "" do |builder| %>
-          <%= render 'option', f: builder %>
+      <% if defined? options %>
+        <% JSON.parse(options).each do |option| %>
+          <%= content_tag :span, option.values[0] + " " %>
+          <%= radio_button_tag option.keys[0], option.values[0], false %>
         <% end %>
       <% end %>
+    </div>
+    <%= link_to '#', class: 'remove_fields' do %>
+      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
     <% end %>
-    <%= link_to_add_options "option", f, :options %><br>
   </div>
-
 <% end %>

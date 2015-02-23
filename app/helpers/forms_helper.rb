@@ -5,10 +5,10 @@ module FormsHelper
       id = new_object.object_id
       fields = f.fields_for(association, new_object, index: id) do |builder|
         if new_object.to_h.empty?
-          render(type, f: builder, options: [], id: id, required: '0')
+          render(type, f: builder, options: '[]', id: id, required: '0')
         else 
           required = new_object.to_h.values[0]['validate']['validates_presence_of']
-          render(type, f: builder, options: [], id: id, required: required )
+          render(type, f: builder, options: '[]', id: id, required: required )
         end
       end
       link_to("#", class: "list-group-item add_fields", data: {id: id, fields: fields.gsub("\n", "")}) do
