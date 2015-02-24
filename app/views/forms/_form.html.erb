@@ -28,6 +28,7 @@
         <%= link_to_add_fields "Radio", "radio", "fa fa-check-circle", f, :fields %>
         <%= link_to_add_fields "Select", "select", "fa fa-bars", f, :fields %>
         <%= link_to_add_fields "Check Box", "checkbox", "fa fa-check-square", f, :fields %>
+        <%= link_to_add_fields "Header", "header", "fa fa-font", f, :fields %>
       </div>
     </div>
   </div>
@@ -199,6 +200,11 @@
             </div>
           </div>
           <%= link_to_add_options "option", f, :options %><br>
+        </li>
+        <li class='rich-content'>
+          <label>Content: </label>
+          <div class='clearfix'></div>
+          <textarea name="content"></textarea>
         </li>
       </div>
   </div>

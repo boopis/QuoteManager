@@ -1,0 +1,15 @@
+<%= content_tag(:div, :class => 'form-field', :'data-id' => id) do %>
+  <% if defined? field %>
+    <%= render 'hidden_option', f: f, field: field, type: 'inpage' %>
+  <% else %>
+    <%= render 'hidden_option', f: f, field: {}, type: 'inpage' %>
+  <% end %>
+
+  <div class="form-group">
+    <div class="input-group">
+      <div>Header</div>
+      <%= render 'forms/remove', cssclass: 'remove_fields' %>
+    </div>
+  </div>
+
+<% end %>

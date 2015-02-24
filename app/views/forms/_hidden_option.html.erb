@@ -9,6 +9,9 @@
 <% if type == 'inpage' %>
   <%= f.hidden_field :id_class, :'data-name' => 'id_class' %>
 <% end %>
+<% if type == 'header' %>
+  <%= f.hidden_field :content, :'data-name' => 'content' %>
+<% end %>
 <%= f.hidden_field :description, :'data-name' => 'description' %>
 <%= f.hidden_field :css_class, :'data-name' => 'css_class' %>
 

@@ -1,7 +1,7 @@
 $(document).on 'click', 'form .add_fields', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
-  $('.form-field').last().after($(this).data('fields').replace(regexp, time))
+  $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   event.preventDefault()
 
 $(document).on 'click', 'form .add_contact_fields', (event) ->
@@ -204,6 +204,14 @@ ready = ->
   $('.form-field-list').sortable
     distance: 15
   	handle: '.form-field'
+  tinymce.init
+    selector: '.rich-content textarea'
+    menubar : false
+    plugins: [
+      'visualblocks code fullscreen'
+      'insertdatetime table contextmenu paste'
+    ]
+    toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
