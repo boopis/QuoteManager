@@ -16,7 +16,7 @@
         <%= select_tag :select_field, options_for_select(JSON.parse(options).collect {|op| [op.values[0], op.values[0]] })%>
       <% end %>
     </div>
-    <%= render 'forms/remove' %>
+    <%= render 'forms/remove', cssclass: 'remove_fields' %>
   </div>
 
 <% end %>
