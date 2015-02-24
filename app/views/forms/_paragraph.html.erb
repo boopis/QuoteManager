@@ -16,9 +16,7 @@
       <div class="input-group">
       <%= text_area_tag '', nil, class: "form-control", placeholder: "Enter your name" %>
     <% end %>
-    <%= link_to '#', class: 'remove_fields' do %>
-      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
-    <% end %>
+    <%= render 'forms/remove' %>
     </div>
   </div>
 

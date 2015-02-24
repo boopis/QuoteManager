@@ -15,9 +15,7 @@
       <div class="input-group">
       <%= file_field_tag '' %>
     <% end %>
-    <%= link_to '#', class: 'remove_fields', id: 'contact-email' do %>
-      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
-    <% end %>
+    <%= render 'forms/remove' %>
     </div>
   </div>
 

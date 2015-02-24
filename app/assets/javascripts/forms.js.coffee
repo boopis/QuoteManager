@@ -12,7 +12,18 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_fields', (event) ->
-  $(this).closest('.form-field').remove()
+  that = this
+
+  $('#confirm-delete').on 'show.bs.modal', (e) ->
+    $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
+    $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
+    return
+
+  $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
+    $(that).closest('.form-field').remove()
+    $('#confirm-delete').modal('hide');
+    return
+
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_contact_fields', (event) ->
@@ -29,6 +40,7 @@ $(document).on 'click', 'form .remove_options', (event) ->
   $(this).closest('.option-field').remove()
   multiOptionsChanged()
   event.preventDefault()
+
 
 $(document).on 'click', 'form .add-setting', (event) ->
   type = $(this).data('type')
@@ -152,10 +164,12 @@ bindFormFieldOption = (formField) ->
 
 ready = ->
   $('.form-field').first().click()
+  $("body").tooltip({ selector: '[data-toggle=tooltip]' })
   $("#style input:radio").change (e) ->
     $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
   $('#form_name').keyup (e) ->
     $('.form-header b').text $(this).val()
+    return
   $('.settings input').keyup (e) -> 
     propName = $(this).data('name')
     if @type == 'checkbox'

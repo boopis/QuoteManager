@@ -15,9 +15,7 @@
       <div class="input-group">
       <%= text_field_tag '', nil, class: "form-control", placeholder: "Enter your email" %>
     <% end %>
-    <%= link_to '#', class: 'remove_fields', id: 'contact-email' do %>
-      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
-    <% end %>
+    <%= render 'forms/remove' %>
     </div>
   </div>
 

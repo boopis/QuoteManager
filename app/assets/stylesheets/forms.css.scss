@@ -213,3 +213,11 @@
   top: 0;
   right: 14px;
 }
+
+.tooltip {
+  z-index: 10000;
+  font: 12px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  position: fixed;
+}
+
+
