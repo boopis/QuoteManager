@@ -62,9 +62,12 @@ $(document).on 'click', 'form .remove-setting', (event) ->
   event.preventDefault()
 
 $(document).on 'click', 'form .form-field', (event) ->
+  that = this
   $('.form-field.active').removeClass('active')
   $(this).addClass('active')
-  bindFormFieldOption($(this))
+  $('.settings .main-box ul').fadeOut 'fast', ->
+    bindFormFieldOption($(that))
+    return
   event.preventDefault()
 
 $(document).on 'keyup', '.multi-options .form-control', (event) ->
@@ -160,6 +163,8 @@ bindFormFieldOption = (formField) ->
     else
       $('#option_' + el).val hiddenValue
     return
+
+  $('.settings .main-box ul').fadeIn()
   return
 
 ready = ->
