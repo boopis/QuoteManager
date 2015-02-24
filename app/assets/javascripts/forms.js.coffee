@@ -11,25 +11,28 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   $(this).removeClass('add_contact_fields').addClass('cant_add_fields')
   event.preventDefault()
 
-$(document).on 'click', 'form .remove_fields', (event) ->
-  that = this
-
+removeField = (field, callback) ->
   $('#confirm-delete').on 'show.bs.modal', (e) ->
     $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
     $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
     return
 
   $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
-    $(that).closest('.form-field').remove()
     $('#confirm-delete').modal('hide');
+    if callback
+      callback(field)
+    $(field).closest('.form-field').remove()
     return
 
+$(document).on 'click', 'form .remove_fields', (event) ->
+  removeField this 
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_contact_fields', (event) ->
-  $(this).closest('.form-field').remove()
-  $id = $(this).attr('id')
-  $('#'+$id).removeClass('cant_add_fields').addClass('add_contact_fields')
+  removeField this, (field) ->
+    type = $(field).closest('.form-field').find('input[data-name="type"]').val()
+    $('#contact-' + type).removeClass('cant_add_fields').addClass('add_contact_fields')
+    return
   event.preventDefault()
 
 $(document).on 'click', 'form .add_options', (event) ->
