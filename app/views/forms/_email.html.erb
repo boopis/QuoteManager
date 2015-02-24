@@ -7,7 +7,7 @@
 
   <div class="form-group">
     <% if defined? field %>
-      <%= f.label field['label'] %>
+      <%= f.label field['label'], :class => "#{field['validate']['validates_presence_of'] == '1' ? 'required' : ''}" %>
       <div class="input-group">
       <%= text_field_tag field['label'], nil, class: "form-control", placeholder: "#{field['placeholder']}" %>
     <% else %>
@@ -15,9 +15,7 @@
       <div class="input-group">
       <%= text_field_tag '', nil, class: "form-control", placeholder: "Enter your email" %>
     <% end %>
-    <%= link_to '#', class: 'remove_fields', id: 'contact-email' do %>
-      <%= content_tag(:i, "", class: "fa fa-minus-circle") %>
-    <% end %>
+    <%= render 'forms/remove' %>
     </div>
   </div>
 

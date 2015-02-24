@@ -170,6 +170,7 @@ function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsT
   w.appendChild(x);
   w.appendChild(t);
   w.appendChild(u);
+  options = JSON.parse(options);
   for (var y in options) {
     var v = document.createElement('label');
     var z = document.createElement('input');
@@ -177,7 +178,7 @@ function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsT
     v.htmlFor = id + '_' + options[y]['name'].toLowerCase().split(' ').join('_');
     z.id = id +'_' + options[y]['name'].toLowerCase().split(' ').join('_');
     z.required = required.toString();
-    z.type ='checkbox';
+    z.type = type;
     z.value = options[y]['name'];
     z.name =  reqFieldsReq + isCheckbox;
     w.appendChild(z);
@@ -513,10 +514,11 @@ function buildForm(url, form) {
           u.appendChild(t);
           u.appendChild(w);
           w.add(v);
-          for (var y in i[e]['options']) {
+          options = JSON.parse(i[e]['options']);
+          for (var y in options) {
             var z = document.createElement('option');
-            z.value = i[e]['options'][y]['name'];
-            z.text = i[e]['options'][y]['name'];
+            z.value = options[y]['name'];
+            z.text = options[y]['name'];
             w.add(z);
           }
           c.appendChild(u);

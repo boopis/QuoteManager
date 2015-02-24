@@ -144,6 +144,7 @@
 }
 
 .builder .form-field-list {
+  min-height: 200px;
   border-top: 1px solid #eee;
   overflow: hidden;
 
@@ -182,6 +183,10 @@
       vertical-align: inherit;
     }
 
+    label.required:after {
+      content: " *";
+      color: red;
+    }
   }
 }
 
@@ -212,4 +217,10 @@
   position: absolute;
   top: 0;
   right: 14px;
+}
+
+.tooltip {
+  z-index: 10000;
+  font: 12px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  position: fixed;
 }
