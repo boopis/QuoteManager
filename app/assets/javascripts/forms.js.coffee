@@ -170,12 +170,18 @@ ready = ->
   $('#form_name').keyup (e) ->
     $('.form-header b').text $(this).val()
     return
+  $('.settings input:checkbox').change (e) -> 
+    propName = $(this).data('name')
+    value = if $(this).is(':checked') then 1 else 0
+    $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
+    if value
+      window.currentField.find('label').addClass('required')
+    else 
+      window.currentField.find('label').removeClass('required')
+    return
   $('.settings input').keyup (e) -> 
     propName = $(this).data('name')
-    if @type == 'checkbox'
-      value = if $(this).is(':checked') then 1 else 0
-    else
-      value = $(this).val()
+    value = $(this).val()
     $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
 
     if propName == 'placeholder'

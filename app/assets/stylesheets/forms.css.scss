@@ -182,6 +182,10 @@
       vertical-align: inherit;
     }
 
+    label.required:after {
+      content: " *";
+      color: red;
+    }
   }
 }
 
@@ -219,5 +223,3 @@
   font: 12px "Helvetica Neue",Helvetica,Arial,sans-serif;
   position: fixed;
 }
-
-
