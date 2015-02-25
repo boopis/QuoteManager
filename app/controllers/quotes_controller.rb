@@ -2,6 +2,7 @@ class QuotesController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
   before_action :check_token, only: [:show]
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
+  before_action :parse_request, only: [:show]
 
   # GET /quotes
   # GET /quotes.json
@@ -71,6 +72,12 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_quote
     @quote = Quote.find(params[:id])
+  end
+
+  def parse_request
+    # Get owner by tenant name
+    @owner = User.find_by_name(request.subdomain)
+    @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
