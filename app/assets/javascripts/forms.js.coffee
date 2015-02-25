@@ -237,7 +237,7 @@ ready = ->
     menubar : false
     plugins: [
       'visualblocks code fullscreen'
-      'insertdatetime table contextmenu paste'
+      'table contextmenu paste'
     ]
     setup: (editor) ->
       editor.on 'change', (e) ->
