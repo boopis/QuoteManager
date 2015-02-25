@@ -454,10 +454,16 @@ function buildForm(url, form) {
           c.appendChild(w);              
           break;
         case 'header':
-          w = document.createElement('div'),
+          var u = document.createElement('input');
+
+          w = document.createElement('div');
           w.className = 'qm-group qm-' + type + ' ' + i[e].css_class;
           w.innerHTML = i[e].content
+          u.name = reqFieldsLbl;
+          u.value = "Header";
+          u.type = 'hidden';
 
+          w.appendChild(u);
           c.appendChild(w);                 
           break;
         case 'file':
