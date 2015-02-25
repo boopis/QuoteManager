@@ -47,6 +47,8 @@
                     <li><span class="fa-li fa fa-file-text"></span><%= field['label'] %></li>
                   <% when 'paragraph' %>
                     <li><span class="fa-li fa fa-edit"></span><%= field['label'] %></li>
+                  <% when 'header' %>
+                    <li><span class="fa-li fa fa-header"></span><%= field['label'] %></li>
                   <% when 'radio' %>
                      <% if field['options'] %> 
                       <li><span class="fa-li fa fa fa-check-circle"></span><%= field['label'] %></li>

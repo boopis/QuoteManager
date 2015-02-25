@@ -1,7 +1,7 @@
 $(document).on 'click', 'form .add_fields', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
-  $('.form-field').last().after($(this).data('fields').replace(regexp, time))
+  $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   event.preventDefault()
 
 $(document).on 'click', 'form .add_contact_fields', (event) ->
@@ -11,28 +11,18 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   $(this).removeClass('add_contact_fields').addClass('cant_add_fields')
   event.preventDefault()
 
-removeField = (field, callback) ->
-  $('#confirm-delete').on 'show.bs.modal', (e) ->
-    $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
-    $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
-    return
-
-  $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
-    $('#confirm-delete').modal('hide');
-    if callback
-      callback(field)
-    $(field).closest('.form-field').remove()
-    return
-
 $(document).on 'click', 'form .remove_fields', (event) ->
-  removeField this 
+  field = $(this).closest '.form-field'
+  type = field.find('input[data-name="type"]').val()
+  window.removingField = field
+  window.removingContactType = type
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_contact_fields', (event) ->
-  removeField this, (field) ->
-    type = $(field).closest('.form-field').find('input[data-name="type"]').val()
-    $('#contact-' + type).removeClass('cant_add_fields').addClass('add_contact_fields')
-    return
+  field = $(this).closest '.form-field'
+  type = field.find('input[data-name="type"]').val()
+  window.removingField = field
+  window.removingContactType = type
   event.preventDefault()
 
 $(document).on 'click', 'form .add_options', (event) ->
@@ -66,6 +56,8 @@ $(document).on 'click', 'form .remove-setting', (event) ->
 
 $(document).on 'click', 'form .form-field', (event) ->
   that = this
+  if window.currentField != undefined && $(that)[0] == window.currentField[0]
+    return false
   $('.form-field.active').removeClass('active')
   $(this).addClass('active')
   $('.settings .main-box ul').fadeOut 'fast', ->
@@ -137,25 +129,38 @@ bindFormFieldOption = (formField) ->
     'description'
     'required'
     'label'
+    'content'
   ]
   inputType = formField.find('input[id$="type"]').val()
   window.currentField = formField
+  
+  # Show / hide shared field properties
+  $('#option_css_class').parent().removeClass('hidden')
+  $('#option_label').parent().removeClass('hidden')
+  $('#option_required').parent().removeClass('hidden')
+  $('#option_placeholder').parent().removeClass('hidden')
+  $('#option_id_class').parent().addClass('hidden')
+  $('.multi-options').addClass('hidden')
+  $('.rich-content').addClass('hidden')
 
   # Hide placeholder with radio, checkbox, select field
   if inputType == 'radio' or inputType == 'checkbox' or inputType == 'select'
     $('#option_placeholder').parent().addClass('hidden')
     $('.multi-options').removeClass('hidden')
     bindMultiOptionsField()
-  else
-    $('#option_placeholder').parent().removeClass('hidden')
-    $('.multi-options').addClass('hidden')
+
+  if inputType == 'file'
+    $('#option_placeholder').parent().addClass('hidden')
 
   if inputType == 'inpage'
     $('#option_id_class').parent().removeClass('hidden')
     $('#option_placeholder').parent().addClass('hidden')
-  else  
-    $('#option_placeholder').parent().removeClass('hidden')
-    $('#option_id_class').parent().addClass('hidden')
+
+  if inputType == 'header' 
+    $('#option_placeholder').parent().addClass('hidden')
+    $('.rich-content').removeClass('hidden')
+    $('#option_required').parent().addClass('hidden')
+    $('#option_label').parent().addClass('hidden')
 
   props.forEach (el) ->
     hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
@@ -163,12 +168,24 @@ bindFormFieldOption = (formField) ->
     if el == 'required'
       checked = if hiddenValue == '1' then true else false
       $('#option_' + el).prop 'checked', checked
+    else if el == 'content'
+      if hiddenValue != undefined
+        tinyMCE.activeEditor.setContent hiddenValue
     else
       $('#option_' + el).val hiddenValue
     return
 
   $('.settings .main-box ul').fadeIn()
   return
+
+getRawDataFromEditor = ->
+  currentField = window.currentField
+  content = currentField.find 'input[data-name="content"]'
+  visualField = currentField.find '.content'
+  value = tinyMCE.activeEditor.getContent({format : 'raw'})
+
+  content.val value
+  visualField.html value
 
 ready = ->
   $('.form-field').first().click()
@@ -177,6 +194,17 @@ ready = ->
     $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
   $('#form_name').keyup (e) ->
     $('.form-header b').text $(this).val()
+    return
+  $('#confirm-delete').on 'show.bs.modal', (e) ->
+    $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
+    $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
+    return
+  $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
+    $('#confirm-delete').modal('hide');
+    $('#contact-' + window.removingContactType).removeClass('cant_add_fields').addClass('add_contact_fields')
+    window.removingField.remove()
+    window.removingField = null
+    window.removingContactType = ''
     return
   $('.settings input:checkbox').change (e) -> 
     propName = $(this).data('name')
@@ -204,6 +232,22 @@ ready = ->
   $('.form-field-list').sortable
     distance: 15
   	handle: '.form-field'
+  tinymce.init
+    selector: '.rich-content textarea'
+    menubar : false
+    plugins: [
+      'visualblocks code fullscreen'
+      'insertdatetime table contextmenu paste'
+    ]
+    setup: (editor) ->
+      editor.on 'change', (e) ->
+        getRawDataFromEditor()
+        return
+      editor.on 'keyup', (e) ->
+        getRawDataFromEditor() 
+        return
+      return
+    toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

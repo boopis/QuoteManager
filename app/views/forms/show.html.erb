@@ -45,6 +45,13 @@
                   <%= rf.hidden_field :type, value: field['type'] %>
                   <%= rf.text_field :request, class: "form-control" %>
                 </div>
+              <% when 'header' %>
+                <div class="form-group">
+                  <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
+                  <%= rf.hidden_field :label, value: field['label'] %>
+                  <%= rf.hidden_field :type, value: field['type'] %>
+                  <%= content_tag :div, field['content'].html_safe %>
+                </div>
               <% when 'file' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>

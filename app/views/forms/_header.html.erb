@@ -1,0 +1,19 @@
+<%= content_tag(:div, :class => 'form-field', :'data-id' => id) do %>
+  <% if defined? field %>
+    <%= render 'hidden_option', f: f, field: field, type: 'header' %>
+  <% else %>
+    <%= render 'hidden_option', f: f, field: {}, type: 'header' %>
+  <% end %>
+
+  <div class="form-group">
+    <div class="input-group">
+      <% if defined? field %>
+        <%= content_tag :div, field['content'].html_safe, :class => 'content' %>
+      <% else %> 
+        <div class='content'>Header</div>
+      <% end %>
+      <%= render 'forms/remove', cssclass: 'remove_fields' %>
+    </div>
+  </div>
+
+<% end %>
