@@ -112,6 +112,7 @@ function setProduct(json_product) {
 }
 
 function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, id, field) {
+
   var w = document.createElement('div'),
       x = document.createElement('label'),
       y = type !== 'paragraph' ? document.createElement('input') : document.createElement('textarea'),
@@ -152,6 +153,7 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
 }
 
 function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, options, id, field) {
+
   var w = document.createElement('div'),
       x = document.createElement('label'),
       t = document.createElement('input'),
@@ -450,6 +452,13 @@ function buildForm(url, form) {
           w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'text', e, i);
 
           c.appendChild(w);              
+          break;
+        case 'header':
+          w = document.createElement('div'),
+          w.className = 'qm-group qm-' + type + ' ' + i[e].css_class;
+          w.innerHTML = i[e].content
+
+          c.appendChild(w);                 
           break;
         case 'file':
           w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'file', e, i);

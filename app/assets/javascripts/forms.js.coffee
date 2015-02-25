@@ -12,7 +12,10 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_fields', (event) ->
-  removeField this 
+  field = $(this).closest '.form-field'
+  type = field.find('input[data-name="type"]').val()
+  window.removingField = field
+  window.removingContactType = type
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_contact_fields', (event) ->
@@ -53,6 +56,8 @@ $(document).on 'click', 'form .remove-setting', (event) ->
 
 $(document).on 'click', 'form .form-field', (event) ->
   that = this
+  if window.currentField != undefined && $(that)[0] == window.currentField[0]
+    return false
   $('.form-field.active').removeClass('active')
   $(this).addClass('active')
   $('.settings .main-box ul').fadeOut 'fast', ->
@@ -124,25 +129,38 @@ bindFormFieldOption = (formField) ->
     'description'
     'required'
     'label'
+    'content'
   ]
   inputType = formField.find('input[id$="type"]').val()
   window.currentField = formField
+  
+  # Show / hide shared field properties
+  $('#option_css_class').parent().removeClass('hidden')
+  $('#option_label').parent().removeClass('hidden')
+  $('#option_required').parent().removeClass('hidden')
+  $('#option_placeholder').parent().removeClass('hidden')
+  $('#option_id_class').parent().addClass('hidden')
+  $('.multi-options').addClass('hidden')
+  $('.rich-content').addClass('hidden')
 
   # Hide placeholder with radio, checkbox, select field
   if inputType == 'radio' or inputType == 'checkbox' or inputType == 'select'
     $('#option_placeholder').parent().addClass('hidden')
     $('.multi-options').removeClass('hidden')
     bindMultiOptionsField()
-  else
-    $('#option_placeholder').parent().removeClass('hidden')
-    $('.multi-options').addClass('hidden')
+
+  if inputType == 'file'
+    $('#option_placeholder').parent().addClass('hidden')
 
   if inputType == 'inpage'
     $('#option_id_class').parent().removeClass('hidden')
     $('#option_placeholder').parent().addClass('hidden')
-  else  
-    $('#option_placeholder').parent().removeClass('hidden')
-    $('#option_id_class').parent().addClass('hidden')
+
+  if inputType == 'header' 
+    $('#option_placeholder').parent().addClass('hidden')
+    $('.rich-content').removeClass('hidden')
+    $('#option_required').parent().addClass('hidden')
+    $('#option_label').parent().addClass('hidden')
 
   props.forEach (el) ->
     hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
@@ -150,12 +168,24 @@ bindFormFieldOption = (formField) ->
     if el == 'required'
       checked = if hiddenValue == '1' then true else false
       $('#option_' + el).prop 'checked', checked
+    else if el == 'content'
+      if hiddenValue != undefined
+        tinyMCE.activeEditor.setContent hiddenValue
     else
       $('#option_' + el).val hiddenValue
     return
 
   $('.settings .main-box ul').fadeIn()
   return
+
+getRawDataFromEditor = ->
+  currentField = window.currentField
+  content = currentField.find 'input[data-name="content"]'
+  visualField = currentField.find '.content'
+  value = tinyMCE.activeEditor.getContent({format : 'raw'})
+
+  content.val value
+  visualField.html value
 
 ready = ->
   $('.form-field').first().click()
@@ -209,6 +239,14 @@ ready = ->
       'visualblocks code fullscreen'
       'insertdatetime table contextmenu paste'
     ]
+    setup: (editor) ->
+      editor.on 'change', (e) ->
+        getRawDataFromEditor()
+        return
+      editor.on 'keyup', (e) ->
+        getRawDataFromEditor() 
+        return
+      return
     toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 
 $(document).ready(ready)
