@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150212102909) do
     t.json     "fields"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "styles"
+    t.json     "styles"
     t.text     "scripts"
     t.json     "emails"
     t.integer  "column_style"
