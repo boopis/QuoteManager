@@ -396,7 +396,7 @@ a.list-group-item.active:focus {
 }
 .table thead > tr > th {
 	border-bottom: 1px solid #C2C2C2;
-	padding-bottom: 0;
+	padding-bottom: 0 !important;
 }
 .table tbody > tr > td {
 	font-size: 0.875em;

@@ -1,5 +1,9 @@
 <%= f.hidden_field :type, :'data-name' => 'type', value: type %>
-<%= f.hidden_field :label, :'data-name' => 'label' %>
+<% if type == 'header' %>
+  <%= f.hidden_field :label, :'data-name' => 'label', value: 'header' %>
+<% else %>
+  <%= f.hidden_field :label, :'data-name' => 'label' %>
+<% end %>
 <% if(type == 'radio' || type == 'checkbox' || type == 'select') %>
   <%= f.hidden_field :options, :'data-name' => 'options' %>
 <% end %>

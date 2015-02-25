@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>QuoteManager</title>
+  <%= yield :extended_css %>
   <% if user_signed_in? %>
     <%= stylesheet_link_tag    'admin' %>
   <% else %>
