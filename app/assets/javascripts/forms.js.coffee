@@ -11,28 +11,15 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   $(this).removeClass('add_contact_fields').addClass('cant_add_fields')
   event.preventDefault()
 
-removeField = (field, callback) ->
-  $('#confirm-delete').on 'show.bs.modal', (e) ->
-    $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
-    $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
-    return
-
-  $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
-    $('#confirm-delete').modal('hide');
-    if callback
-      callback(field)
-    $(field).closest('.form-field').remove()
-    return
-
 $(document).on 'click', 'form .remove_fields', (event) ->
   removeField this 
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_contact_fields', (event) ->
-  removeField this, (field) ->
-    type = $(field).closest('.form-field').find('input[data-name="type"]').val()
-    $('#contact-' + type).removeClass('cant_add_fields').addClass('add_contact_fields')
-    return
+  field = $(this).closest '.form-field'
+  type = field.find('input[data-name="type"]').val()
+  window.removingField = field
+  window.removingContactType = type
   event.preventDefault()
 
 $(document).on 'click', 'form .add_options', (event) ->
@@ -177,6 +164,17 @@ ready = ->
     $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
   $('#form_name').keyup (e) ->
     $('.form-header b').text $(this).val()
+    return
+  $('#confirm-delete').on 'show.bs.modal', (e) ->
+    $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
+    $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
+    return
+  $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
+    $('#confirm-delete').modal('hide');
+    $('#contact-' + window.removingContactType).removeClass('cant_add_fields').addClass('add_contact_fields')
+    window.removingField.remove()
+    window.removingField = null
+    window.removingContactType = ''
     return
   $('.settings input:checkbox').change (e) -> 
     propName = $(this).data('name')
