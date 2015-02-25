@@ -224,3 +224,8 @@
   font: 12px "Helvetica Neue",Helvetica,Arial,sans-serif;
   position: fixed;
 }
+
+.rich-content textarea {
+  width: 100%;
+  min-height: 150px;
+}

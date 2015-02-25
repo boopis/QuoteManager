@@ -1,13 +1,16 @@
-<%= f.hidden_field :label, :'data-name' => 'label' %>
 <%= f.hidden_field :type, :'data-name' => 'type', value: type %>
+<%= f.hidden_field :label, :'data-name' => 'label' %>
 <% if(type == 'radio' || type == 'checkbox' || type == 'select') %>
   <%= f.hidden_field :options, :'data-name' => 'options' %>
 <% end %>
-<% if(type != 'radio' && type != 'checkbox' && type != 'select' && type != 'inpage') %>
+<% if(type != 'radio' && type != 'checkbox' && type != 'select' && type != 'inpage' && type != 'header') %>
   <%= f.hidden_field :placeholder, :'data-name' => 'placeholder' %>
 <% end %>
 <% if type == 'inpage' %>
   <%= f.hidden_field :id_class, :'data-name' => 'id_class' %>
+<% end %>
+<% if type == 'header' %>
+  <%= f.hidden_field :content, :'data-name' => 'content' %>
 <% end %>
 <%= f.hidden_field :description, :'data-name' => 'description' %>
 <%= f.hidden_field :css_class, :'data-name' => 'css_class' %>

@@ -28,6 +28,7 @@
         <%= link_to_add_fields "Radio", "radio", "fa fa-check-circle", f, :fields %>
         <%= link_to_add_fields "Select", "select", "fa fa-bars", f, :fields %>
         <%= link_to_add_fields "Check Box", "checkbox", "fa fa-check-square", f, :fields %>
+        <%= link_to_add_fields "Header", "header", "fa fa-font", f, :fields %>
       </div>
     </div>
   </div>
@@ -157,22 +158,22 @@
       <h2>Field Properties</h2>
       <div class='clearfix'></div>
       <ul class='list-unstyled'>
-        <li>
+        <li class='hidden'>
           <label>Field label: </label>
           <div class='clearfix'></div>
           <input id='option_label' data-name='label' class='form-control' type='text'>
         </li>
-        <li>
+        <li class='hidden'>
           <label>CSS Class: </label>
           <div class='clearfix'></div>
           <input id='option_css_class' data-name='css_class' class='form-control' type='text'>
         </li>
-        <li>
+        <li class='hidden'>
           <label>Placeholder: </label>
           <div class='clearfix'></div>
           <input id='option_placeholder' data-name='placeholder' class='form-control' type='text'>
         </li>
-        <li>
+        <li class='hidden'>
           <label>Description: </label>
           <div class='clearfix'></div>
           <input id='option_description' data-name='description' class='form-control' type='text'>
@@ -182,7 +183,7 @@
           <div class='clearfix'></div>
           <input id='option_id_class' data-name='id_class' class='form-control' type='text'>
         </li>
-        <li>
+        <li class='hidden'>
           <input id="option_required" data-name='required' class='form-control' type="checkbox" value="0">
           <label>Required? </label>
         </li>
@@ -199,6 +200,11 @@
             </div>
           </div>
           <%= link_to_add_options "option", f, :options %><br>
+        </li>
+        <li class='hidden rich-content'>
+          <label>Content: </label>
+          <div class='clearfix'></div>
+          <textarea id='option_content' name="content"></textarea>
         </li>
       </div>
   </div>
