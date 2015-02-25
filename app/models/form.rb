@@ -3,7 +3,7 @@ class Form < ActiveRecord::Base
 
   validates :name, presence: true
   validates :fields, presence: true
-  validate :empty_form_field_option, :must_have_email_field
+  validate :empty_form_field_option, :must_have_email_field, :empty_label
 
   # Define setter and getter for dynamic field
   def add_dynamic_field(field_name)
@@ -60,6 +60,14 @@ class Form < ActiveRecord::Base
       end
 
     end
+  end
+
+  def empty_label
+    is_empty_label = false
+    self.fields.each do |key, value|
+      is_empty_label = true if value['label'].empty?
+    end
+    errors.add(:form, "can't save with form field have no label") if is_empty_label
   end
 
   def must_have_email_field
