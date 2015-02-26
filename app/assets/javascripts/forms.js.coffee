@@ -162,6 +162,10 @@ bindFormFieldOption = (formField) ->
     $('#option_required').parent().addClass('hidden')
     $('#option_label').parent().addClass('hidden')
 
+  if inputType == 'email'
+    $('#option_required').parent().addClass('hidden')
+    $('#option_required').val 1
+
   props.forEach (el) ->
     hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
 
@@ -188,6 +192,7 @@ getRawDataFromEditor = ->
   visualField.html value
 
 ready = ->
+  $('#contact-email').click()
   $('.form-field').first().click()
   $("body").tooltip({ selector: '[data-toggle=tooltip]' })
   $("#style input:radio").change (e) ->
