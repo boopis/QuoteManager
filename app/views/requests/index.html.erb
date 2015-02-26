@@ -1,7 +1,6 @@
 <div class="main-box clearfix">
   <div class="clearfix">
     <h2 class="pull-left">Requests</h2>
-
     <% if params[:q].present? && params[:q][:form_id_eq].present? %>
       <div class="request-search-form pull-right">
         <%= search_form_for @q, html: {class: "form-inline"} do |f| %>    
@@ -35,7 +34,6 @@
   </div>
 
   <% if params[:q].present? && params[:q][:form_id_eq].present? %>
-
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -62,7 +60,7 @@
                 <% end %>
               <% end %>
               <td class="text-center">
-                <span class="label label-primary">Pending</span>
+                <%= content_tag :label, request.status, :class => 'label label-primary' %>
               </td>
               <td style="width: 15%;">
                 <%= link_to request, class: "table-link" do %>
@@ -89,16 +87,7 @@
         </tbody>
       </table>
     </div>
-    <ul class="pagination pull-right">
-      <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-    </ul>
-
+    <%= paginate @requests, :pagination_class => "pull-right"%>
   <% else %>
 
     <div class="table-responsive">
@@ -123,7 +112,7 @@
               <td><%= request.form.name if request.form.present? %></td>
               <td><%= request.created_at.strftime("%b-%d-%Y")  %></td>
               <td class="text-center">
-                <span class="label label-primary">Pending</span>
+                <%= content_tag :label, request.status, :class => 'label label-primary' %>
               </td>
               <td style="width: 15%;">
                 <%= link_to request, class: "table-link" do %>

@@ -1,7 +1,6 @@
 <% unless user_signed_in? %>
   <% content_for :extended_css do %>
     <%= stylesheet_link_tag 'admin' %>
-    <%= stylesheet_link_tag 'elements' %>
   <% end %>
 <% end %>
 <% if params['token'].nil? %>
@@ -60,6 +59,7 @@
     <div class="col-md-12" id="content-wrapper">
       <div class="row" style="opacity: 1; -webkit-transform: translateY(0px); transform: translateY(0px);">
         <div class="col-lg-12">
+          <%= admin_messages %>
           <h1> </h1>
           <div class="row">
             <div class="col-lg-12">
@@ -191,11 +191,14 @@
                 </div>
 
                 <div class="clearfix">
-                  <a href="#" class="btn btn-success pull-right">
-                    <i class="fa fa-mail-forward fa-lg"></i> Send invoice
-                  </a>
+                  <%= form_tag '/quotes/accept/' + @quote.id.to_s, :action => 'post' do |f| %>
+                    <%= button_tag '', :id => 'accept', :class => 'btn btn-success pull-right' do %>
+                      <i class="fa fa-mail-forward fa-lg"></i>Accept This Quote
+                    <% end %>
+                    <%= hidden_field_tag :sig %>
+                  <% end %>
+                  <div id="signature" class='pull-right'></div>
                 </div>
-
               </div>
             </div>
           </div>

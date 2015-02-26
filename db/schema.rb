@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225065238) do
+ActiveRecord::Schema.define(version: 20150226053656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.json     "fields"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "styles"
     t.text     "scripts"
     t.json     "emails"
     t.integer  "column_style"
-    t.text     "styles"
   end
 
   create_table "quotes", force: true do |t|
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.text     "signature"
   end
 
   add_index "quotes", ["request_id"], name: "index_quotes_on_request_id", using: :btree
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "contact_id"
+    t.string   "status"
   end
 
   add_index "requests", ["contact_id"], name: "index_requests_on_contact_id", using: :btree

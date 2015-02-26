@@ -7,11 +7,11 @@
 
   <div class="form-group">
     <% if defined? field %>
-      <%= f.label field['label'], :class => "#{field['validate']['validates_presence_of'] == '1' ? 'required' : ''}" %>
+      <%= f.label field['label'], :class => "required" %>
       <div class="input-group">
       <%= text_field_tag field['label'], nil, class: "form-control", placeholder: "#{field['placeholder']}" %>
     <% else %>
-      <%= f.label '' %>
+      <%= f.label '', :class => 'required' %>
       <div class="input-group">
       <%= text_field_tag '', nil, class: "form-control", placeholder: "Enter your email" %>
     <% end %>
