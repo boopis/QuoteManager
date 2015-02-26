@@ -22,9 +22,9 @@
           <th><span>Options</span></th>
           <th><span>Expiration</span></th>
           <th><span>Request</span></th>
+          <th><span>Signature</span></th>
           <th class="text-center"><span>Status</span></th>
-          <th class="text-center"><a href="#" class="desc"><span>Date updated</span></a></th>
-          <th>&nbsp;</th>
+          <th class="text-center"><a href="#" class="desc"><span>Date updated</span></a></th> <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>
@@ -45,6 +45,13 @@
               <% quote.request.fields.each do |id, request| %>
                 <%= request['label'] %>: <%= request['request'] %><br>
               <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if quote.signature.nil? %>
+              <label>Not signed yet!</label>
+            <% else %>
+              <%= image_tag "data:image/svg+xml;base64,#{quote.signature}" %> 
             <% end %>
           </td>
           <td class="text-center">
