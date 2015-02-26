@@ -25,6 +25,10 @@
   <% end %>
 <% else %>
   <%= f.fields_for :validate do |ff| %>
-    <%= ff.hidden_field :validates_presence_of, value: '0', :'data-name' => 'required' %>
+    <% if type == 'email' %>
+      <%= ff.hidden_field :validates_presence_of, value: '1', :'data-name' => 'required' %>
+    <% else %>
+      <%= ff.hidden_field :validates_presence_of, value: '0', :'data-name' => 'required' %>
+    <% end %>
   <% end %>
 <% end %>
