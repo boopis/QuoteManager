@@ -17,9 +17,10 @@ QuoteManager::Application.routes.draw do
 
     resources :forms
     get '/form-inline/:id' => 'forms#form_inline'
+    post 'quotes/accept/:id' => 'quotes#accept_quote'
 
     resources :requests
-    resources :quotes
+    resources :quotes 
     resources :contacts
     devise_for :users
     resources :users, only: [:show]

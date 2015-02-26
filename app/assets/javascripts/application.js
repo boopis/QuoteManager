@@ -6,4 +6,5 @@
 //= require bootstrap-datetimepicker
 //= require smoothscroll
 //= require tinymce/tinymce.min
+//= require jSignature
 //= require_tree .

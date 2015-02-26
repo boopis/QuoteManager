@@ -34,7 +34,9 @@
     </div>
   </div>
 <% else %>  
-  <%= render 'layouts/guest_header' %>
+  <% if params[:token].nil? %>
+    <%= render 'layouts/guest_header' %>
+  <% end %>
   <%= yield %>
 <% end %>
 

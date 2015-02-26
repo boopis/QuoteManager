@@ -1,7 +1,7 @@
 class QuotesController < ApplicationController
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:show, :accept_quote]
   before_action :check_token, only: [:show]
-  before_action :set_quote, only: [:show, :edit, :update, :destroy]
+  before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote]
   before_action :parse_request, only: [:show]
 
   # GET /quotes
@@ -65,6 +65,18 @@ class QuotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to quotes_url }
       format.json { head :no_content }
+    end
+  end
+
+  # POST /quotes/:id 
+  # User accept a quote
+  def accept_quote
+    @quote.signature = params[:sig]
+    @quote.request.status = 'confirmed'
+    if @quote.save
+      redirect_to :back, :notice => "You have accepted this quote"
+    else
+      redirect_to :back, :notice => "Can't save your signature"
     end
   end
 

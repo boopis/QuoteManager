@@ -1,4 +1,12 @@
 $(document).ready ->
+  sigdiv = $("#signature").jSignature {'UndoButton':true}
+  sigdiv.bind 'change', (event) ->
+    # Set style for undo last stroke button
+    $('#signature input').css 'top', '20px'
+    return
+  $('#accept').click (event) -> 
+    $('#sig').val sigdiv.jSignature("getData","svgbase64")[1]
+    return
 
   # $("#quote_expires_at").datepicker
   #   format: "yyyy-mm-dd"
