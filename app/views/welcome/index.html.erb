@@ -358,8 +358,8 @@
                             boolean: :vertical_form
                           } do |f| %>
         <%= f.error_notification %>
-        <%= f.input :subdomain, placeholder: "Subdomain" %>
-        <%= f.fields_for :owner, defaults: { label: false } do |o| %>
+        <%= f.input :name, placeholder: "Company Name" %>
+        <%= f.fields_for :users, defaults: { label: false } do |o| %>
           <%= o.input :email, placeholder: "Email" %>
           <%= o.input :password, placeholder: "Password" %>
         <% end %>

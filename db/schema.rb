@@ -11,19 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226082349) do
+ActiveRecord::Schema.define(version: 20150226073354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: true do |t|
-    t.string   "subdomain"
-    t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
-
-  add_index "accounts", ["subdomain"], name: "index_accounts_on_subdomain", using: :btree
 
   create_table "contacts", force: true do |t|
     t.string   "name"
@@ -31,6 +28,7 @@ ActiveRecord::Schema.define(version: 20150226082349) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_id"
   end
 
   create_table "forms", force: true do |t|
@@ -42,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150226082349) do
     t.text     "scripts"
     t.json     "emails"
     t.integer  "column_style"
+    t.integer  "account_id"
   end
 
   create_table "quotes", force: true do |t|
@@ -53,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150226082349) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.integer  "account_id"
     t.text     "signature"
   end
 
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150226082349) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "contact_id"
+    t.integer  "account_id"
     t.string   "status"
   end
 
@@ -85,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150226082349) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image"
+    t.integer  "account_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

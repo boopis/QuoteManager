@@ -1,4 +1,5 @@
 class Form < ActiveRecord::Base
+  belongs_to :account
   has_many :requests
 
   validates :name, presence: true

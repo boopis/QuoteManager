@@ -3,25 +3,23 @@ class AccountsController < ApplicationController
 
   def new
     @account = Account.new
-    @account.build_owner
+    @account.users.build
   end
 
   def create
     @account = Account.new(account_params)
     if @account.valid?
-      Apartment::Database.create(@account.subdomain)
-      Apartment::Database.switch(@account.subdomain)
       @account.save
-      redirect_to new_user_session_url(subdomain: @account.subdomain)
+      redirect_to new_user_session_url
     else
       render action: 'new'
     end
   end
 
   def login
-    @account = Account.find_by_subdomain(params[:login][:subdomain])
+    @account = current_account
     if @account
-      redirect_to new_user_session_url(subdomain: @account.subdomain)
+      redirect_to new_user_session_url
    else
       redirect_to new_account_path, flash: { :alert => 'Account is invalid. Create an account.' }
    end
@@ -29,6 +27,6 @@ class AccountsController < ApplicationController
 
 private
   def account_params
-    params.require(:account).permit(:subdomain, owner_attributes: [:name, :email, :password, :password_confirmation])
+    params.require(:account).permit(:name, users_attributes: [:name, :email, :password, :password_confirmation])
   end
 end

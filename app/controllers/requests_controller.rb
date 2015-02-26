@@ -8,10 +8,10 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @q = Request.search(params[:q])
+    @q = current_account.requests.search(params[:q])
     @requests = @q.result.page(params[:page]).per(25)
-    @header = Form.find(params[:q][:form_id_eq]) if params[:q].present? && params[:q][:form_id_eq].present?
-    @forms = Form.all
+    @header = current_account.forms.find(params[:q][:form_id_eq]) if params[:q].present? && params[:q][:form_id_eq].present?
+    @forms = current_account.forms.all
     if params[:q].present? && params[:q][:key].present?
       @requests = @q.result.find_json(params[:q][:key],params[:q][:term])
     end
@@ -33,6 +33,8 @@ class RequestsController < ApplicationController
 
     if req_params[:errors].empty?
       @request = Request.new(req_params[:params])
+      @request.account_id = form.account_id
+      @request.status = 'pending'
 
       name = req_params[:params][:fields].find{|k,v| v['type'] == 'name'}
       phone = req_params[:params][:fields].find{|k,v| v['type'] == 'phone'}
@@ -83,7 +85,7 @@ class RequestsController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    @request = Request.find(params[:id])
+    @request = current_account.requests.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

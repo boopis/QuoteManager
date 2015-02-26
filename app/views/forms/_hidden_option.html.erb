@@ -1,4 +1,8 @@
 <%= f.hidden_field :type, :'data-name' => 'type', value: type %>
+<%= f.hidden_field :description, :'data-name' => 'description' %>
+<%= f.hidden_field :css_class, :'data-name' => 'css_class' %>
+<%= f.hidden_field :position, :'data-name' => 'position' %>
+
 <% if type == 'header' %>
   <%= f.hidden_field :label, :'data-name' => 'label', value: 'header' %>
 <% else %>
@@ -16,8 +20,6 @@
 <% if type == 'header' %>
   <%= f.hidden_field :content, :'data-name' => 'content' %>
 <% end %>
-<%= f.hidden_field :description, :'data-name' => 'description' %>
-<%= f.hidden_field :css_class, :'data-name' => 'css_class' %>
 
 <% unless field.empty? %>
   <%= f.fields_for :validate, OpenStruct.new(field['validate']) do |ff| %>
