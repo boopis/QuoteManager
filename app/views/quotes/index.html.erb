@@ -48,7 +48,11 @@
             <% end %>
           </td>
           <td>
-            <%= image_tag "data:image/svg+xml;base64,#{quote.signature}" %> 
+            <% if quote.signature.nil? %>
+              <label>Not signed yet!</label>
+            <% else %>
+              <%= image_tag "data:image/svg+xml;base64,#{quote.signature}" %> 
+            <% end %>
           </td>
           <td class="text-center">
             <span class="label label-warning">Unpaid</span>
