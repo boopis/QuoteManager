@@ -32,9 +32,11 @@
         <tr>
           <td><%= quote.amount %></td>
           <td>
+          <% if quote.options.present? %>
             <% quote.options.each do |id, option| %>
               <%= option['amount'] %>: <%= option['description'] %><br>
             <% end %>
+          <% end %>
           </td>
           <td>
             <%= quote.expires_at.strftime("%b-%d-%Y") %><br>

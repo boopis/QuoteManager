@@ -1,4 +1,5 @@
 class Request < ActiveRecord::Base
+  belongs_to :account
   belongs_to :form
   belongs_to :contact
 

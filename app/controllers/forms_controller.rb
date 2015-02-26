@@ -7,31 +7,31 @@ class FormsController < ApplicationController
   # GET /forms
   # GET /forms.json
   def index
-    @forms = Form.page(params[:page]).per(25)
+    @forms = current_account.forms.page(params[:page]).per(25)
   end
 
   # GET /forms/1
   # GET /forms/1.json
   def show
-    @request = Request.new
+    @request = current_account.requests.new
   end
 
   # GET /forms/new
   def new
-    @form = Form.new
-    @fb = Form.new
+    @form = current_account.forms.new
+    @fb = current_account.forms.new
   end
 
   # GET /forms/1/edit
   def edit
-    @fb = Form.find(params[:id])
+    @fb = current_account.forms.find(params[:id])
   end
 
   # POST /forms
   # POST /forms.json
   def create
-    @form = Form.new(form_params)
-    @fb = Form.new
+    @form = current_account.forms.new(form_params)
+    @fb = current_account.forms.new
 
     respond_to do |format|
       if @form.save
@@ -70,7 +70,7 @@ class FormsController < ApplicationController
 
   # GET /form-inline/1
   def form_inline
-    form = Form.find(params[:id])
+    form = current_account.forms.find(params[:id])
 
     respond_to do |format|
       format.js { 
@@ -84,7 +84,7 @@ class FormsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_form
-      @form = Form.find(params[:id])
+      @form = current_account.forms.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

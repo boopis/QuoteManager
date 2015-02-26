@@ -11,16 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225065238) do
+ActiveRecord::Schema.define(version: 20150226073354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: true do |t|
-    t.string   "subdomain"
-    t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "contacts", force: true do |t|
@@ -29,6 +28,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_id"
   end
 
   create_table "forms", force: true do |t|
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.json     "emails"
     t.integer  "column_style"
     t.text     "styles"
+    t.integer  "account_id"
   end
 
   create_table "quotes", force: true do |t|
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.integer  "account_id"
   end
 
   add_index "quotes", ["request_id"], name: "index_quotes_on_request_id", using: :btree
@@ -61,6 +63,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "contact_id"
+    t.integer  "account_id"
   end
 
   add_index "requests", ["contact_id"], name: "index_requests_on_contact_id", using: :btree
@@ -81,6 +84,7 @@ ActiveRecord::Schema.define(version: 20150225065238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image"
+    t.integer  "account_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
