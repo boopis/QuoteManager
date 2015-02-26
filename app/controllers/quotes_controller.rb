@@ -88,7 +88,7 @@ private
 
   def parse_request
     # Get owner by tenant name
-    @owner = User.find_by_name(request.subdomain)
+    @owner = Account.find_by_subdomain(request.subdomain).owner
     @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
   end
 
