@@ -191,13 +191,22 @@
                 </div>
 
                 <div class="clearfix">
-                  <%= form_tag '/quotes/accept/' + @quote.id.to_s, :action => 'post' do |f| %>
-                    <%= button_tag '', :id => 'accept', :class => 'btn btn-success pull-right' do %>
-                      <i class="fa fa-mail-forward fa-lg"></i>Accept This Quote
+                  <% if @quote.signature.nil? %>
+                    <%= form_tag '/quotes/accept/' + @quote.id.to_s, :action => 'post' do |f| %>
+                      <%= button_tag '', :id => 'accept', :class => 'btn btn-success pull-right' do %>
+                        <i class="fa fa-mail-forward fa-lg"></i>Accept This Quote
+                      <% end %>
+                      <%= hidden_field_tag :sig %>
                     <% end %>
-                    <%= hidden_field_tag :sig %>
+                    <div id="signature" class='pull-right'></div>
+                  <% else %>
+                    <div class='pull-right'>
+                      <p class='sig-title'>This quote is confirmed</p>
+                      <div class='signed'>
+                        <%= image_tag "data:image/svg+xml;base64,#{@quote.signature}" %> 
+                      </div>
+                    </div>
                   <% end %>
-                  <div id="signature" class='pull-right'></div>
                 </div>
               </div>
             </div>
