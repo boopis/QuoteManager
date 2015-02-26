@@ -1,13 +1,13 @@
 class QuotesController < ApplicationController
-  before_filter :authenticate_user!, except: [:show, :accept_quote]
-  before_action :check_token, only: [:show]
+  before_filter :authenticate_user!, except: [:accept_quote, :public]
   before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote]
-  before_action :parse_request, only: [:show]
+  before_action :check_token, only: [:public]
+  before_action :parse_request, only: [:public]
 
   # GET /quotes
   # GET /quotes.json
   def index
-    @quotes = Quote.page(params[:page]).per(25)
+    @quotes = current_account.quotes.page(params[:page]).per(25)
   end
 
   # GET /quotes/1
@@ -17,21 +17,21 @@ class QuotesController < ApplicationController
 
   # GET /quotes/new
   def new
-    @quote = Quote.new
-    @qb = Quote.new
-    @request = Request.find(params[:request_id]) if params[:request_id]
+    @quote = current_account.quotes.new
+    @qb = current_account.quotes.new
+    @request = current_account.requests.find(params[:request_id]) if params[:request_id]
   end
 
   # GET /quotes/1/edit
   def edit
-    @qb = Quote.find(params[:id])
-    @request = Request.find(@qb.request_id)
+    @qb = current_account.quotes.find(params[:id])
+    @request = current_account.requests.find(@qb.request_id)
   end
 
   # POST /quotes
   # POST /quotes.json
   def create
-    @quote = Quote.new(quote_params)
+    @quote = current_account.quotes.new(quote_params)
 
     respond_to do |format|
       if @quote.save
@@ -80,6 +80,11 @@ class QuotesController < ApplicationController
     end
   end
 
+  # GET /quotes/1?token=
+  def public
+    Quote.find(params[:id])
+  end
+
 private
   # Use callbacks to share common setup or constraints between actions.
   def set_quote
@@ -87,9 +92,15 @@ private
   end
 
   def parse_request
-    # Get owner by tenant name
-    @owner = Account.find_by_subdomain(request.subdomain).owner
-    @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
+    @quote = Quote.find(params[:id])
+    @company = @quote.account
+    if @quote.options.present?
+      @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
+    else
+      @total = @quote.amount
+    end
+
+    # Get sender information
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

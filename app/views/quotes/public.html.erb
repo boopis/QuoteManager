@@ -1,0 +1,168 @@
+<% unless signed_in? %>
+  <% content_for :extended_css do %>
+  <%= stylesheet_link_tag 'admin' %>
+ <% end %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" id="content-wrapper">
+      <div class="row" style="opacity: 1; -webkit-transform: translateY(0px); transform: translateY(0px);">
+        <div class="col-lg-12">
+          <%= admin_messages %>
+          <h1> </h1>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="main-box clearfix">
+                <div class="clearfix">
+                  <h2 class="pull-left">Quote no. <%= @quote.id %></h2>
+                </div>
+
+                <div id="invoice-companies" class="row">
+                  <div class="col-sm-4 invoice-box">
+                    <div class="invoice-icon hidden-sm">
+                      <i class="fa fa-home"></i> From
+                    </div>
+                    <div class="invoice-company">
+                      <h4><%= @quote.request.contact.name.capitalize %></h4>
+                      <p>
+                      <%= @quote.request.contact.phone %>,<br>
+                      <%= @quote.request.contact.email %><br>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 invoice-box">
+                    <div class="invoice-icon hidden-sm">
+                      <i class="fa fa-truck"></i> To
+                    </div>
+                    <div class="invoice-company">
+                      <h4><%= @company.name.capitalize %></h4>
+                      <p>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 invoice-box invoice-box-dates">
+                    <div class="invoice-dates">
+                      <div class="invoice-number clearfix">
+                        <strong>Quote no.</strong>
+                        <span class="pull-right"><%= @quote.id %></span>
+                      </div>
+                      <div class="invoice-date clearfix">
+                        <strong>Quote date:</strong>
+                        <span class="pull-right"><%= @quote.created_at.strftime("%d/%m/%Y") %></span>
+                      </div>
+                      <div class="invoice-date invoice-due-date clearfix">
+                        <strong>Due date:</strong>
+                        <span class="pull-right"><%= @quote.expires_at.strftime("%d/%m/%Y") %></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="text-center"><span>#</span></th>
+                        <th class="text-center"><span>Name</span></th>
+                        <th class="text-center"><span>Unit price</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td class="text-center">1</td>
+                      <td class="text-center">Base Amount</td>
+                      <td class="text-center"><%= @quote.amount %></td>
+                    </tr>
+                    <% @quote.options.each_with_index do |(id, option), index| %>
+                      <tr>
+                      <%= content_tag :td, index + 2, :class => 'text-center' %>
+                      <%= content_tag :td, option['description'], :class => 'text-center' %>
+                      <%= content_tag :td, option['amount'].to_f, :class => 'text-center' %>
+                    </tr>
+                  <% end %>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="invoice-box-total clearfix">
+                  <div class="row">
+                    <div class="col-sm-9 col-md-10 col-xs-6 text-right invoice-box-total-label">
+                      Subtotal
+                    </div>
+                    <div class="col-sm-3 col-md-2 col-xs-6 text-right invoice-box-total-value">
+                      $ <%= @total %>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-9 col-md-10 col-xs-6 text-right invoice-box-total-label">
+                      VAT (10%)
+                    </div>
+                    <div class="col-sm-3 col-md-2 col-xs-6 text-right invoice-box-total-value">
+                      $ <%= (@total * 0.1).round(2) %>
+                  </div>
+                  </div>
+                  <div class="row grand-total">
+                    <div class="col-sm-9 col-md-10 col-xs-6 text-right invoice-box-total-label">
+                      Grand total
+                    </div>
+                    <div class="col-sm-3 col-md-2 col-xs-6 text-right invoice-box-total-value">
+                      $ <%= (@total * 1.1).round(2) %>
+                  </div>
+                  </div>
+                </div>
+
+                <div class="invoice-summary row">
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="invoice-summary-item">
+                      <span>Account No.</span>
+                      <%= content_tag :div, @quote.request.contact.id %>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="invoice-summary-item">
+                      <span>Quote No.</span>
+                      <div><%= @quote.id %></div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="invoice-summary-item">
+                      <span>Due Date</span>
+                      <div><%= @quote.expires_at.strftime("%d/%m/%Y") %></div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="invoice-summary-item">
+                      <span>Total</span>
+                      <%= content_tag :div, '$ ' + (@total * 1.1).round(2).to_s %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="clearfix">
+                  <% if @quote.signature.nil? %>
+                    <%= form_tag '/quotes/accept/' + @quote.id.to_s, :action => 'post' do |f| %>
+                    <%= button_tag '', :id => 'accept', :class => 'btn btn-success pull-right' do %>
+                    <i class="fa fa-mail-forward fa-lg"></i>Accept This Quote
+                <% end %>
+                  <%= hidden_field_tag :sig %>
+                <% end %>
+                  <div id="signature" class='pull-right'></div>
+                <% else %>
+                    <div class='pull-right'>
+                    <p class='sig-title'>This quote is confirmed</p>
+                    <div class='signed'>
+                      <%= image_tag "data:image/svg+xml;base64,#{@quote.signature}" %> 
+                    </div>
+                  </div>
+                <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

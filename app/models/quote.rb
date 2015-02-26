@@ -1,4 +1,5 @@
 class Quote < ActiveRecord::Base
+  belongs_to :account
   belongs_to :request, :autosave => true
   before_create :generate_token
 

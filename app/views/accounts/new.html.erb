@@ -4,11 +4,17 @@
   <%= flash_messages layout_flash: false %>
 
   <%= simple_form_for @account do |f| %>
-    <%= f.fields_for :owner do |o| %>
+    <%= f.input :name, label: false do %>
+    <div class="input-group">
+      <span class="input-group-addon glyphicon glyphicon-home"></span>
+      <%= f.input_field :name, class: 'form-control', placeholder: 'Company Name' %>
+    </div>
+    <% end %>
+    <%= f.fields_for :users do |o| %>
       <%= o.input :name, label: false do %>
         <div class="input-group">
           <span class="input-group-addon glyphicon glyphicon-user"></span>
-          <%= o.input_field :name, class: 'form-control', placeholder: 'Name' %>
+          <%= o.input_field :name, class: 'form-control', placeholder: 'Full Name' %>
         </div>
       <% end %>
       <%= o.input :email, label: false do %>
@@ -32,13 +38,6 @@
       <% end %>
     <% end %>
 
-
-    <%= f.input :subdomain, label: false do %>
-      <div class="input-group">
-        <span class="input-group-addon glyphicon glyphicon-globe"></span>
-        <%= f.input_field :subdomain, class: 'form-control', placeholder: 'Subdomain' %>
-      </div>
-    <% end %>
     <%= f.button :submit, class: 'btn btn-theme btn-block' %>
   <% end %>
 </div>
