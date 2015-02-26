@@ -48,8 +48,8 @@ class RequestsController < ApplicationController
         contact.email = email if contact.email.blank?
         contact.name = name if contact.name.blank?
         contact.phone = phone if contact.phone.blank?
+        contact.account_id = form.account_id
         contact.save
-        @request.contact = contact
       end
 
       # Check and get errors list
