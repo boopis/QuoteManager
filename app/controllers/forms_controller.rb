@@ -25,6 +25,7 @@ class FormsController < ApplicationController
   # GET /forms/1/edit
   def edit
     @fb = current_account.forms.find(params[:id])
+    @fb.order_form_field_position
   end
 
   # POST /forms
