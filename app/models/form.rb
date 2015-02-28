@@ -1,9 +1,17 @@
 class Form < ActiveRecord::Base
+  belongs_to :account
   has_many :requests
 
   validates :name, presence: true
   validates :fields, presence: true
   validate :empty_form_field_option, :must_have_email_field, :empty_label
+
+  # organize form field by position
+  def order_form_field_position
+    fields.sort_by do |key, value|
+      value['position'].to_i
+    end
+  end
 
   # Define setter and getter for dynamic field
   def add_dynamic_field(field_name)

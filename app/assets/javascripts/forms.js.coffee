@@ -2,6 +2,7 @@ $(document).on 'click', 'form .add_fields', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
   $('.form-field-list').append($(this).data('fields').replace(regexp, time))
+  reOrderFormFields()
   event.preventDefault()
 
 $(document).on 'click', 'form .add_contact_fields', (event) ->
@@ -9,6 +10,7 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   regexp = new RegExp($(this).data('id'), 'g')
   $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   $(this).removeClass('add_contact_fields').addClass('cant_add_fields')
+  reOrderFormFields()
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_fields', (event) ->
@@ -162,6 +164,10 @@ bindFormFieldOption = (formField) ->
     $('#option_required').parent().addClass('hidden')
     $('#option_label').parent().addClass('hidden')
 
+  if inputType == 'email'
+    $('#option_required').parent().addClass('hidden')
+    $('#option_required').val 1
+
   props.forEach (el) ->
     hiddenValue = formField.find('input[data-name$="' + el + '"]').val() 
 
@@ -187,8 +193,16 @@ getRawDataFromEditor = ->
   content.val value
   visualField.html value
 
+reOrderFormFields = ->
+  $lstFormField = $('.form-field-list')
+  lstOrder = $lstFormField.sortable('toArray', {attribute: 'data-id'})
+  # Re order form field position
+  i = 0
+  while i < lstOrder.length
+    $lstFormField.find('#form_fields_' + lstOrder[i] + '_position').val i
+    i++
+
 ready = ->
-  $('.form-field').first().click()
   $("body").tooltip({ selector: '[data-toggle=tooltip]' })
   $("#style input:radio").change (e) ->
     $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
@@ -205,6 +219,7 @@ ready = ->
     window.removingField.remove()
     window.removingField = null
     window.removingContactType = ''
+    reOrderFormFields()
     return
   $('.settings input:checkbox').change (e) -> 
     propName = $(this).data('name')
@@ -230,8 +245,10 @@ ready = ->
     $(this).tab 'show'
     return
   $('.form-field-list').sortable
+    update: (event, ui) ->
+      reOrderFormFields()
+      return
     distance: 15
-  	handle: '.form-field'
   tinymce.init
     selector: '.rich-content textarea'
     menubar : false
@@ -248,6 +265,8 @@ ready = ->
         return
       return
     toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
+  $('#contact-email').click()
+  $('.form-field').first().click()
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
