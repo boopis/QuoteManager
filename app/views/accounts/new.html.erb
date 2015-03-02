@@ -4,17 +4,18 @@
   <%= flash_messages layout_flash: false %>
 
   <%= simple_form_for @account do |f| %>
-    <%= f.input :name, label: false do %>
+    <%= f.input :company_name, label: false do %>
     <div class="input-group">
       <span class="input-group-addon glyphicon glyphicon-home"></span>
-      <%= f.input_field :name, class: 'form-control', placeholder: 'Company Name' %>
+      <%= f.input_field :company_name, class: 'form-control', placeholder: 'Company Name' %>
     </div>
     <% end %>
     <%= f.fields_for :users do |o| %>
-      <%= o.input :name, label: false do %>
+      <%= o.input :firstname, label: false do %>
         <div class="input-group">
           <span class="input-group-addon glyphicon glyphicon-user"></span>
-          <%= o.input_field :name, class: 'form-control', placeholder: 'Full Name' %>
+          <%= o.input_field :firstname, class: 'form-control', placeholder: 'First Name' %>
+          <%= o.input_field :lastname, class: 'form-control', placeholder: 'Last Name' %>
         </div>
       <% end %>
       <%= o.input :email, label: false do %>

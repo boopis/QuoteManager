@@ -14,8 +14,8 @@
         
         <li class="dropdown profile-dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <%= image_tag avatar(current_user), class: "img-circle", size: "35" %>
-            <span class="hidden-xs"><%= current_user.name %></span> <b class="caret"></b>
+            <%= image_tag current_user.load_avatar('guest.png'), class: "img-circle", size: "35" %>
+            <span class="hidden-xs"><%= current_user.fullname %></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li><%= content_tag(:li, (link_to '<i class="fa fa-user"></i>Profile'.html_safe, user_path(current_user)) ) %>

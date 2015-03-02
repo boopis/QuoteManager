@@ -21,12 +21,23 @@ class AccountsController < ApplicationController
     if @account
       redirect_to new_user_session_url
    else
-      redirect_to new_account_path, flash: { :alert => 'Account is invalid. Create an account.' }
+      redirect_to new_account_path, flash: { 
+        :alert => 'Account is invalid. Create an account.' 
+      }
    end
   end
 
 private
   def account_params
-    params.require(:account).permit(:name, users_attributes: [:name, :email, :password, :password_confirmation])
+    params.require(:account).permit(
+      :company_name,
+      users_attributes: [
+        :firstname, 
+        :lastname, 
+        :email, 
+        :password, 
+        :password_confirmation
+      ]
+    )
   end
 end
