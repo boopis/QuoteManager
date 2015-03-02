@@ -8,15 +8,30 @@
         <div class="profile-status">
           <i class="fa fa-check-circle"></i> Online
         </div>
+        <div class='company-logo'>
+          <span>Company Logo</span>
+          <%= image_tag @user.load_image(:company_logo, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
 
-        <div class='avatar'>
-          <%= image_tag @user.load_avatar('no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
-          <div class="wrapper">
-            <%= f.fields_for :avatar do |fa|%>
-              <%= fa.file_field :image %>
+          <div class="wrapper hidden">
+            <%= f.fields_for :account do |fa|%>
+              <%= fa.hidden_field :company_name, :class => 'form-control' %>
+              <%= fa.fields_for :company_logo do |cl| %>
+                <%= cl.file_field :image, :class => 'form-control' %>
+              <% end %>
             <% end %>
           </div>
-          <button class='btn btn-success update-avatar hidden'>Update avatar</button>
+
+        </div>
+
+        <div class='avatar'>
+          <span>Avatar</span>
+          <%= image_tag @user.load_image(:avatar, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
+
+          <div class="wrapper hidden">
+            <%= f.fields_for :avatar do |fa|%>
+              <%= fa.file_field :image, :class => 'form-control' %>
+            <% end %>
+          </div>
         </div>
 
         <div class="profile-label">
@@ -53,7 +68,7 @@
       </div>
     </div>
 
-    <div class="col-lg-9 col-md-8 col-sm-8">
+    <div class="col-lg-9 col-md-8 col-sm-8 detail-profile">
       <div class="main-box clearfix">
         <div class="profile-header">
           <h3><span>Personal Bio</span></h3>

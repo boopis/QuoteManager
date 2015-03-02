@@ -3,7 +3,9 @@
     <div class="main-box clearfix">
       <h2><%= @contact.name %></h2>
 
-      <div class="profile-img img-responsive center-block" style="height:169px;background-color:red;">Add image based on email like we do with users</div>
+      <div class="profile-img img-responsive center-block"> 
+          <%= image_tag @contact.load_image('no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
+      </div>
 
       <div class="profile-label">
         <span class="label label-danger">Add Role</span>

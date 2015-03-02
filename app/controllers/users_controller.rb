@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   
   def show
     @user = current_account.users.find(params[:id])
-    @user.avatar = Image.new if @user.avatar.nil?
+    @user.avatar ||= Image.new
+    @user.account.company_logo ||= Image.new
   end
 
   def update
@@ -24,13 +25,16 @@ class UsersController < ApplicationController
 
   def user_param
     params.require(:user).permit(
-      :id,
       :firstname,
       :lastname,
       :bio,
       :address,
       :phone_number,
-      avatar_attributes: [:image]
+      avatar_attributes: [:image],
+      account_attributes: [
+        :company_name,
+        :company_logo_attributes => [:image]
+      ]
     )
   end
 end
