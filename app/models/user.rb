@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   end
 
   def load_avatar(default_img)
-    if avatar.nil?
+    if avatar.new_record? || avatar.image.file.nil?
       default_img
     else
       avatar.image_url(:thumb).to_s

@@ -1,0 +1,31 @@
+.avatar {
+  position: relative;
+}
+
+.avatar .wrapper {
+  display: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.avatar .wrapper input {
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+  height: 36px;
+}
+
+.avatar .btn {
+  cursor: pointer;
+  width: 100px;
+  margin: 0 auto;
+  display: block;
+  z-index: 1;
+  padding: 0;
+  height: 36px;
+}
+
+#user-profile label {
+  font-weight: bold !important;
+  min-width: 150px;
+}
