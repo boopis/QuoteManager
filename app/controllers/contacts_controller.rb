@@ -17,10 +17,12 @@ class ContactsController < ApplicationController
   # GET /contacts/new
   def new
     @contact = current_account.contacts.new
+    @contact.avatar ||= Image.new
   end
 
   # GET /contacts/1/edit
   def edit
+    @contact.avatar ||= Image.new
   end
 
   # POST /contacts
@@ -71,6 +73,11 @@ class ContactsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
-      params.require(:contact).permit(:name, :phone, :email)
+      params.require(:contact).permit(
+        :name, 
+        :phone, 
+        :email, 
+        :avatar_attributes => [:image]
+      )
     end
 end

@@ -6,5 +6,24 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  mount_uploader :image, ImageUploader
+  has_one :avatar, as: :viewable, dependent: :destroy, :class_name => Image
+  accepts_nested_attributes_for :avatar, :account
+
+  def fullname
+    firstname + ' ' + lastname
+  end
+
+  def load_image(type, default_img)
+    if type == :avatar
+      src = avatar
+    elsif type == :company_logo
+      src = self.account.company_logo
+    end
+
+    if src.nil? || src.image_url.nil?
+      default_img
+    else
+      src.image_url(:thumb).to_s
+    end
+  end
 end

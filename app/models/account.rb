@@ -5,5 +5,8 @@ class Account < ActiveRecord::Base
   has_many :contacts, :dependent => :destroy
   has_many :users, :dependent => :destroy
   accepts_nested_attributes_for :users
-  validates :name, :presence => true
+  validates :company_name, :presence => true
+
+  has_one :company_logo, as: :viewable, dependent: :destroy, :class => Image
+  accepts_nested_attributes_for :company_logo
 end

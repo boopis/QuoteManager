@@ -1,0 +1,27 @@
+.avatar, .company-logo {
+  position: relative;
+
+  .wrapper {
+    input {
+      margin: 0 auto;
+      height: 36px;
+    }
+  }
+}
+
+#user-profile label {
+  font-weight: bold !important;
+  min-width: 150px;
+}
+
+.bio {
+  height: 180px !important;
+  width: 100% !important;
+}
+
+.update-profile {
+  margin-top: -6px;
+  position: absolute;
+  right: 125px;
+  top: 0;
+}

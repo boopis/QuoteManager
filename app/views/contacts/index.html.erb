@@ -29,6 +29,7 @@
       <thead>
         <tr>
           <th><%= sort_link @q, :name, "<span>Name</span>".html_safe %></th>
+          <th><span>Avatar</span></th>
           <th><span>Phone</span></th>
           <th><span>E-Mail</span></th>
           <th class="text-center"><span>Requests</span></th>
@@ -40,6 +41,7 @@
         <% @contacts.each do |contact| %>
         <tr>
           <td><%= contact.name %></td>
+          <td><%= image_tag contact.load_image('no-avatar'), size: '35' %></td>
           <td><%= contact.phone %></td>
           <td><%= contact.email %></td>
           <td class="text-center"><%= contact.requests.count %></td>

@@ -11,37 +11,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226073354) do
+ActiveRecord::Schema.define(version: 20150302030823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: true do |t|
+    t.string   "company_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
   end
 
   create_table "contacts", force: true do |t|
     t.string   "name"
     t.string   "phone"
     t.string   "email"
+    t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "account_id"
   end
+
+  add_index "contacts", ["account_id"], name: "index_contacts_on_account_id", using: :btree
 
   create_table "forms", force: true do |t|
     t.string   "name"
     t.json     "fields"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "column_style"
     t.text     "styles"
     t.text     "scripts"
     t.json     "emails"
-    t.integer  "column_style"
     t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "forms", ["account_id"], name: "index_forms_on_account_id", using: :btree
+
+  create_table "images", force: true do |t|
+    t.string   "image"
+    t.integer  "viewable_id"
+    t.string   "viewable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "images", ["viewable_id", "viewable_type"], name: "index_images_on_viewable_id_and_viewable_type", using: :btree
 
   create_table "quotes", force: true do |t|
     t.decimal  "amount",      precision: 10, scale: 2
@@ -49,25 +63,27 @@ ActiveRecord::Schema.define(version: 20150226073354) do
     t.string   "token"
     t.datetime "expires_at"
     t.integer  "request_id"
+    t.text     "description"
+    t.text     "signature"
+    t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "description"
-    t.integer  "account_id"
-    t.text     "signature"
   end
 
+  add_index "quotes", ["account_id"], name: "index_quotes_on_account_id", using: :btree
   add_index "quotes", ["request_id"], name: "index_quotes_on_request_id", using: :btree
 
   create_table "requests", force: true do |t|
     t.json     "fields"
     t.integer  "form_id"
+    t.string   "status"
+    t.integer  "account_id"
+    t.integer  "contact_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "contact_id"
-    t.integer  "account_id"
-    t.string   "status"
   end
 
+  add_index "requests", ["account_id"], name: "index_requests_on_account_id", using: :btree
   add_index "requests", ["contact_id"], name: "index_requests_on_contact_id", using: :btree
   add_index "requests", ["form_id"], name: "index_requests_on_form_id", using: :btree
 
@@ -82,13 +98,17 @@ ActiveRecord::Schema.define(version: 20150226073354) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "name"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.text     "bio"
+    t.text     "address"
+    t.string   "phone_number"
+    t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image"
-    t.integer  "account_id"
   end
 
+  add_index "users", ["account_id"], name: "index_users_on_account_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
