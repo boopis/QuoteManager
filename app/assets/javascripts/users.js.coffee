@@ -7,6 +7,8 @@ ready = ->
   $viewValues = $ '.profile-user-details-value' 
   $fields = $ '.form-control'
   $fieldLabels = $ 'label'
+  $avatar = $ '.update-avatar'
+  $submitBtn = $ '.update-profile'
 
   $('.avatar .btn').click (e) -> 
     $('.avatar input').click()
@@ -18,11 +20,13 @@ ready = ->
     $viewValues.toggleClass 'hidden'
     $fields.toggleClass 'hidden'
     $fieldLabels.toggleClass 'hidden'
+    $avatar.toggleClass 'hidden'
+    $submitBtn.toggleClass 'hidden'
 
     btnText = e.currentTarget.textContent
 
     if btnText.trim() == 'Edit profile'
-      $editViewBtn.html '<i class="fa fa-pencil-square fa-lg"></i> View profile'
+      $editViewBtn.html '<i class="fa fa-eye fa-lg"></i> View profile'
     else
       $editViewBtn.html '<i class="fa fa-pencil-square fa-lg"></i> Edit profile'
 

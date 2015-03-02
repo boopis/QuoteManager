@@ -16,7 +16,7 @@
               <%= fa.file_field :image %>
             <% end %>
           </div>
-          <button class='btn btn-success'>Update avatar</button>
+          <button class='btn btn-success update-avatar hidden'>Update avatar</button>
         </div>
 
         <div class="profile-label">
@@ -57,6 +57,11 @@
       <div class="main-box clearfix">
         <div class="profile-header">
           <h3><span>Personal Bio</span></h3>
+          
+          <%= f.button :class => "btn btn-primary update-profile hidden" do %>
+            <i class="fa fa-pencil-square fa-lg"></i> 
+            Update my profile
+          <% end %>
           <a href="#" class="btn btn-primary edit-profile">
             <i class="fa fa-pencil-square fa-lg"></i> 
             Edit profile
@@ -64,6 +69,7 @@
         </div>
 
         <%= content_tag :p, @user.bio %>
+        <%= f.text_area :bio, :class => 'form-control bio hidden' %>
 
         <h3><span>User info</span></h3>
 
