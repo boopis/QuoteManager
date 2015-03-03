@@ -57,7 +57,7 @@
             <% end %>
           </td>
           <td class="text-center">
-            <span class="label label-warning">Unpaid</span>
+            <%= content_tag :label, quote.status, :class => 'label label-primary' %>
           </td>
           <td class="text-center">
             <%= quote.updated_at.strftime("%b-%d-%Y") %>

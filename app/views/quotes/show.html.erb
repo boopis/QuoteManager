@@ -31,6 +31,21 @@
       <strong>Expires at:</strong>
       <%= @quote.expires_at %>
       </p>
+
+      <p>
+        <strong>Status:</strong>
+        <%= @quote.status %>
+      </p>
+ 
+
+      <p>
+        <strong>Customer signature:</strong>
+        <% if @quote.signature.nil? %>
+          <label>Not signed yet!</label>
+        <% else %>
+            <%= image_tag "data:image/svg+xml;base64,#{@quote.signature}" %> 
+        <% end %>
+      </p>
     </div>
   </div>  
 
