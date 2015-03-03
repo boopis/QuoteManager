@@ -26,7 +26,7 @@ gem 'bootstrap-kaminari-views', '~> 0.0.5'
 gem 'figaro'
 
 gem 'mailman', require: false
-gem 'roadie'
+gem 'roadie', '~> 2.4'
 
 gem 'pry', group: :development
 
