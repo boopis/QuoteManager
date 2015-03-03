@@ -32,6 +32,7 @@ class QuotesController < ApplicationController
   # POST /quotes.json
   def create
     @quote = current_account.quotes.new(quote_params)
+    @quote.status = 'new'
 
     respond_to do |format|
       if @quote.save
@@ -72,7 +73,8 @@ class QuotesController < ApplicationController
   # User accept a quote
   def accept_quote
     @quote.signature = params[:sig]
-    @quote.request.status = 'confirmed'
+    @quote.status = 'complete'
+    @quote.request.status = 'completed'
     if @quote.save
       redirect_to :back, :notice => "You have accepted this quote"
     else
@@ -82,7 +84,6 @@ class QuotesController < ApplicationController
 
   # GET /quotes/1?token=
   def public
-    Quote.find(params[:id])
   end
 
 private

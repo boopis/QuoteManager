@@ -49,6 +49,7 @@ class RequestsController < ApplicationController
         contact.name = name if contact.name.blank?
         contact.phone = phone if contact.phone.blank?
         contact.account_id = form.account_id
+        contact.requests << @request
         contact.save
       end
 
