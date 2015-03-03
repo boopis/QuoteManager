@@ -34,7 +34,7 @@ class RequestsController < ApplicationController
     if req_params[:errors].empty?
       @request = Request.new(req_params[:params])
       @request.account_id = form.account_id
-      @request.status = 'pending'
+      @request.status = 'new'
 
       name = req_params[:params][:fields].find{|k,v| v['type'] == 'name'}
       phone = req_params[:params][:fields].find{|k,v| v['type'] == 'phone'}
@@ -59,6 +59,13 @@ class RequestsController < ApplicationController
         if errors.messages.size == 0 && @request.save
           format.html { redirect_to back, notice: 'Request was successfully created' }
           format.json { render json: @request.to_json, status: :created }
+
+          # Send mail to form creators
+          Thread.new do
+            form.emails.each do |e|
+              FormMailer.form_submitted(e['email'], email, form).deliver
+            end
+          end
         else
           format.html { redirect_to back, alert: 'You need to enter all required fields' }
           format.json { render json: errors, status: :unprocessable_entity }
