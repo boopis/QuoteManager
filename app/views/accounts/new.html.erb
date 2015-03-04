@@ -4,6 +4,7 @@
   <%= flash_messages layout_flash: false %>
 
   <%= simple_form_for @account do |f| %>
+    <%= f.hidden_field :plan_id %>
     <%= f.input :company_name, label: false do %>
     <div class="input-group">
       <span class="input-group-addon glyphicon glyphicon-home"></span>

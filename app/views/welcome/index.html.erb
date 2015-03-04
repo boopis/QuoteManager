@@ -204,7 +204,7 @@
             </table>
           </div>
           <div class="panel-footer">
-            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
+            <a href="/accounts/new/?plan_id=1" class="btn btn-theme" role="button">Sign Up</a>
           </div>
         </div>
       </div>
@@ -235,7 +235,7 @@
             </table>
           </div>
           <div class="panel-footer">
-            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
+            <a href="/accounts/new/?plan_id=2" class="btn btn-theme" role="button">Sign Up</a>
           </div>
         </div>
       </div>
@@ -266,7 +266,7 @@
           </table>
           </div>
           <div class="panel-footer">
-            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
+            <a href="/accounts/new/?plan_id=3" class="btn btn-theme" role="button">Sign Up</a>
           </div>
         </div>
       </div>
@@ -297,36 +297,13 @@
             </table>
           </div>
           <div class="panel-footer">
-            <a href="#" class="btn btn-theme" role="button">Call Us</a>
+            <a href="#contact" class="btn btn-theme smoothScroll" role="button">Contact Us!</a>
           </div>
         </div>
       </div>
     </div><!-- /row -->
   </div><!-- /container -->
 </div><!-- /pricingwrap -->
-
-<section id="signup" name="signup"></section>
-<!-- Divider 2 Section -->
-<div id="divider02">
-  <div class="container text-center">
-    <h3>Start your 14-day free trial today.</h3>
-    <br>
-      <%= simple_form_for @account,
-                          defaults: { label: false },
-                          html: { class: 'form-inline' },
-                          wrapper_mappings: {
-                            boolean: :vertical_form
-                          } do |f| %>
-        <%= f.error_notification %>
-        <%= f.input :company_name, placeholder: "Company Name" %>
-        <%= f.fields_for :users, defaults: { label: false } do |o| %>
-          <%= o.input :email, placeholder: "Email" %>
-          <%= o.input :password, placeholder: "Password" %>
-        <% end %>
-        <%= f.submit "Try it Free", class: "btn btn-mg btn-theme2" %>
-      <% end %>
-  </div>
-</div><!-- /divider02 -->
   
 <!-- Footer Wrap -->
 <section id="contact" name="contact"></section>
@@ -351,7 +328,7 @@
                 <label for="message" style="color:white;">Message</label>
                 <input id="request_fields_1425392854989_label" name="request[fields][1425392854989][label]" type="hidden" value="Message">
                 <input id="request_fields_1425392854989_type" name="request[fields][1425392854989][type]" type="hidden" value="text">
-                <textarea class="form-control" rows="3" name="request[fields][1425392854989][request]" placeholder="Please send us a detailed message"></textarea>
+                <textarea class="form-control" rows="7" name="request[fields][1425392854989][request]" placeholder="Please send us a detailed message"></textarea>
               </div>
               <br>
               <div class="form-group">

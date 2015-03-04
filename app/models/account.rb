@@ -1,4 +1,5 @@
 class Account < ActiveRecord::Base
+  belongs_to :plan
   has_many :forms, :dependent => :destroy
   has_many :requests, :dependent => :destroy
   has_many :quotes, :dependent => :destroy
@@ -9,4 +10,6 @@ class Account < ActiveRecord::Base
 
   has_one :company_logo, as: :viewable, dependent: :destroy, :class => Image
   accepts_nested_attributes_for :company_logo
+
+  TYPES = ["micro", "small", "medium", "large"]
 end

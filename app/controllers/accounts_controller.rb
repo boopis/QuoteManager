@@ -2,8 +2,13 @@ class AccountsController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:new, :create, :login]
 
   def new
-    @account = Account.new
-    @account.users.build
+    if params[:plan_id].nil?
+      redirect_to root_url(subdomain: false, anchor: "pricing")
+    else
+      plan = Plan.find(params[:plan_id])
+      @account = plan.accounts.build
+      @account.users.build
+    end
   end
 
   def create
