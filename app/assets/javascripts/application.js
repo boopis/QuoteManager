@@ -5,6 +5,6 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require smoothscroll
-//= require tinymce/tinymce.min
+//= require tinymce
 //= require jSignature
 //= require_tree .

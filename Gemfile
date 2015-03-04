@@ -24,11 +24,10 @@ gem 'ransack', '~> 1.5.0'
 gem 'kaminari', '~> 0.16.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 gem 'figaro'
+gem 'tinymce-rails'
 
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'
-
-gem 'pry', group: :development
 
 gem 'puma'
 
@@ -38,6 +37,7 @@ group :development do
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
+  gem 'pry'
 end
 
 group :production, :staging do
