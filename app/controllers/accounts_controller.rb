@@ -13,11 +13,13 @@ class AccountsController < ApplicationController
 
   def create
     @account = Account.new(account_params)
-    if @account.valid?
-      @account.save
-      redirect_to new_user_session_url
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @account.save
+        format.html { redirect_to new_user_session_url, notice: 'Account was successfully created. Please sign in.' }
+      else
+        format.html { render :new }
+        format.json { render json: @account.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -36,6 +38,7 @@ private
   def account_params
     params.require(:account).permit(
       :company_name,
+      :plan_id,
       users_attributes: [
         :firstname, 
         :lastname, 
