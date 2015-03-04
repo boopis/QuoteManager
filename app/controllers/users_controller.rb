@@ -1,15 +1,42 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :set_form
+  before_filter :authenticate_user!, :set_user, only: [:show, :destroy, :update]
   
+  # GET /users
+  # GET /users.json
+  def index
+    @users = current_account.users.all
+  end
+
   def show
     @user = current_account.users.find(params[:id])
     @user.avatar ||= Image.new
     @user.account.company_logo ||= Image.new
   end
 
+  # GET /users/new
+  def new
+    @user = current_account.users.new
+  end
+
+  # POST /users
+  # POST /users.json
+  def create_user
+    @user = current_account.users.new(user_params)
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def update
     respond_to do |format|
-      if @user.update(user_param)
+      if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User profile was successfully updated.' }
         format.json { render :show, status: :ok, location: @form }
       else
@@ -19,14 +46,29 @@ class UsersController < ApplicationController
     end
   end
 
-  def set_form
-    @user = User.find(params[:id])
+  # DELETE /requests/1
+  # DELETE /requests/1.json
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to requests_url }
+      format.json { head :no_content }
+    end
   end
 
-  def user_param
+private
+
+  def set_user
+    @user = current_account.users.find(params[:id])
+  end
+
+  def user_params
     params.require(:user).permit(
       :firstname,
       :lastname,
+      :email,
+      :password,
+      :password_confirmation,
       :bio,
       :address,
       :phone_number,

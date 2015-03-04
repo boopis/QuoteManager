@@ -14,7 +14,11 @@ QuoteManager::Application.routes.draw do
     resources :quotes
     resources :contacts
     devise_for :users
-    resources :users, only: [:show, :update]
+    resources :users do
+      collection do 
+        post :create_user
+      end
+    end
 
     post 'login' => 'accounts#login'
     resources :accounts, only: [:new, :create]
