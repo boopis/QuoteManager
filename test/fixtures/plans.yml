@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  price: 9.99
+  users: 1
+  forms: 1
+  storage: 1
+  requests: 1
+
+two:
+  name: MyString
+  price: 9.99
+  users: 1
+  forms: 1
+  storage: 1
+  requests: 1
