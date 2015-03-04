@@ -22,14 +22,8 @@
       <!-- Sign In / Sign Up -->
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <% if request.subdomain.blank? %>
-            <%= link_to "#signin", data: { toggle: 'modal', target: '.bs-modal-sm' } do %>
-              <i class="fa fa-lock"></i>Sign In
-            <% end %>
-          <% else %>
-            <%= link_to new_user_session_path do %>
-              <i class="fa fa-lock"></i>Sign In
-            <% end %>
+          <%= link_to new_user_session_path do %>
+            <i class="fa fa-lock"></i>Sign In
           <% end %>
         </li>
         <li>
@@ -40,22 +34,3 @@
   </div><!-- /container -->
 </div><!-- /fixed-navbar -->
 
-<!-- Sign In Modal -->
-<div class="modal fade bs-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-
-      <div class="modal-body">
-          <!-- Sign In Form -->
-          <div class="tab-pane fade active in" id="signin">
-            <%= simple_form_for :login, { url: login_path } do |f| %>  
-              <%= f.input :subdomain, label: false, placeholder: "Account Name / Subdomain" %>
-              <center>
-                <%= f.button :submit, "Account Sign In", class: 'btn btn-theme btn-block' %>
-              </center>
-            <% end %>
-          </div><!-- /signin -->
-      </div><!-- /modal-body -->
-    </div><!-- /modal-content -->
-  </div><!-- /modal-dialog -->
-</div><!-- /modal -->
