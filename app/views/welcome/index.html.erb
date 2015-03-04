@@ -304,6 +304,29 @@
     </div><!-- /row -->
   </div><!-- /container -->
 </div><!-- /pricingwrap -->
+
+<section id="signup" name="signup"></section>
+<!-- Divider 2 Section -->
+<div id="divider02">
+  <div class="container text-center">
+    <h3>Start your 14-day free trial today.</h3>
+    <br>
+      <%= simple_form_for @account,
+                          defaults: { label: false },
+                          html: { class: 'form-inline' },
+                          wrapper_mappings: {
+                            boolean: :vertical_form
+                          } do |f| %>
+        <%= f.error_notification %>
+        <%= f.input :company_name, placeholder: "Company Name" %>
+        <%= f.fields_for :users, defaults: { label: false } do |o| %>
+          <%= o.input :email, placeholder: "Email" %>
+          <%= o.input :password, placeholder: "Password" %>
+        <% end %>
+        <%= f.submit "Try it Free", class: "btn btn-mg btn-theme2" %>
+      <% end %>
+  </div>
+</div><!-- /divider02 -->
   
 <!-- Footer Wrap -->
 <section id="contact" name="contact"></section>
