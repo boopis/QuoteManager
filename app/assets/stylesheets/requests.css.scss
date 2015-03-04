@@ -8,3 +8,13 @@
 .request-search-form {
 	margin-left: 5px;
 }
+
+.form-mismatched {
+  font-size: 18px; 
+  opacity: 0.7;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    opacity: 1; 
+  }
+}

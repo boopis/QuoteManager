@@ -106,8 +106,19 @@
           <% @requests.each do |request| %>
             <tr>
               <td><%= request.id %></td>
-              <td>
-                <%= request.fields.map{|id, field| "<i class='fa fa-angle-double-right'></i><b> #{field['label']}</b>: #{field['request']}"}.join(" ").html_safe %>
+              <%= content_tag :td, class: request.has_mismatch_field? ? 'chiffon-bg' : '' do %>
+                <% request.fields.map do |id, field| %>
+                  <i class='fa fa-angle-double-right'></i>
+                  <%= content_tag :b, field['label'] + ':' %>
+                  <%= content_tag :b, field['request'] %>
+                  <% unless field['form_mismatched'].nil? %>
+                    <%= content_tag :b, '[Form mismatched]', class: 'red' %>
+                  <% end %>
+                <% end %>
+                <% if request.has_mismatch_field? %>
+                  <i class='fa fa-question-circle form-mismatched'></i>
+                <% end %>
+              <% end %>
               </td>
               <td><%= request.form.name if request.form.present? %></td>
               <td><%= request.created_at.strftime("%b-%d-%Y")  %></td>
