@@ -116,7 +116,9 @@
                   <% end %>
                 <% end %>
                 <% if request.has_mismatch_field? %>
-                  <i class='fa fa-question-circle form-mismatched'></i>
+                  <i class='fa fa-question-circle form-mismatched' 
+                    data-toggle="tooltip" data-placement="right" 
+                    title="Some request data fields don't match with form fields input. Form creator had some changes in this form."></i>
                 <% end %>
               <% end %>
               </td>

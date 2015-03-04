@@ -30,11 +30,11 @@ class Form < ActiveRecord::Base
   end
 
   # Get data from destination object to validate
-  def map_destination_data(req, request)
+  def map_destination_data(fields, request)
     self.sync_dynamic_field
     self.active_dynamic_validator
 
-    req[:fields].each do |key, value|
+    fields.each do |key, value|
       unless self.fields[key].nil?
         self.fields[key]["request"] = value[:request]
       else
