@@ -8,23 +8,24 @@
         <div class="profile-status">
           <i class="fa fa-check-circle"></i> Online
         </div>
-        <div class='company-logo'>
-          <span>Company Logo</span>
-          <%= image_tag @user.load_image(:company_logo, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
-
-          <div class="wrapper hidden">
-            <%= f.fields_for :account do |fa|%>
-              <%= fa.hidden_field :company_name, :class => 'form-control' %>
-              <%= fa.fields_for :company_logo do |cl| %>
-                <%= cl.file_field :image, :class => 'form-control' %>
-              <% end %>
-            <% end %>
-          </div>
-
-        </div>
+<!--
+   -        <div class='company-logo'>
+   -          <span>Company Logo</span>
+   -          <%= image_tag @user.load_image(:company_logo, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
+   -
+   -          <div class="wrapper hidden">
+   -            <%= f.fields_for :account do |fa|%>
+   -              <%= fa.hidden_field :company_name, :class => 'form-control' %>
+   -              <%= fa.fields_for :company_logo do |cl| %>
+   -                <%= cl.file_field :image, :class => 'form-control' %>
+   -              <% end %>
+   -            <% end %>
+   -          </div>
+   -
+   -        </div>
+   -->
 
         <div class='avatar'>
-          <span>Avatar</span>
           <%= image_tag @user.load_image(:avatar, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
 
           <div class="wrapper hidden">
@@ -83,9 +84,6 @@
           </a>
         </div>
 
-        <%= content_tag :p, @user.bio %>
-        <%= f.text_area :bio, :class => 'form-control bio hidden' %>
-
         <h3><span>User info</span></h3>
 
         <div class="row profile-user-info">
@@ -105,28 +103,6 @@
               <%= f.label 'Last Name', :class => 'hidden' %>  
               <%= f.text_field :lastname, :class => 'form-control hidden' %>
               <%= content_tag :div, @user.lastname || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
-            </div>
-            <div class="profile-user-details clearfix">
-              <div class="profile-user-details-label">
-                Address
-              </div>
-              <%= f.label :address, :class => 'hidden' %>  
-              <%= f.text_area :address, :class => 'form-control hidden' %>
-              <%= content_tag :div, @user.address || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
-            </div>
-            <div class="profile-user-details clearfix">
-              <div class="profile-user-details-label">
-                Email
-              </div>
-              <%= content_tag :div, @user.email || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
-            </div>
-            <div class="profile-user-details clearfix">
-              <div class="profile-user-details-label">
-                Phone number
-              </div>
-              <%= f.label 'Phone number', :class => 'hidden' %>  
-              <%= f.number_field :phone_number, :class => 'form-control hidden' %>
-              <%= content_tag :div, @user.phone_number || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
             </div>
           </div>
           <div class="col-sm-4 profile-social">

@@ -11,16 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304085735) do
+ActiveRecord::Schema.define(version: 20150304085723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: true do |t|
     t.string   "company_name"
+    t.text     "about"
+    t.text     "address"
+    t.string   "phone_number"
+    t.integer  "plan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "plan_id"
   end
 
   add_index "accounts", ["plan_id"], name: "index_accounts_on_plan_id", using: :btree
@@ -79,10 +82,10 @@ ActiveRecord::Schema.define(version: 20150304085735) do
     t.integer  "request_id"
     t.text     "description"
     t.text     "signature"
+    t.string   "status"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
   end
 
   add_index "quotes", ["account_id"], name: "index_quotes_on_account_id", using: :btree
@@ -115,9 +118,6 @@ ActiveRecord::Schema.define(version: 20150304085735) do
     t.string   "last_sign_in_ip"
     t.string   "firstname"
     t.string   "lastname"
-    t.text     "bio"
-    t.text     "address"
-    t.string   "phone_number"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
