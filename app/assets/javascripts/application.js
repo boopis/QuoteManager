@@ -4,7 +4,6 @@
 //= require bootstrap
 //= require moment
 //= require bootstrap-datetimepicker
-//= require smoothscroll
 //= require tinymce
 //= require jSignature
 //= require_tree .

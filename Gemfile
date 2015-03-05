@@ -25,6 +25,7 @@ gem 'kaminari', '~> 0.16.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 gem 'figaro'
 gem 'tinymce-rails'
+gem 'stripe'
 
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'

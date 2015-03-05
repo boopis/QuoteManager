@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     respond_to do |format|
-      if @account.save
+      if @account.save_with_payment
         format.html { redirect_to new_user_session_url, notice: 'Account was successfully created. Please sign in.' }
       else
         format.html { render :new }
@@ -39,6 +39,7 @@ private
     params.require(:account).permit(
       :company_name,
       :plan_id,
+      :stripe_card_token,
       users_attributes: [
         :firstname, 
         :lastname, 

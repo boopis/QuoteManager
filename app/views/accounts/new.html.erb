@@ -1,6 +1,6 @@
+<h2 class="text-center">Create an Account</h2>
+<hr>
 <div class="col-sm-6 col-sm-offset-3 signin">
-  <h2>Create an Account</h2>
-
   <% if @account.errors.any? %>
   <div class="alert alert-block alert-danger fade in">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -12,46 +12,159 @@
     </ul>    
   </div>
 <% end %>
-
+  
   <%= flash_messages layout_flash: false %>
 
   <%= simple_form_for @account do |f| %>
-    <%= f.hidden_field :plan_id %>
-    <%= f.input :company_name, label: false do %>
-    <div class="input-group">
-      <span class="input-group-addon glyphicon glyphicon-home"></span>
-      <%= f.input_field :company_name, class: 'form-control', placeholder: 'Company Name' %>
-    </div>
-    <% end %>
-    <%= f.fields_for :users do |o| %>
-      <%= o.input :firstname, label: false do %>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <%= f.input :company_name, label: false do %>
         <div class="input-group">
-          <span class="input-group-addon glyphicon glyphicon-user"></span>
-          <%= o.input_field :firstname, class: 'form-control', placeholder: 'First Name' %>
-          <%= o.input_field :lastname, class: 'form-control', placeholder: 'Last Name' %>
+          <span class="input-group-addon glyphicon glyphicon-tower"></span>
+          <%= f.input_field :company_name, class: 'form-control', placeholder: 'Company Name' %>
         </div>
-      <% end %>
-      <%= o.input :email, label: false do %>
+        <% end %>
+      </div>
+
+    <%= f.fields_for :users do |o| %>
+      <div class="col-sm-6">
+        <%= o.input :email, label: false do %>
         <div class="input-group">
           <span class="input-group-addon glyphicon glyphicon-envelope"></span>
           <%= o.input_field :email, class: 'form-control', placeholder: 'Email' %>
         </div>
-      <% end %>
-      <%= o.input :password, label: false do %>
-        <div class="input-group">
-          <span class="input-group-addon glyphicon glyphicon-lock"></span>
-          <%= o.input_field :password, class: 'form-control', placeholder: 'Password' %>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
+    </div>
 
-      <%= o.input :password_confirmation, label: false do %>
-        <div class="input-group">
-          <span class="input-group-addon glyphicon glyphicon-ok"></span>
-          <%= o.input_field :password_confirmation, class: 'form-control', placeholder: 'Password Confirmation' %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= o.input :firstname, label: false do %>
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-user"></span>
+            <%= o.input_field :firstname, class: 'form-control', placeholder: 'First Name' %>
+          </div>
+          <% end %>
         </div>
-      <% end %>
-    <% end %>
+        <div class="col-sm-6">
+          <%= o.input :lastname, label: false do %>
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-user"></span>
+            <%= o.input_field :lastname, class: 'form-control', placeholder: 'Last Name' %>
+          </div>
+          <% end %>
+        </div>
+      </div>
 
-    <%= f.button :submit, class: 'btn btn-theme btn-block' %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= o.input :password, label: false do %>
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+            <%= o.input_field :password, class: 'form-control', placeholder: 'Password' %>
+          </div>
+          <% end %>
+        </div>
+        <div class="col-sm-6">
+          <%= o.input :password_confirmation, label: false do %>
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-ok"></span>
+            <%= o.input_field :password_confirmation, class: 'form-control', placeholder: 'Password Confirmation' %>
+          </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= f.hidden_field :plan_id %> 
+    <%= f.hidden_field :stripe_card_token %>
+    
+    <div id="stripe_error" class="text-center alert-danger">
+      <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-credit-card"></span>
+            <%= text_field_tag :card_number, nil, name: nil, class: 'form-control', placeholder: 'Credit Card Number' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-credit-card"></span>
+            <%= text_field_tag :card_code, nil, name: nil, class: 'form-control', placeholder: '(CVV) Code' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+            <%= select_month nil, {add_month_numbers_true: true}, {name: nil, id: "card_month", class: "form-control"} %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+      <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control" } %>
+          </div> 
+        </div> 
+      </div> 
+    </div> 
+
+    <%= f.button :submit, "START 14 DAY FREE TRIAL!", class: 'btn btn-theme btn-block' %>
   <% end %>
 </div>
+
+<script>
+var account;
+
+jQuery(function() {
+  return account.setupForm();
+});
+
+account = {
+  setupForm: function() {
+    return $('#new_account').submit(function() {
+      $('input[type=submit]').attr('disabled', true);
+      if ($('#card_number').length) {
+        account.processCard();
+        return false;
+      } else {
+        return true;
+      }
+    });
+  },
+  processCard: function() {
+    var card;
+    card = {
+      number: $('#card_number').val(),
+      cvc: $('#card_code').val(),
+      expMonth: $('#card_month').val(),
+      expYear: $('#card_year').val()
+    };
+    return Stripe.createToken(card, account.handleStripeResponse);
+  },
+  handleStripeResponse: function(status, response) {
+    if (status === 200) {
+      $('#account_stripe_card_token').val(response.id);
+      return $('#new_account')[0].submit();
+    } else {
+      return $('#stripe_error').text(response.error.message);
+    }
+  }
+};
+
+    $("#flash-messages").html('<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>');
+    $('.alert').delay(5000).fadeOut(3000);
+</script>

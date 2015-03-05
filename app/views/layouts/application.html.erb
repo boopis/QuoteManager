@@ -2,13 +2,22 @@
 <html>
 <head>
   <title>QuoteManager</title>
+
+  <% if params[:controller] == "accounts" %>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+      Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
+    </script>
+  <% end %>
+
   <%= yield :extended_css %>
   <% if user_signed_in? %>
     <%= stylesheet_link_tag    'admin' %>
+    <%= javascript_include_tag 'application' %>
   <% else %>
     <%= stylesheet_link_tag    'application' %>
+    <%= javascript_include_tag 'dashboard' %>
   <% end %>
-  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 

@@ -1,3 +1,6 @@
+//= require jquery
+//= require smoothscroll
+
 $ ($) ->
   $("#sidebar-nav .dropdown-toggle").click (e) ->
     e.preventDefault()
