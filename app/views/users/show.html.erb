@@ -8,23 +8,6 @@
         <div class="profile-status">
           <i class="fa fa-check-circle"></i> Online
         </div>
-<!--
-   -        <div class='company-logo'>
-   -          <span>Company Logo</span>
-   -          <%= image_tag @user.load_image(:company_logo, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
-   -
-   -          <div class="wrapper hidden">
-   -            <%= f.fields_for :account do |fa|%>
-   -              <%= fa.hidden_field :company_name, :class => 'form-control' %>
-   -              <%= fa.fields_for :company_logo do |cl| %>
-   -                <%= cl.file_field :image, :class => 'form-control' %>
-   -              <% end %>
-   -            <% end %>
-   -          </div>
-   -
-   -        </div>
-   -->
-
         <div class='avatar'>
           <%= image_tag @user.load_image(:avatar, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
 
