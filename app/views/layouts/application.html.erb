@@ -8,7 +8,6 @@
   <% else %>
     <%= stylesheet_link_tag    'application' %>
   <% end %>
-  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 
@@ -40,5 +39,6 @@
   <%= yield %>
 <% end %>
 
+  <%= yield :page_script %>
 </body>
 </html>
