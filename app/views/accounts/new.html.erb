@@ -1,5 +1,10 @@
 <h2 class="text-center">Create an Account</h2>
 <hr>
+
+<%= content_for :page_script do %>
+  <%= javascript_include_tag "shared", media: "all" %>
+<% end %>
+
 <div class="col-sm-6 col-sm-offset-3 signin">
   <% if @account.errors.any? %>
   <div class="alert alert-block alert-danger fade in">

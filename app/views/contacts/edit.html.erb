@@ -1,3 +1,7 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "contacts" %>
+<% end %>
+
 <% if @contact.errors.any? %>
   <div class="alert alert-block alert-danger fade in">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

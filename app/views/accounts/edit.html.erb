@@ -1,0 +1,66 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "shared", media: "all" %>
+<% end %>
+
+<div class="col-lg-12">
+  <div class="main-box clearfix">
+    <div class="clearfix">
+      <div class='row'>
+        <div class='col-md-12'>
+          <h2 class='pull-left'>Update an Account</h2>
+        </div>
+      </div>
+
+      <div class='row clearfix'>
+        <%= simple_form_for current_account do |f| %>
+          <% if current_account.errors.any? %>
+            <div class="alert alert-block alert-danger fade in">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><%= pluralize(current_account.errors.count, "error") %> prohibited this account from being saved:</h4>
+              <ul>
+                <% current_account.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>    
+            </div>
+          <% end %>
+
+          <div class='col-sm-3'>
+            <div class="form-group">
+              <%= f.label 'Company logo: ' %>
+              <%= image_tag current_user.load_image(:company_logo, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
+              <%= f.fields_for :company_logo do |fcl| %>
+                <%= fcl.file_field :image, :class => 'form-control' %>
+              <% end %>
+            </div>
+          </div>
+          <div class='col-sm-6'>
+            <div class="form-group">
+              <%= f.label 'Company name: ' %>
+              <%= f.input_field :company_name, class: 'form-control', placeholder: 'Company Name' %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label 'Phone number: ' %>
+              <%= f.number_field :phone_number, class: 'form-control', placeholder: 'Your phone number' %>
+            </div>
+            
+            <div class="form-group">
+              <%= f.label :address %>
+              <%= f.text_area :address, class: 'form-control', placeholder: 'Your company address', rows: 5 %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :about %>
+              <%= f.text_area :about, class: 'form-control', placeholder: 'Company general information', rows: 10 %>
+            </div>
+
+            <div class="form-group">
+              <%= f.button :submit, class: 'btn btn-primary pull-right' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

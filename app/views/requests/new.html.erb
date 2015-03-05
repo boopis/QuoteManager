@@ -1,3 +1,7 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "requests" %>
+<% end %>
+
 <h1>New request</h1>
 
 <%= render 'form' %>
