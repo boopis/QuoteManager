@@ -71,7 +71,7 @@ class FormsController < ApplicationController
 
   # GET /form-inline/1
   def form_inline
-    form = current_account.forms.find(params[:id])
+    form = Form.find(params[:id])
 
     respond_to do |format|
       format.js { 

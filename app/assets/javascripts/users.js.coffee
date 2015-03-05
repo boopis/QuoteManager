@@ -1,6 +1,4 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+#= require shared
 
 # Show / hide update form
 toggleUpdateForm = (e) ->
@@ -26,18 +24,15 @@ toggleUpdateForm = (e) ->
   else
     $editViewBtn.html '<i class="fa fa-pencil-square fa-lg"></i> Edit profile'
 
-ready = ->
-  
-  $('.avatar .btn').click (e) -> 
-    $('.avatar input').click()
-    return false
 
-  $('.company-logo .btn').click (e) ->
-    $('.company-logo input').click()
-    return false
+$('.avatar .btn').click (e) -> 
+  $('.avatar input').click()
+  return false
 
-  $('.edit-profile').click (e) ->
-    toggleUpdateForm(e)
-    return false
-  return
-$(document).ready(ready)
+$('.company-logo .btn').click (e) ->
+  $('.company-logo input').click()
+  return false
+
+$('.edit-profile').click (e) ->
+  toggleUpdateForm(e)
+  return false

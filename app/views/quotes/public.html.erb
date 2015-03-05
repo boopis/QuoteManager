@@ -1,7 +1,11 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "quotes" %>
+<% end %>
+
 <% unless signed_in? %>
   <% content_for :extended_css do %>
-  <%= stylesheet_link_tag 'admin' %>
- <% end %>
+     <%= stylesheet_link_tag 'admin' %>
+  <% end %>
 <% end %>
 
 <div class="container">

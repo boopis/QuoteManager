@@ -1,3 +1,7 @@
+#= require shared
+#= require tinymce
+#= require jquery.ui.sortable
+
 $(document).on 'click', 'form .add_fields', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
@@ -202,71 +206,67 @@ reOrderFormFields = ->
     $lstFormField.find('#form_fields_' + lstOrder[i] + '_position').val i
     i++
 
-ready = ->
-  $("body").tooltip({ selector: '[data-toggle=tooltip]' })
-  $("#style input:radio").change (e) ->
-    $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
-  $('#form_name').keyup (e) ->
-    $('.form-header b').text $(this).val()
-    return
-  $('#confirm-delete').on 'show.bs.modal', (e) ->
-    $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
-    $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
-    return
-  $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
-    $('#confirm-delete').modal('hide');
-    $('#contact-' + window.removingContactType).removeClass('cant_add_fields').addClass('add_contact_fields')
-    window.removingField.remove()
-    window.removingField = null
-    window.removingContactType = ''
+$("body").tooltip({ selector: '[data-toggle=tooltip]' })
+$("#style input:radio").change (e) ->
+  $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
+$('#form_name').keyup (e) ->
+  $('.form-header b').text $(this).val()
+  return
+$('#confirm-delete').on 'show.bs.modal', (e) ->
+  $(this).find('.danger').attr 'href', $(e.relatedTarget).data('href')
+  $('.debug-url').html 'Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>'
+  return
+$('#confirm-delete').find('.modal-footer .yes').on 'click', ->
+  $('#confirm-delete').modal('hide');
+  $('#contact-' + window.removingContactType).removeClass('cant_add_fields').addClass('add_contact_fields')
+  window.removingField.remove()
+  window.removingField = null
+  window.removingContactType = ''
+  reOrderFormFields()
+  return
+$('.settings input:checkbox').change (e) -> 
+  propName = $(this).data('name')
+  value = if $(this).is(':checked') then 1 else 0
+  $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
+  if value
+    window.currentField.find('label').addClass('required')
+  else 
+    window.currentField.find('label').removeClass('required')
+  return
+$('.settings input').keyup (e) -> 
+  propName = $(this).data('name')
+  value = $(this).val()
+  $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
+
+  if propName == 'placeholder'
+    window.currentField.find('.form-control').attr('placeholder', value)
+  else if propName == 'label'
+    window.currentField.find('label').text(value)
+  return
+$('.tabs-wrapper .nav.nav-tabs a').click (e) ->
+  e.preventDefault()
+  $(this).tab 'show'
+  return
+$('.form-field-list').sortable
+  update: (event, ui) ->
     reOrderFormFields()
     return
-  $('.settings input:checkbox').change (e) -> 
-    propName = $(this).data('name')
-    value = if $(this).is(':checked') then 1 else 0
-    $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
-    if value
-      window.currentField.find('label').addClass('required')
-    else 
-      window.currentField.find('label').removeClass('required')
-    return
-  $('.settings input').keyup (e) -> 
-    propName = $(this).data('name')
-    value = $(this).val()
-    $('.form-field.active').find('input[data-name$="' + propName + '"]').val value
-
-    if propName == 'placeholder'
-      window.currentField.find('.form-control').attr('placeholder', value)
-    else if propName == 'label'
-      window.currentField.find('label').text(value)
-    return
-  $('.tabs-wrapper .nav.nav-tabs a').click (e) ->
-    e.preventDefault()
-    $(this).tab 'show'
-    return
-  $('.form-field-list').sortable
-    update: (event, ui) ->
-      reOrderFormFields()
+  distance: 15
+tinymce.init
+  selector: '.rich-content textarea'
+  menubar : false
+  plugins: [
+    'visualblocks code fullscreen'
+    'table contextmenu paste'
+  ]
+  setup: (editor) ->
+    editor.on 'change', (e) ->
+      getRawDataFromEditor()
       return
-    distance: 15
-  tinymce.init
-    selector: '.rich-content textarea'
-    menubar : false
-    plugins: [
-      'visualblocks code fullscreen'
-      'table contextmenu paste'
-    ]
-    setup: (editor) ->
-      editor.on 'change', (e) ->
-        getRawDataFromEditor()
-        return
-      editor.on 'keyup', (e) ->
-        getRawDataFromEditor() 
-        return
+    editor.on 'keyup', (e) ->
+      getRawDataFromEditor() 
       return
-    toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
-  $('#contact-email').click()
-  $('.form-field').first().click()
-
-$(document).ready(ready)
-$(document).on('page:load', ready)
+    return
+  toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
+$('#contact-email').click()
+$('.form-field').first().click()
