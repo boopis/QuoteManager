@@ -15,8 +15,10 @@ class Request < ActiveRecord::Base
   end
 
   def has_mismatch_field?
-    !((self.fields.select { |k, v| !v['form_mismatched'].nil? }).empty?)
+    !((self.fields.detect { |k, v| !v['form_mismatched'].nil? }).nil?)
   end
 
-  
+  def mismatch_fields 
+    self.fields.select { |k, v| !v['form_mismatched'].nil? }
+  end
 end
