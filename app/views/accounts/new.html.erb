@@ -1,10 +1,6 @@
 <h2 class="text-center">Create an Account</h2>
 <hr>
 
-<%= content_for :page_script do %>
-  <%= javascript_include_tag "shared", media: "all" %>
-<% end %>
-
 <div class="col-sm-6 col-sm-offset-3 signin">
   <% if @account.errors.any? %>
   <div class="alert alert-block alert-danger fade in">
@@ -165,11 +161,9 @@ account = {
       $('#account_stripe_card_token').val(response.id);
       return $('#new_account')[0].submit();
     } else {
+      $('input[type=submit]').attr('disabled', false);
       return $('#stripe_error').text(response.error.message);
     }
   }
 };
-
-    $("#flash-messages").html('<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>');
-    $('.alert').delay(5000).fadeOut(3000);
 </script>
