@@ -32,9 +32,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.string :firstname
       t.string :lastname
-      t.text :bio
-      t.text :address
-      t.string :phone_number
 
       t.references :account, index: true
 

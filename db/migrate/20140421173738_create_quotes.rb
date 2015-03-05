@@ -8,6 +8,7 @@ class CreateQuotes < ActiveRecord::Migration
       t.belongs_to :request, index: true
       t.text :description
       t.text :signature
+      t.string :status
 
       t.references :account, index: true
 
