@@ -34,6 +34,27 @@ class AccountsController < ApplicationController
    end
   end
 
+  def edit
+    render :edit, locals: { current_account: current_account, errors: [] }
+  end
+
+  def update
+    respond_to do |format|
+      if current_account.update(edit_params)
+        format.html { 
+          redirect_to(
+            edit_account_path(current_account), 
+            notice: 'User profile was successfully updated.' 
+          )
+        }
+        format.json { render :edit, status: :ok, location: current_account }
+      else
+        format.html { render :edit, alert: 'User profile was not successfully updated.' }
+        format.json { render json: current_account.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 private
   def account_params
     params.require(:account).permit(
@@ -46,6 +67,16 @@ private
         :password, 
         :password_confirmation
       ]
+    )
+  end
+
+  def edit_params
+    params.require(:account).permit(
+      :company_name,
+      :phone_number,
+      :address,
+      :about,
+      :company_logo_attributes => [:image]
     )
   end
 end
