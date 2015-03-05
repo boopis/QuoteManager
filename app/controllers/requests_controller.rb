@@ -27,55 +27,36 @@ class RequestsController < ApplicationController
   def create
     req_params = request_params
     form = Form.find(req_params[:form_id].to_i)
-
     req_params = store_file(req_params)
-    back = request.referrer
+    req_fields = req_params[:params][:fields]
 
     if req_params[:errors].empty?
-      @request = Request.new(req_params[:params])
-      @request.account_id = form.account_id
-      @request.status = 'new'
+      @request = Request.new(req_params[:params].merge({:account_id => form.account_id, :status => 'new' }))
 
-      name = req_params[:params][:fields].find{|k,v| v['type'] == 'name'}
-      phone = req_params[:params][:fields].find{|k,v| v['type'] == 'phone'}
-      email = req_params[:params][:fields].find{|k,v| v['type'] == 'email'}
-      email = email.last['request'] if email.present?
-      name = name.last['request'] if name.present?
-      phone = phone.last['request'] if phone.present?
-
-      if email.present?
-        contact = Contact.find_by_email(email) || Contact.new
-        contact.email = email if contact.email.blank?
-        contact.name = name if contact.name.blank?
-        contact.phone = phone if contact.phone.blank?
-        contact.account_id = form.account_id
-        contact.requests << @request
-        contact.save
-      end
-
+      Contact.update_or_create_form_submitted(req_fields, @request, form.account_id)
+     
       # Check and get errors list
-      errors = form.map_destination_data(req_params[:params])
+      map_data = form.map_destination_data(req_fields, @request)
+      @request.update_columns(:fields => map_data[:request].fields.dup)
 
       respond_to do |format|
-        if errors.messages.size == 0 && @request.save
-          format.html { redirect_to back, notice: 'Request was successfully created' }
+        if map_data[:errors].messages.size == 0 && @request.save
+          format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
           format.json { render json: @request.to_json, status: :created }
 
-          # Send mail to form creators
-          Thread.new do
-            form.emails.each do |e|
-              FormMailer.form_submitted(e['email'], email, form).deliver
-            end
-          end
+          send_mail_to_form_creator(
+            form,  
+            req_fields.find{|k,v| v['type'] == 'email'}.last['request']
+          )
         else
-          format.html { redirect_to back, alert: 'You need to enter all required fields' }
-          format.json { render json: errors, status: :unprocessable_entity }
+          format.html { redirect_to request.referrer, alert: 'You need to enter all required fields' }
+          format.json { render json: map_data[:errors], status: :unprocessable_entity }
         end
       end
     else 
       respond_to do |format|
-        format.html { redirect_to back, alert: 'Invalid form fields' }
-        format.json { render json: errors, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, alert: 'Invalid form fields' }
+        format.json { render json: map_data[:errors], status: :unprocessable_entity }
       end
     end
   end
@@ -101,6 +82,14 @@ class RequestsController < ApplicationController
     params.require(:request).permit(:form_id).tap do |whitelisted|
       whitelisted[:fields] = params[:request][:fields]
     end    
+  end
+
+  def send_mail_to_form_creator(form, submitted_user)
+    Thread.new do
+      form.emails.each do |e|
+        FormMailer.form_submitted(e['email'], submitted_user, form).deliver
+      end
+    end
   end
 
   def store_file(params)

@@ -30,17 +30,25 @@ class Form < ActiveRecord::Base
   end
 
   # Get data from destination object to validate
-  def map_destination_data(req)
+  def map_destination_data(fields, request)
     self.sync_dynamic_field
     self.active_dynamic_validator
 
-    req[:fields].each do |key, value|
-      self.fields[key]["request"] = value[:request]
+    fields.each do |key, value|
+      unless self.fields[key].nil?
+        self.fields[key]["request"] = value[:request]
+      else
+        # Request and form are mismatched
+        # Missing field will be marked in request json data
+        # We will alert to form creator and user 
+        # Request index page must show this problem
+        request.fields[key]['form_mismatched'] = 'Form mismatched'
+      end
     end
 
     # Check data is valid and return errors
     self.valid?
-    self.errors
+    { errors: self.errors, request: request }
   end
 
   # Create all setter and getter for all member in fields

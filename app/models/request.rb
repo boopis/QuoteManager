@@ -13,4 +13,12 @@ class Request < ActiveRecord::Base
   def self.ransackable_scopes(auth_object = nil)
     %i(key term)
   end
+
+  def has_mismatch_field?
+    !((self.fields.detect { |k, v| !v['form_mismatched'].nil? }).nil?)
+  end
+
+  def mismatch_fields 
+    self.fields.select { |k, v| !v['form_mismatched'].nil? }
+  end
 end
