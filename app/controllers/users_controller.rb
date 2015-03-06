@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :set_user, only: [:show, :destroy, :update]
+  before_filter :authenticate_user!, :set_user, only: [:show, :update, :destroy]
   
   # GET /users
   # GET /users.json
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to requests_url }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
