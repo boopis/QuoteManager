@@ -1,11 +1,8 @@
 //= require jquery
-//= require bootstrap
 //= require smoothscroll
 
-$("#sidebar-nav .dropdown-toggle").click(function(e) {
-  var $item;
-  e.preventDefault();
-  $item = $(this).parent();
+function slideDropdownMenu ($item) {
+
   if (!$item.hasClass("open")) {
     $item.parent().find(".open .submenu").slideUp("fast");
     $item.parent().find(".open").toggleClass("open");
@@ -16,4 +13,22 @@ $("#sidebar-nav .dropdown-toggle").click(function(e) {
   } else {
     $item.children(".submenu").slideUp("fast");
   }
+}
+
+$( document ).ready(function() {
+  $("#sidebar-nav .dropdown-toggle").click(function(e) {
+    var $item = $(this).parent();
+
+    slideDropdownMenu($item);
+
+    return false;
+  });
+
+  $(".profile-dropdown .dropdown-toggle").click(function(e) {
+    var $item = $(this).parent();
+
+    slideDropdownMenu($item);
+
+    return false;
+  });
 });
