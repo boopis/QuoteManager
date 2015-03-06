@@ -1,5 +1,3 @@
-#= require shared
-
 # Show / hide update form
 toggleUpdateForm = (e) ->
   $labels = $ '.profile-user-details-label' 
