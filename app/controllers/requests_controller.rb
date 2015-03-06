@@ -37,7 +37,9 @@ class RequestsController < ApplicationController
      
       # Check and get errors list
       map_data = form.map_destination_data(req_fields, @request)
-      @request.update_columns(:fields => map_data[:request].fields.dup)
+      if map_data[:errors].messages.size === 0 
+        @request.update_columns(:fields => map_data[:request].fields.dup)
+      end
 
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
