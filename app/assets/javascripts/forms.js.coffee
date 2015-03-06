@@ -247,6 +247,27 @@ $('.tabs-wrapper .nav.nav-tabs a').click (e) ->
   e.preventDefault()
   $(this).tab 'show'
   return
+$("#js input:radio").change (e) ->
+  ecommerceType = 
+    shopify:
+      btn: 'btn-cart'
+      price: 'product_price'
+    woocommerce:
+      btn: 'add_to_cart_button'
+      price: '.price'
+    opencart:
+      btn: 'cart-button'
+      price: '.price '
+    zencart:
+      btn: 'product-buttons'
+      price: 'price '
+    magento:
+      btn: 'btn-cart'
+      price: 'price-box'
+    prestashop:
+      btn: 'button-container'
+      price: 'content_price'
+  return
 $('.form-field-list').sortable
   update: (event, ui) ->
     reOrderFormFields()
@@ -270,3 +291,5 @@ tinymce.init
   toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 $('#contact-email').click()
 $('.form-field').first().click()
+
+
