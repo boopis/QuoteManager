@@ -3,7 +3,7 @@
 <head>
   <title>QuoteManager</title>
 
-  <% if params[:controller] == "accounts" %>
+  <% if params[:controller] == "payments" %>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script type="text/javascript">
       Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
@@ -11,7 +11,7 @@
   <% end %>
 
   <%= yield :extended_css %>
-  <% if user_signed_in? %>
+  <% if user_signed_in? && current_account.plan.present? %>
     <%= stylesheet_link_tag    'admin' %>
     <%= javascript_include_tag 'application' %>
   <% else %>
@@ -23,7 +23,7 @@
 
 <body data-spy="scroll" data-offset="0" data-target="#navigation">
 
-<% if user_signed_in? %>
+<% if user_signed_in? && current_account.plan.present? %>
   <%= render 'layouts/user_header' %>
   <div class="container fill">
     <div class="row fill">

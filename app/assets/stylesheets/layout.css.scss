@@ -457,3 +457,16 @@ a:after {
 .signin input[type="checkbox"] {
 	margin-left: 0px !important;
 }
+
+.plan input[type="radio"] {
+	margin-left: -10px;
+	margin-right: 18px;
+	margin-top: 14px;
+}
+
+.plan.radio label {
+	width: 100%;
+	padding: 10px 10px 10px 30px;
+	border: solid rgb(238, 238, 238) 3px;
+	margin-bottom: 10px;
+}

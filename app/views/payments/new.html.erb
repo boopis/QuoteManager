@@ -1,0 +1,119 @@
+<div class="col-sm-12 signin">
+  <h2 class="text-center">Choose A Plan</h2>
+  <hr>
+</div>
+<div class="col-sm-6 col-sm-offset-3 signin">
+  
+  <%= flash_messages layout_flash: false %>
+
+  <div id="stripe_error" class="text-center alert-danger">
+    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </div>
+
+  <%= form_tag('/payments', method: :post, id: "new_payment") do %>
+
+    <%= hidden_field_tag :stripe_card_token, nil, name: nil %>
+    
+    <% @plans.each do |plan| %>
+      <div class="radio plan">
+        <label>
+          <%= radio_button_tag("plan_id", plan.id, plan.id == params[:plan_id].to_i ? true : false) %>
+          <%= number_to_currency(plan.price) %>/mo
+          <%= plan.name %>,
+          <%= plan.users > 1 ? "#{plan.users} Users" : "#{plan.users} User" %>,
+          <%= plan.forms %> Forms
+          <br>
+          <%= plan.storage > 999 ? "#{plan.storage/1000} GB" : "#{plan.storage} MB" %> Storage,
+          <%= plan.requests %> Requests
+        </label>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-credit-card"></span>
+            <%= text_field_tag :card_number, nil, name: nil, class: 'form-control', placeholder: 'Credit Card Number' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-credit-card"></span>
+            <%= text_field_tag :card_code, nil, name: nil, class: 'form-control', placeholder: '(CVV) Code' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+            <%= select_month nil, {add_month_numbers_true: true}, {name: nil, id: "card_month", class: "form-control"} %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+      <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control" } %>
+          </div> 
+        </div> 
+      </div> 
+    </div> 
+
+    <%= submit_tag "START 14 DAY FREE TRIAL!", class: 'btn btn-theme btn-block' %>
+  <% end %>
+</div>
+<div class="spinner-outer-wrapper" style="display:none;position:fixed;top:0;left:0;z-index: 1100;width:100%;height:100%;background:#000;opacity:0.5;filter:alpha(opacity=50);">
+  <div class="spinner-inner-wrapper" style="position:fixed;left:50%;top:40%;z-index:1101;">
+    <i class="fa fa-spinner fa-5x fa-spin" style="display:block;left:-50%;top-50%;position:relative;"></i>
+  </div>
+</div>
+<script>
+var account;
+
+jQuery(function() {
+  return account.setupForm();
+});
+
+account = {
+  setupForm: function() {
+    return $('#new_payment').submit(function() {
+      $('input[type=submit]').attr('disabled', true);
+      $('.spinner-outer-wrapper').show();
+      if ($('#card_number').length) {
+        account.processCard();
+        return false;
+      } else {
+        return true;
+      }
+    });
+  },
+  processCard: function() {
+    var card;
+    card = {
+      number: $('#card_number').val(),
+      cvc: $('#card_code').val(),
+      expMonth: $('#card_month').val(),
+      expYear: $('#card_year').val()
+    };
+    return Stripe.createToken(card, account.handleStripeResponse);
+  },
+  handleStripeResponse: function(status, response) {
+    if (status === 200) {
+      $('#stripe_card_token').val(response.id);
+      return $('#new_payment')[0].submit();
+    } else {
+      $('input[type=submit]').attr('disabled', false);
+      $('.spinner-outer-wrapper').hide();
+      return $('#stripe_error').text(response.error.message).css({"padding":"20px","border-radius":"7px"});
+    }
+  }
+};
+</script>
