@@ -6,6 +6,14 @@ class Form < ActiveRecord::Base
   validates :fields, presence: true
   validate :empty_form_field_option, :must_have_email_field, :empty_label
 
+  validate :limit, :on => :create
+
+  def limit
+    if self.account.forms(:reload).count >= self.account.plan.forms
+      errors.add(:base, "Exceeds Form Limit, Please Upgrade Your Account")
+    end
+  end
+
   # organize form field by position
   def order_form_field_position
     fields.sort_by do |key, value|
