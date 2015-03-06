@@ -1,5 +1,4 @@
 //= require jquery
-//= require bootstrap
 //= require smoothscroll
 
 $("#sidebar-nav .dropdown-toggle").click(function(e) {
