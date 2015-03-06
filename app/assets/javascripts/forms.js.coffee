@@ -1,3 +1,4 @@
+#= require bootstrap
 #= require tinymce
 #= require jquery.ui.sortable
 
