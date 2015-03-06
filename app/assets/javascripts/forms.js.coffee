@@ -1,4 +1,3 @@
-#= require shared
 #= require tinymce
 #= require jquery.ui.sortable
 
