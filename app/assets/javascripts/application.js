@@ -1,9 +1,1 @@
-//= require jquery
-//= require jquery.ui.sortable
-//= require jquery_ujs
-//= require bootstrap
-//= require moment
-//= require bootstrap-datetimepicker
-//= require tinymce
-//= require jSignature
-//= require_tree .
+
