@@ -120,8 +120,8 @@
   padding: 12px;
 }
 
-#form_styles, #form_scripts {
-  width: 100%;
+textarea.full {
+  width: 100% !important;
   height: 200px;
   margin: 10px 0;
 }

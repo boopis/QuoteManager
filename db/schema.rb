@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305092901) do
+ActiveRecord::Schema.define(version: 20150306073658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20150305092901) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ecommerce_type"
   end
 
   add_index "forms", ["account_id"], name: "index_forms_on_account_id", using: :btree

@@ -125,7 +125,7 @@
 
           <div class="tab-pane fade" id="style">
             <p>Your custom form style: </p>
-            <%= f.text_area :styles, class: 'form-control', placeholder: 'Add your custom styles' %>
+            <%= f.text_area :styles, class: 'form-control full', placeholder: 'Add your custom styles' %>
             <div class='clearfix'></div>
             <p>Number of column: </p>
             <div class='clearfix'></div>
@@ -138,6 +138,21 @@
           <div class="tab-pane fade" id="js">
             <p>Your custom form scripts: </p>
             <%= f.text_area :scripts, class: 'form-control', placeholder: 'Add your custom scripts' %>
+            <p>Which ecommerce website you want to integrate this form:</p>
+            <%= f.radio_button :ecommerce_type, 'Shopify', :class => 'form-control', :checked => true %> 
+            <%= label "", :shopify, "Shopify" %>
+            <%= f.radio_button :ecommerce_type, 'WooCommerce', :class => 'form-control' %> 
+            <%= label "", :woo_commerce, "WooCommerce" %>
+            <%= f.radio_button :ecommerce_type, 'Magento', :class => 'form-control' %> 
+            <%= label "", :magento, "Magento" %>
+            <%= f.radio_button :ecommerce_type, 'PrestaShop', :class => 'form-control' %> 
+            <%= label "", :presta_shop, "Presta Shop" %>
+            <%= f.radio_button :ecommerce_type, 'OpenCart', :class => 'form-control' %> 
+            <%= label "", :open_cart, "Open Cart" %>
+            <p>Generated script for list products page: </p>
+            <%= text_area_tag :list_product_script, "", :class => 'form-control full' %>
+            <p>Generated script for product detail page: </p>
+            <%= text_area_tag :product_detail_script, "", :class => 'form-control full' %>
           </div>
 
           <div class="tab-pane fade" id="settings">
