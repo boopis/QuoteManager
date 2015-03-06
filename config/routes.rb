@@ -10,7 +10,6 @@ QuoteManager::Application.routes.draw do
 
   resources :requests
   resources :quotes 
-  resources :quotes
   resources :contacts
   devise_for :users
   resources :users do
