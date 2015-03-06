@@ -19,11 +19,13 @@ class Contact < ActiveRecord::Base
   end
 
   def self.update_or_create_form_submitted(req_fields, request, account_id)
-    name, phone, email = [
-      req_fields.find{|k,v| v['type'] == 'name'}.last['request'],
-      req_fields.find{|k,v| v['type'] == 'phone'}.last['request'],
-      req_fields.find{|k,v| v['type'] == 'email'}.last['request']
+    contact = [
+      req_fields.find{|k,v| v['type'] == 'name'}.try(:last) || {},
+      req_fields.find{|k,v| v['type'] == 'phone'}.try(:last) || {},
+      req_fields.find{|k,v| v['type'] == 'email'}.try(:last) || {}
     ]
+
+    name, phone, email = contact.map { |c| c['request'] } 
 
     if email.present?
       contact = Contact.find_by_email(email) || Contact.new
