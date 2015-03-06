@@ -2,20 +2,17 @@ class AccountsController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:new, :create, :login]
 
   def new
-    if params[:plan_id].nil?
-      redirect_to root_url(subdomain: false, anchor: "pricing")
-    else
-      plan = Plan.find(params[:plan_id])
-      @account = plan.accounts.build
-      @account.users.build
-    end
+    plan = Plan.find(params[:plan_id])
+    @account = plan.accounts.build
+    @account.users.build
   end
 
   def create
     @account = Account.new(account_params)
     respond_to do |format|
-      if @account.save_with_payment
-        format.html { redirect_to new_user_session_url, notice: 'Account was successfully created. Please sign in.' }
+      if @account.save
+        sign_in(@account.users[0])
+        format.html { redirect_to new_payment_url.merge(params[:plan_id]), notice: 'Account was successfully created. Please choose a plan.' }
       else
         format.html { render :new }
         format.json { render json: @account.errors, status: :unprocessable_entity }
@@ -59,8 +56,6 @@ private
   def account_params
     params.require(:account).permit(
       :company_name,
-      :plan_id,
-      :stripe_card_token,
       users_attributes: [
         :firstname, 
         :lastname, 

@@ -1,5 +1,7 @@
-<h2 class="text-center">Create an Account</h2>
-<hr>
+<div class="col-sm-12 signin">
+  <h2 class="text-center">Create an Account</h2>
+  <hr>
+</div>
 
 <div class="col-sm-6 col-sm-offset-3 signin">
   <% if @account.errors.any? %>
@@ -78,92 +80,6 @@
       </div>
     </div>
 
-    <%= f.hidden_field :plan_id %> 
-    <%= f.hidden_field :stripe_card_token %>
-    
-    <div id="stripe_error" class="text-center alert-danger">
-      <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-addon glyphicon glyphicon-credit-card"></span>
-            <%= text_field_tag :card_number, nil, name: nil, class: 'form-control', placeholder: 'Credit Card Number' %>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-addon glyphicon glyphicon-credit-card"></span>
-            <%= text_field_tag :card_code, nil, name: nil, class: 'form-control', placeholder: '(CVV) Code' %>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-            <%= select_month nil, {add_month_numbers_true: true}, {name: nil, id: "card_month", class: "form-control"} %>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-      <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control" } %>
-          </div> 
-        </div> 
-      </div> 
-    </div> 
-
     <%= f.button :submit, "START 14 DAY FREE TRIAL!", class: 'btn btn-theme btn-block' %>
   <% end %>
 </div>
-
-<script>
-var account;
-
-jQuery(function() {
-  return account.setupForm();
-});
-
-account = {
-  setupForm: function() {
-    return $('#new_account').submit(function() {
-      $('input[type=submit]').attr('disabled', true);
-      if ($('#card_number').length) {
-        account.processCard();
-        return false;
-      } else {
-        return true;
-      }
-    });
-  },
-  processCard: function() {
-    var card;
-    card = {
-      number: $('#card_number').val(),
-      cvc: $('#card_code').val(),
-      expMonth: $('#card_month').val(),
-      expYear: $('#card_year').val()
-    };
-    return Stripe.createToken(card, account.handleStripeResponse);
-  },
-  handleStripeResponse: function(status, response) {
-    if (status === 200) {
-      $('#account_stripe_card_token').val(response.id);
-      return $('#new_account')[0].submit();
-    } else {
-      $('input[type=submit]').attr('disabled', false);
-      return $('#stripe_error').text(response.error.message);
-    }
-  }
-};
-</script>

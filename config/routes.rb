@@ -19,6 +19,13 @@ QuoteManager::Application.routes.draw do
     end
   end
 
+  resources :payments do
+    collection do 
+      get :new
+      post :create
+    end
+  end
+  
   post 'login' => 'accounts#login'
   resources :accounts, except: [:show]
 end
