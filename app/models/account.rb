@@ -11,5 +11,7 @@ class Account < ActiveRecord::Base
   has_one :company_logo, as: :viewable, dependent: :destroy, :class => Image
   accepts_nested_attributes_for :company_logo
 
+  validates :plan, presence: true, :on => :update
+
   attr_accessor :stripe_card_token
 end

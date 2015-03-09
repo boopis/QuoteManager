@@ -3,6 +3,18 @@
   <hr>
 </div>
 <div class="col-sm-6 col-sm-offset-3 signin">
+
+  <% if @account.errors.any? %>
+    <div class="alert alert-block alert-danger fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h4>
+      <ul>
+        <% @account.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul> 
+    </div>   
+  <% end %>
   
   <%= flash_messages layout_flash: false %>
 
