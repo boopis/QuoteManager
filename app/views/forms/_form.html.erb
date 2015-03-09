@@ -145,6 +145,8 @@
             <%= label "", :woo_commerce, "WooCommerce" %>
             <%= f.radio_button :ecommerce_type, 'Magento', :class => 'form-control' %> 
             <%= label "", :magento, "Magento" %>
+            <%= f.radio_button :ecommerce_type, 'ZenCart', :class => 'form-control', :checked => true %> 
+            <%= label "", :shopify, "ZenCart" %>
             <%= f.radio_button :ecommerce_type, 'PrestaShop', :class => 'form-control' %> 
             <%= label "", :presta_shop, "Presta Shop" %>
             <%= f.radio_button :ecommerce_type, 'OpenCart', :class => 'form-control' %> 

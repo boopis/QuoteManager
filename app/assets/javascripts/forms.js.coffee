@@ -213,12 +213,6 @@ migrationScript = (ecomType) ->
       btn: '.btn-cart'
       price: '.product_price'
       productItem: '.product'
-      script: "a = document.querySelectorAll('.product'); \n" + 
-              "for (var i=0; i<a.length; i++) { \n" + 
-              "  if ( a[i].querySelector('.product_price').textContent.match(/ 0\./) ) { \n" + 
-              "    a[i].querySelector('.add_to_cart_button').innerHTML = 'Quote'; \n" +
-              "  } \n" +
-              "}"
     WooCommerce:
       btn: '.add_to_cart_button'
       price: '.price'
@@ -235,7 +229,7 @@ migrationScript = (ecomType) ->
       btn: '.btn-cart'
       price: '.price-box'
       productItem: '.product-container'
-    Prestashop:
+    PrestaShop:
       btn: 'button-container'
       price: 'content_price'
       productItem: '.product-container'
