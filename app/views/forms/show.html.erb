@@ -124,14 +124,20 @@
         <h2 class="pull-left">Add inline script guide</h2>
         <div class='clearfix'></div>
         <h5>
-          After created this form, you can add this inline form script to your site by 
-          following steps:
+          After created this form, you can add this inline form script to your by two ways:
         </h5>
-        <p>- Get your form id and your account url</p>
-        <%= image_tag("link.png", alt: 'your link and form id', style: 'margin-bottom: 15px;') %>
-
-        <p>- Open your website source code and add script tag. Replace script src your account url and your form id.</p>
-        <%= image_tag("add-script.png", alt: 'add script to your website') %>
+        <div class='clearfix'>
+          <p>- Get this form inline script to your website and call renderForm function.</p>
+          <%= text_field_tag 'script', "http://quotemanager.co/form-inline/#{@form.id}.js", :class => 'form-control' %>  
+          <a href='#' id='copy-script' class='btn btn-primary copy-btn' data-clipboard-target='script'
+          data-toggle="tooltip" data-placement="top" title="Copy to clipboard!">Copy script</a>
+        </div>
+        <div class='clearfix'>
+          <p>- Use raw HTML directly in your website.</p>
+          <%= text_area_tag 'rawhtml', "", :class => 'form-control full' %>  
+          <a href='#' id='copy-raw-html' class='btn btn-primary copy-btn' data-clipboard-target='rawhtml'
+          data-toggle="tooltip" data-placement="top" title="Copy to clipboard!">Copy raw HTML</a>
+        </div>
       </div>
     </div>
   </div>

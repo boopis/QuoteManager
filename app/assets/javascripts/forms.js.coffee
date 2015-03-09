@@ -1,5 +1,6 @@
 #= require bootstrap
 #= require tinymce
+#= require zclip
 #= require jquery.ui.sortable
 
 $(document).on 'click', 'form .add_fields', (event) ->
@@ -206,7 +207,44 @@ reOrderFormFields = ->
     $lstFormField.find('#form_fields_' + lstOrder[i] + '_position').val i
     i++
 
-$("body").tooltip({ selector: '[data-toggle=tooltip]' })
+migrationScript = (ecomType) ->
+  script = $ '#list_product_script'
+  ecommerce = 
+    Shopify:
+      btn: '.btn-cart'
+      price: '.product_price'
+      productItem: '.product'
+    WooCommerce:
+      btn: '.add_to_cart_button'
+      price: '.price'
+      productItem: '.product li'
+    OpenCart:
+      btn: '.cart-button'
+      price: '.price'
+      productItem: '.product-layout'
+    ZenCart:
+      btn: '.product-buttons'
+      price: '.price'
+      productItem: '.product-col'
+    Magento:
+      btn: '.btn-cart'
+      price: '.price-box'
+      productItem: '.product-container'
+    PrestaShop:
+      btn: 'button-container'
+      price: 'content_price'
+      productItem: '.product-container'
+  
+  scriptContent = "a = document.querySelectorAll('" + ecommerce[ecomType].productItem + "'); \n" + 
+            "for (var i=0; i<a.length; i++) { \n" + 
+            "  if ( a[i].querySelector('" + ecommerce[ecomType].price + "').textContent.match(/ 0\./) ) { \n" + 
+            "    a[i].querySelector('" + ecommerce[ecomType].btn + "').innerHTML = 'Quote'; \n" +
+            "  } \n" +
+            "}"
+
+  script.val scriptContent
+
+$("#rendered-form").tooltip({ selector: '[data-toggle=tooltip]' })
 $("#style input:radio").change (e) ->
   $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
 $('#form_name').keyup (e) ->
@@ -247,6 +285,9 @@ $('.tabs-wrapper .nav.nav-tabs a').click (e) ->
   e.preventDefault()
   $(this).tab 'show'
   return
+$("#js input:radio").change (e) ->
+  migrationScript $(this).val() 
+  return
 $('.form-field-list').sortable
   update: (event, ui) ->
     reOrderFormFields()
@@ -268,5 +309,38 @@ tinymce.init
       return
     return
   toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
+# Pre-init for ui
 $('#contact-email').click()
 $('.form-field').first().click()
+if $("#js input:radio").val() != '' 
+  migrationScript 
+
+# Form show page
+# Copy inline javascript link
+$copyScript = $('a#copy-script')
+copyScript = new ZeroClipboard document.getElementById('copy-script')
+copyScript.on 'ready', (readyEvent) ->
+  copyScript.on 'aftercopy', (event) ->
+    $copyScript.text('Copied!').removeClass('btn-primary').addClass('btn-success')
+    return
+  return
+
+# Copy raw form's HTML 
+$copyRawHTML = $('a#copy-raw-html')
+copyRawHTML = new ZeroClipboard $copyRawHTML[0] 
+copyRawHTML.on 'ready', (readyEvent) ->
+  copyRawHTML.on 'aftercopy', (event) ->
+    $copyRawHTML.text('Copied!').removeClass('btn-primary').addClass('btn-success')
+    return
+  return
+
+# Re change title of copy button after user lose focus on it
+$copyRawHTML.mouseout (e) -> 
+  $copyRawHTML.text('Copy to clipboard').removeClass('btn-success').addClass('btn-primary')
+  return
+
+$copyScript.mouseout (e) -> 
+  $copyScript.text('Copy to clipboard').removeClass('btn-success').addClass('btn-primary')
+  return
+
+$('#rawhtml').val $('form').html()
