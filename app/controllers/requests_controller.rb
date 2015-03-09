@@ -39,11 +39,19 @@ class RequestsController < ApplicationController
       # Check and get errors list
       map_data = form.map_destination_data(req_fields, @request)
       if map_data[:errors].messages.size === 0 
-        @request.update_columns(:fields => map_data[:request].fields.dup)
+        @request.assign_attributes(:fields => map_data[:request].fields.dup)
       end
 
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
+          ActiveRecord::Base.transaction do
+            req_params[:files].each do |file|
+              file.assign_attributes(:request_id => @request.id, :account_id => @request.id)
+              file.save
+              map_data[:request].fields[file.field_id]['request'] = file.asset.url
+            end
+            @request.update_columns(:fields => map_data[:request].fields.dup)
+          end
           format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
           format.json { render json: @request.to_json, status: :created }
 
@@ -96,29 +104,37 @@ class RequestsController < ApplicationController
   end
 
   def store_file(params)
-    errors = {}
+    errors, files = {}, []
 
     params['fields'].each do |k, v| 
       if v['type'] == 'file'
         unless v['request'].nil?
+          isError = false
           isValidFile = ['png', 'jpg', 'jpeg', 'gif', 'zip'].any? do |word| 
             v['request'].content_type.include?(word)
           end
 
           if !isValidFile
             errors[:file_extensions] = 'Only allow to add [jpg, png, gif, zip] file'
+            isError = true
           end 
 
           if (v['request'].tempfile.size / 1000000 > 2) 
             errors[:file_size] = 'The file size exceeds the limit allowed and cannot be saved'
-          else 
-            uploader = FileUploader.new 
-            uploader.cache!(v['request'])
-            v['request'] = uploader.url
+            isError = true
+          end
+
+          unless isError
+            files.push(Asset.new(
+              :asset => v['request'], 
+              :public => 0, 
+              :field_id => k
+            ))
+            v['request'] = ''
           end
         end
       end
     end
-    { :params => params, :errors => errors }
+    { :params => params, :errors => errors, files: files }
   end
 end

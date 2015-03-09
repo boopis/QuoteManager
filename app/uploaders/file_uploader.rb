@@ -13,7 +13,11 @@ class FileUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "uploads/files/#{model.account_id}/#{Date.today.strftime("%d-%m")}/#{model.id}"
+  end
+
+  def cache_dir
+    "#{Rails.root}/public/uploads/"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
