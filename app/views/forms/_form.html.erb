@@ -137,7 +137,7 @@
 
           <div class="tab-pane fade" id="js">
             <p>Your custom form scripts: </p>
-            <%= f.text_area :scripts, class: 'form-control', placeholder: 'Add your custom scripts' %>
+            <%= f.text_area :scripts, class: 'form-control full', placeholder: 'Add your custom scripts' %>
             <p>Which ecommerce website you want to integrate this form:</p>
             <%= f.radio_button :ecommerce_type, 'Shopify', :class => 'form-control', :checked => true %> 
             <%= label "", :shopify, "Shopify" %>
@@ -151,6 +151,7 @@
             <%= label "", :open_cart, "Open Cart" %>
             <p>Generated script for list products page: </p>
             <%= text_area_tag :list_product_script, "", :class => 'form-control full' %>
+            <strong class='red'>NOTE*: </strong><span>Modify it and copy it to your website.</span>
           </div>
 
           <div class="tab-pane fade" id="settings">

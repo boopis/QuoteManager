@@ -95,6 +95,7 @@ class FormsController < ApplicationController
         :scripts,
         :styles, 
         :column_style,
+        :ecommerce_type,
         fields: [:label, :type, :validate, :placeholder, :description, :css_class , options: [:name]], 
         emails: [:email]
       )
