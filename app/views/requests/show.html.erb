@@ -16,7 +16,11 @@
           <% if field['request'].kind_of?(Array) %>
             <dd><%= field['request'].join(",") %></dd>
           <% else %>
-            <dd><%= field['request'] %></dd>
+            <% if field['type'] == 'file' %>
+              <dd><%= link_to 'file', field['request'], :target => "_blank" %></dd>
+            <% else %>
+              <dd><%= field['request'] %></dd>
+            <% end %>
           <% end %>
         <% end %>
       </dl> 
