@@ -1,5 +1,6 @@
 #= require bootstrap
 #= require tinymce
+#= require zclip
 #= require jquery.ui.sortable
 
 $(document).on 'click', 'form .add_fields', (event) ->
@@ -243,7 +244,7 @@ migrationScript = (ecomType) ->
 
   script.val scriptContent
 
-$("body").tooltip({ selector: '[data-toggle=tooltip]' })
+$("#rendered-form").tooltip({ selector: '[data-toggle=tooltip]' })
 $("#style input:radio").change (e) ->
   $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
 $('#form_name').keyup (e) ->
@@ -311,4 +312,35 @@ tinymce.init
 # Pre-init for ui
 $('#contact-email').click()
 $('.form-field').first().click()
-migrationScript $("#js input:radio").val()
+if $("#js input:radio").val() != '' 
+  migrationScript 
+
+# Form show page
+# Copy inline javascript link
+$copyScript = $('a#copy-script')
+copyScript = new ZeroClipboard document.getElementById('copy-script')
+copyScript.on 'ready', (readyEvent) ->
+  copyScript.on 'aftercopy', (event) ->
+    $copyScript.text('Copied!').removeClass('btn-primary').addClass('btn-success')
+    return
+  return
+
+# Copy raw form's HTML 
+$copyRawHTML = $('a#copy-raw-html')
+copyRawHTML = new ZeroClipboard $copyRawHTML[0] 
+copyRawHTML.on 'ready', (readyEvent) ->
+  copyRawHTML.on 'aftercopy', (event) ->
+    $copyRawHTML.text('Copied!').removeClass('btn-primary').addClass('btn-success')
+    return
+  return
+
+# Re change title of copy button after user lose focus on it
+$copyRawHTML.mouseout (e) -> 
+  $copyRawHTML.text('Copy to clipboard').removeClass('btn-success').addClass('btn-primary')
+  return
+
+$copyScript.mouseout (e) -> 
+  $copyScript.text('Copy to clipboard').removeClass('btn-success').addClass('btn-primary')
+  return
+
+$('#rawhtml').val $('form').html()
