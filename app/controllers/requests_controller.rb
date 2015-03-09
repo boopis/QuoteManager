@@ -1,5 +1,6 @@
 class RequestsController < ApplicationController
   before_filter :authenticate_user!, except: [:create]
+  before_filter :block_freeloaders!, except: [:create]
   before_action :set_request, only: [:show, :destroy]
 
   skip_before_filter :verify_authenticity_token

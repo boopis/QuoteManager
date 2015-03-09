@@ -9,12 +9,16 @@ class User < ActiveRecord::Base
   has_one :avatar, as: :viewable, dependent: :destroy, :class_name => Image
   accepts_nested_attributes_for :avatar, :account
 
-  validate :limit, :on => :create
+  validate :limit, :on => :create, :if => :plan_exists?
 
   def limit
     if self.account.users(:reload).count >= self.account.plan.users
       errors.add(:base, "Exceeds User Limit, Please Upgrade Your Account")
     end
+  end
+
+  def plan_exists?
+    self.account.present?
   end
 
   def fullname

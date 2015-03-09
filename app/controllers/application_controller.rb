@@ -24,7 +24,14 @@ private
   end
   helper_method :current_account
 
-  def after_sign_out_path_for(resource_or_scope)
-    new_user_session_path
+  def block_freeloaders!
+    if current_account.plan.nil?
+      flash[:notice] = 'You must fill in payment details before continuing!'
+
+      redirect_to new_payment_path
+
+      return false
+    end
   end
+
 end

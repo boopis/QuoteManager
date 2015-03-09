@@ -12,7 +12,11 @@ class AccountsController < ApplicationController
     respond_to do |format|
       if @account.save
         sign_in(@account.users[0])
-        format.html { redirect_to new_payment_url.merge(params[:plan_id]), notice: 'Account was successfully created. Please choose a plan.' }
+        if params[:plan_id].present?
+          format.html { redirect_to new_payment_url.merge(params[:plan_id]), notice: 'Please add payment details to begin trial.' }
+        else
+          format.html { redirect_to new_payment_url, notice: 'Account was successfully created. Please choose a plan.' }          
+        end
       else
         format.html { render :new }
         format.json { render json: @account.errors, status: :unprocessable_entity }

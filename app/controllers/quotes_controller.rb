@@ -1,5 +1,6 @@
 class QuotesController < ApplicationController
   before_filter :authenticate_user!, except: [:accept_quote, :public]
+  before_filter :block_freeloaders!, except: [:accept_quote, :public]
   before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote]
   before_action :check_token, only: [:public]
   before_action :parse_request, only: [:public]
