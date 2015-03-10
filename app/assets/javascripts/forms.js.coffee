@@ -1,6 +1,6 @@
 #= require bootstrap
 #= require tinymce
-#= require zclip
+#= require ZeroClipboard
 #= require jquery.ui.sortable
 
 $(document).on 'click', 'form .add_fields', (event) ->
@@ -8,6 +8,7 @@ $(document).on 'click', 'form .add_fields', (event) ->
   regexp = new RegExp($(this).data('id'), 'g')
   $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   reOrderFormFields()
+  $('.form-field').last().click()
   event.preventDefault()
 
 $(document).on 'click', 'form .add_contact_fields', (event) ->
@@ -16,6 +17,7 @@ $(document).on 'click', 'form .add_contact_fields', (event) ->
   $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   $(this).removeClass('add_contact_fields').addClass('cant_add_fields')
   reOrderFormFields()
+  $('.form-field').last().click()
   event.preventDefault()
 
 $(document).on 'click', 'form .remove_fields', (event) ->
@@ -206,6 +208,7 @@ reOrderFormFields = ->
   while i < lstOrder.length
     $lstFormField.find('#form_fields_' + lstOrder[i] + '_position').val i
     i++
+  return
 
 migrationScript = (ecomType) ->
   script = $ '#list_product_script'
@@ -261,6 +264,7 @@ $('#confirm-delete').find('.modal-footer .yes').on 'click', ->
   window.removingField = null
   window.removingContactType = ''
   reOrderFormFields()
+  $('.form-field').last().click()
   return
 $('.settings input:checkbox').change (e) -> 
   propName = $(this).data('name')
