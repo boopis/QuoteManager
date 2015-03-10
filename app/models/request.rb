@@ -2,7 +2,6 @@ class Request < ActiveRecord::Base
   belongs_to :account
   belongs_to :form
   belongs_to :contact
-  has_many :assets
   validate :limit, :on => :create
 
   def limit
