@@ -74,6 +74,19 @@ class RequestsController < ApplicationController
     end
   end
 
+  # GET /download/field_id
+  def download
+    @request = Request.find(params[:request_id])
+    if @request
+      send_file Rails.root.to_s + @request.fields[params[:field_id]]['request'], :x_sendfile=>true
+    else 
+      respond_to do |format|
+        format.html { redirect_to requests_url, alert: 'Resource not found' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_request
