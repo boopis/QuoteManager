@@ -157,9 +157,13 @@
           </div>
 
           <div class="tab-pane fade" id="settings">
-            <%= form_custom_settings(@form.emails, "email", f)%>
+            <div class='clearfix'>
+              <%= form_custom_settings(@form.emails, "email", f)%>
+            </div>
+            <div class='clearfix thankyou message'>
+              <%= f.text_area :thank_msg, :class => 'form-control full' %>
+            </div>
           </div>
-
         </div>
       </div>
     </div>
