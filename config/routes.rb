@@ -8,7 +8,9 @@ QuoteManager::Application.routes.draw do
   post 'quotes/accept/:id' => 'quotes#accept_quote'
   get '/offer/:id' => 'quotes#public'
 
-  resources :requests
+  resources :requests do
+    get '/download/:field_id', action: :download, as: :download
+  end
   resources :quotes 
   resources :contacts
   devise_for :users
