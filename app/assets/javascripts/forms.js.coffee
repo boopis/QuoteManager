@@ -309,6 +309,22 @@ tinymce.init
       return
     return
   toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
+# Form thank you message
+tinymce.init
+  selector: '.thank-you-message textarea'
+  menubar : false
+  plugins: [
+    'visualblocks code fullscreen'
+    'contextmenu paste'
+  ]
+  setup: (editor) ->
+    editor.on 'change', (e) ->
+      return
+    editor.on 'keyup', (e) ->
+      return
+    return
+  toolbar: 'styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
+
 # Pre-init for ui
 $('#contact-email').click()
 $('.form-field').first().click()

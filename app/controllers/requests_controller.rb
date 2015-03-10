@@ -100,10 +100,16 @@ class RequestsController < ApplicationController
     end    
   end
 
+  def send_thank_you_message_to_customer(form, contact)
+    Thread.new do
+      FormMailer.thank_customer(e['email'], submitted_user, form).deliver
+    end
+  end
+
   def send_mail_to_form_creator(form, submitted_user)
     Thread.new do
       form.emails.each do |e|
-        FormMailer.form_submitted(e['email'], submitted_user, form).deliver
+        FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
       end
     end
   end
