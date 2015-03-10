@@ -163,7 +163,7 @@ ul li, ol li {
       <table>
         <tr>
           <td>
-            <%= Liquid::Template.parse(form.thank_msg).render 'customer' => @cusomter %>
+            <%= Liquid::Template.parse(@form.thank_msg).render('customer' => @customer).html_safe %>
           </td>
         </tr>
       </table>

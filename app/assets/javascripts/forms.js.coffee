@@ -183,7 +183,7 @@ bindFormFieldOption = (formField) ->
       $('#option_' + el).prop 'checked', checked
     else if el == 'content'
       if hiddenValue != undefined
-        tinyMCE.activeEditor.setContent hiddenValue
+        tinyMCE.get('option_content').setContent hiddenValue
     else
       $('#option_' + el).val hiddenValue
     return
@@ -195,7 +195,7 @@ getRawDataFromEditor = ->
   currentField = window.currentField
   content = currentField.find 'input[data-name="content"]'
   visualField = currentField.find '.content'
-  value = tinyMCE.activeEditor.getContent({format : 'raw'})
+  value = tinyMCE.get('option_content').getContent({format : 'raw'})
 
   content.val value
   visualField.html value
@@ -314,6 +314,7 @@ tinymce.init
     return
   toolbar: 'table | styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 # Form thank you message
+$thankMsgTxt= $('.thank-you-message textarea')
 tinymce.init
   selector: '.thank-you-message textarea'
   menubar : false
@@ -323,8 +324,10 @@ tinymce.init
   ]
   setup: (editor) ->
     editor.on 'change', (e) ->
+      $thankMsgTxt.val $(this)[0].getContent({ format: 'raw' })
       return
     editor.on 'keyup', (e) ->
+      $thankMsgTxt.val $(this)[0].getContent({ format: 'raw' })
       return
     return
   toolbar: 'styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
@@ -332,8 +335,14 @@ tinymce.init
 # Pre-init for ui
 $('#contact-email').click()
 $('.form-field').first().click()
+
 if $("#js input:radio").val() != '' 
   migrationScript 
+
+# Fill thank you message to tinymce editor
+tinyThankMsg = tinyMCE.get 'form_thank_msg' 
+if tinyThankMsg
+  tinyThankMsg.setContent $thankMsgTxt.val()
 
 # Form show page
 # Copy inline javascript link

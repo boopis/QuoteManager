@@ -8,5 +8,6 @@ class FormMailer < ActionMailer::Base
 
   def thank_customer(customer, form)
     @form, @customer = form, customer
+    mail to: customer.email, subject: "Thank you for using our services"
   end
 end
