@@ -59,7 +59,7 @@
               First Name
             </div>
             <div class="profile-user-details-value">
-              <%= split_name(@contact.name,0) %>
+              <%= split_name(@contact.name,0) if @contact.name.present? %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -67,7 +67,7 @@
               Last Name
             </div>
             <div class="profile-user-details-value">
-              <%= split_name(@contact.name,1) %>
+              <%= split_name(@contact.name,1) if @contact.name.present? %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
