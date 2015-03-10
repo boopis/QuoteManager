@@ -10,6 +10,8 @@ class Contact < ActiveRecord::Base
   has_one :avatar, as: :viewable, dependent: :destroy, class: Image
   accepts_nested_attributes_for :avatar
 
+  liquid_methods :name, :phone, :email
+
   def load_image(default_img)
     if avatar.nil? || avatar.image_url.nil?
       default_img

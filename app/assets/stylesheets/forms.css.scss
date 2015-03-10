@@ -236,3 +236,21 @@ textarea.full {
   width: auto;
   margin-right: 1px;
 }
+
+.thank-you-message {
+  margin-top: 18px;
+
+  p {
+    margin: 0 0 5px 0;
+
+    &.more-info {
+      margin-top: 15px;
+    }
+
+    &.note {
+      margin-top: 10px;
+    }
+  }
+}
+
+

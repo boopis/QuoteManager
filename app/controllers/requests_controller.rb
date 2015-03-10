@@ -45,12 +45,14 @@ class RequestsController < ApplicationController
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
           format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
-          format.json { render json: @request.to_json, status: :created }
+          format.json { render json: { request: @request, message: 'Thank you for using our services!' }.to_json, status: :created }
 
+          send_thank_you_message_to_customer(form, @request.contact)
           send_mail_to_form_creator(
             form,  
             req_fields.find{|k,v| v['type'] == 'email'}.last['request']
           )
+          
         else
           format.html { redirect_to request.referrer, alert: 'You need to enter all required fields' }
           format.json { render json: map_data[:errors], status: :unprocessable_entity }
@@ -100,10 +102,16 @@ class RequestsController < ApplicationController
     end    
   end
 
+  def send_thank_you_message_to_customer(form, contact)
+    Thread.new do
+      FormMailer.thank_customer(contact, form).deliver
+    end
+  end
+
   def send_mail_to_form_creator(form, submitted_user)
     Thread.new do
       form.emails.each do |e|
-        FormMailer.form_submitted(e['email'], submitted_user, form).deliver
+        FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
       end
     end
   end

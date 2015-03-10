@@ -97,6 +97,7 @@ class FormsController < ApplicationController
         :styles, 
         :column_style,
         :ecommerce_type,
+        :thank_msg,
         fields: [:label, :type, :validate, :placeholder, :description, :css_class , options: [:name]], 
         emails: [:email]
       )
