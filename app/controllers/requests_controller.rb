@@ -28,7 +28,7 @@ class RequestsController < ApplicationController
   def create
     req_params = request_params
     form = Form.find(req_params[:form_id].to_i)
-    req_params = store_file(req_params)
+    req_params = store_file(req_params, form.account.id)
     req_fields = req_params[:params][:fields]
 
     if req_params[:errors].empty?
@@ -44,14 +44,6 @@ class RequestsController < ApplicationController
 
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
-          ActiveRecord::Base.transaction do
-            req_params[:files].each do |file|
-              file.assign_attributes(:request_id => @request.id, :account_id => @request.id)
-              file.save
-              map_data[:request].fields[file.field_id]['request'] = file.asset.url
-            end
-            @request.update_columns(:fields => map_data[:request].fields.dup)
-          end
           format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
           format.json { render json: @request.to_json, status: :created }
 
@@ -67,7 +59,7 @@ class RequestsController < ApplicationController
     else 
       respond_to do |format|
         format.html { redirect_to request.referrer, alert: 'Invalid form fields' }
-        format.json { render json: map_data[:errors], status: :unprocessable_entity }
+        format.json { render json: req_params[:errors], status: :unprocessable_entity }
       end
     end
   end
@@ -79,6 +71,19 @@ class RequestsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to requests_url }
       format.json { head :no_content }
+    end
+  end
+
+  # GET /download/field_id
+  def download
+    @request = Request.find(params[:request_id])
+    if @request
+      send_file Rails.root.to_s + @request.fields[params[:field_id]]['request'], :x_sendfile=>true
+    else 
+      respond_to do |format|
+        format.html { redirect_to requests_url, alert: 'Resource not found' }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -103,7 +108,7 @@ class RequestsController < ApplicationController
     end
   end
 
-  def store_file(params)
+  def store_file(params, account_id)
     errors, files = {}, []
 
     params['fields'].each do |k, v| 
@@ -125,16 +130,16 @@ class RequestsController < ApplicationController
           end
 
           unless isError
-            files.push(Asset.new(
-              :asset => v['request'], 
-              :public => 0, 
-              :field_id => k
-            ))
-            v['request'] = ''
+            name = v['request'].original_filename.gsub('.', "-#{DateTime.now.strftime('%s')}.")
+            url = "/uploads/files/#{account_id}/#{Date.today.strftime("%d-%m")}"
+            dir = "#{Rails.root}" + url
+            FileUtils.mkdir_p(dir) unless File.directory?(dir)
+            File.open(File.join(dir, name), "wb") { |f| f.write(v['request'].read) }
+            v['request'] = File.join(url, name)
           end
         end
       end
     end
-    { :params => params, :errors => errors, files: files }
+    { :params => params, :errors => errors }
   end
 end

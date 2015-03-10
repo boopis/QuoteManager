@@ -17,7 +17,7 @@
             <dd><%= field['request'].join(",") %></dd>
           <% else %>
             <% if field['type'] == 'file' %>
-              <dd><%= link_to 'file', field['request'], :target => "_blank" %></dd>
+              <dd><%= link_to 'Open file', request_download_path(@request.id, id) %></dd>
             <% else %>
               <dd><%= field['request'] %></dd>
             <% end %>

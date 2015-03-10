@@ -26,5 +26,8 @@ doc/
 /public/uploads
 /public/uploads/*.*
 
+/uploads
+/uploads/*.*
+
 # Ignore application configuration
 /config/application.yml
