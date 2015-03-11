@@ -59,11 +59,17 @@ tinymce.init
   toolbar: 'styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 
 $('#insert-quote-link').click (e) -> 
-  tinyMCE.activeEditor.dom.add tinyMCE.activeEditor.getBody(), 'a', { href: (window.location.origin + $(this).data('quote')) }, 'public quote link'
+  publicQuoteLink = 'http://quotemanager.co' + $(this).data('quote')
+  tinyMCE.activeEditor.dom.add tinyMCE.activeEditor.getBody(), 'a', { href: publicQuoteLink }, 'public quote link'
   return false
 
 $emailAddress = $ '#email'
-$emailAddress.on 'itemAdded', (e) ->
+$emailAddress.on 'beforeItemAdd', (e) ->
+  re = /\S+@\S+\.\S+/
+  if !re.test(e.item)
+    e.cancel = true
   return
-$emailAddress.on 'itemRemoved', (e) ->
-  return
+
+$('#request-email').click (e) ->
+  $emailAddress.tagsinput 'add', $(this).data('request') 
+  return false

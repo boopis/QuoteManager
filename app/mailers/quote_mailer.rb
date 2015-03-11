@@ -3,6 +3,6 @@ class QuoteMailer < ActionMailer::Base
 
   def send_quote(address, quote, template)
     @quote, @template = quote, template
-    mail to: customer, subject: "Quote link"
+    mail to: address, subject: "Quote link"
   end
 end

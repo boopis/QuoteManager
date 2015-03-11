@@ -84,10 +84,15 @@
         </div>
 
         <div class='form-group'>
-          <%= submit_tag 'Send Quote', class: 'btn btn-primary' %>
+          <%= submit_tag 'Send Quote', class: 'btn btn-success' %>
           <%= button_tag 'Insert Quote Link To Message', 
             id: 'insert-quote-link', class: 'btn btn-primary', 
             :'data-quote' => public_quote_path(@quote, :token => @quote.token) %>
+          <% unless @quote.request.try(:contact).nil? %>
+            <%= button_tag 'Add Email Address From Your Request', id: 'request-email', 
+              class: 'btn btn-primary', :'data-request' => @quote.request.contact.email %>
+          <% end %>
+
         </div>
       <% end %>
     </div>
