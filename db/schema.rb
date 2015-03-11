@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150311064220) do
+ActiveRecord::Schema.define(version: 20150311100151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,19 +30,6 @@ ActiveRecord::Schema.define(version: 20150311064220) do
   end
 
   add_index "accounts", ["plan_id"], name: "index_accounts_on_plan_id", using: :btree
-
-  create_table "assets", force: true do |t|
-    t.string   "asset"
-    t.integer  "account_id"
-    t.integer  "request_id"
-    t.integer  "public"
-    t.string   "field_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "assets", ["account_id"], name: "index_assets_on_account_id", using: :btree
-  add_index "assets", ["request_id"], name: "index_assets_on_request_id", using: :btree
 
   create_table "contacts", force: true do |t|
     t.string   "name"
@@ -104,10 +91,12 @@ ActiveRecord::Schema.define(version: 20150311064220) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "template_id"
   end
 
   add_index "quotes", ["account_id"], name: "index_quotes_on_account_id", using: :btree
   add_index "quotes", ["request_id"], name: "index_quotes_on_request_id", using: :btree
+  add_index "quotes", ["template_id"], name: "index_quotes_on_template_id", using: :btree
 
   create_table "requests", force: true do |t|
     t.json     "fields"
@@ -122,6 +111,17 @@ ActiveRecord::Schema.define(version: 20150311064220) do
   add_index "requests", ["account_id"], name: "index_requests_on_account_id", using: :btree
   add_index "requests", ["contact_id"], name: "index_requests_on_contact_id", using: :btree
   add_index "requests", ["form_id"], name: "index_requests_on_form_id", using: :btree
+
+  create_table "templates", force: true do |t|
+    t.string   "name"
+    t.text     "content"
+    t.text     "description"
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "templates", ["account_id"], name: "index_templates_on_account_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

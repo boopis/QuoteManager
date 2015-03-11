@@ -1,0 +1,62 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "quotes" %>
+<% end %>
+
+<div class="main-box clearfix">
+  <div class="clearfix">
+    <h2 class="pull-left">Templates</h2>
+
+    <div class="filter-block pull-right">
+      <%= link_to new_template_path, class: "btn btn-primary pull-right" do %>
+        <i class="fa fa-plus-circle fa-lg"></i> New Template
+    <% end %>
+    </div>
+
+  </div>
+
+  <div class="table-responsive">
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Content</th>
+          <th>Description</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @templates.each do |template| %>
+          <tr>
+            <td><%= template.name %></td>
+            <td><%= template.content %></td>
+            <td><%= template.description %></td>
+            <td>
+              <%= link_to template, title: 'Show Template', class: 'table-link' do %>
+                <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>
+              <%= link_to edit_template_path(template), title: 'Edit Template', class: 'table-link' do %>
+                <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>
+
+              <%= link_to template, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= paginate @templates, :pagination_class => "pull-right"%>
+</div>

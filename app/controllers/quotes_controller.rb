@@ -128,6 +128,7 @@ private
   def parse_request
     @quote = Quote.find(params[:id])
     @company = @quote.account
+    @contact = @quote.request.contact
     if @quote.options.present?
       @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
     else
@@ -139,7 +140,7 @@ private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def quote_params
-    params.require(:quote).permit(:amount, :token, :expires_at, :request_id, :description, options: [:description, :amount])
+    params.require(:quote).permit(:amount, :token, :expires_at, :template_id, :request_id, :description, options: [:description, :amount])
   end
 
   def token_validity
