@@ -83,14 +83,33 @@ class QuotesController < ApplicationController
     end
   end
 
-  # GET /quotes/1?token=
+  # GET /quotes?token=
   def public
+  end
+
+  # POST /quotes/:id/send-quote
+  def send_quote
+    quote = Quote.find(params[:quote_id])
+    send_quote_email(params[:email], quote)
+    
+    respond_to do |format|
+      format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
+      format.json { render json: params[:email], status: :ok }
+    end
   end
 
 private
   # Use callbacks to share common setup or constraints between actions.
   def set_quote
     @quote = Quote.find(params[:id])
+  end
+
+  def send_quote_email(email, quote)
+    Thread.new do
+      email['addresses'].split(',').each do |address|
+        QuoteMailer.send_quote(address, quote, email['content'])
+      end
+    end
   end
 
   def parse_request
