@@ -158,10 +158,28 @@
 
           <div class="tab-pane fade" id="settings">
             <div class='clearfix'>
+              <p>Notify to form creators through: </p>
               <%= form_custom_settings(@form.emails, "email", f)%>
             </div>
-            <div class='clearfix thankyou message'>
-              <%= f.text_area :thank_msg, :class => 'form-control full' %>
+            <div class='clearfix thank-you-message'>
+              <p>Thank you message after users submitted this form: </p>
+              <%= f.text_area :thank_msg, :class => 'form-control full', :placeholder => 'Enter your thank you message' %>
+              <p class='note'>
+                <strong class='red'>NOTE*: </strong> 
+              </p>
+              <p>
+                - You can use liquid template to write thank you message.
+              </p>
+              <p>
+                - You can use 'customer' variable to get your customer's email, name, phone. 
+              </p>
+              <p class='more-info'>
+                <span>
+                  Never heard about liquid template? Please go to
+                </span>
+                <a href='http://liquidmarkup.org' target='_blank'>this link</a> 
+                <span>.</span>
+              </p>
             </div>
           </div>
         </div>

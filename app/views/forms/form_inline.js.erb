@@ -5,7 +5,7 @@ function postForm(form) {
       xhr.open('POST',form.action,true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 201) {
-        document.getElementById('qm-modal-inner').innerHTML = '<h2>Success!</h2>';
+        document.getElementById('qm-modal-inner').innerHTML = '<h2>Form was submitted successfully!</h2>';
         setTimeout(function(){
           document.getElementById('qm-modal').remove();
         },2000)
