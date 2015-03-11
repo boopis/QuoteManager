@@ -17,6 +17,15 @@
       </p>
 
       <p>
+      <strong>Quote template:</strong>
+      <% if @quote.template.nil? %>
+        Default template
+      <% else %>
+        <%= @quote.template.name %>
+      <% end %>
+      </p>
+
+      <p>
         <strong>Options:</strong>
         <% if @quote.options.present? %>
           <% @quote.options.each do |id, option| %>
@@ -41,7 +50,6 @@
         <%= @quote.status %>
       </p>
  
-
       <p>
         <strong>Customer signature:</strong>
         <% if @quote.signature.nil? %>

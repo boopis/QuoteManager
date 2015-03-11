@@ -24,6 +24,7 @@
         <tr>
           <th><a href="#"><span>Amount</span></a></th>
           <th><span>Options</span></th>
+          <th><span>Template</span></th>
           <th><span>Expiration</span></th>
           <th><span>Request</span></th>
           <th><span>Signature</span></th>
@@ -41,6 +42,13 @@
               <%= option['amount'] %>: <%= option['description'] %><br>
             <% end %>
           <% end %>
+          </td>
+          <td>
+            <% if quote.template.nil? %>
+              Default template
+            <% else %>
+              <%= quote.template.try(:name) %>
+            <% end %>
           </td>
           <td>
             <%= quote.expires_at.strftime("%b-%d-%Y") %><br>

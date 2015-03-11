@@ -1,0 +1,28 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "templates" %>
+<% end %>
+
+<% if @template.errors.any? %>
+  <div class="alert alert-block alert-danger fade in">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><%= pluralize(@template.errors.count, "error") %> prohibited this contact from being saved:</h4>
+    <ul>
+    <% @template.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>    
+  </div>
+<% end %>
+  
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 side pull-left">
+    <div class="main-box">
+      <div class="clearfix">
+        <h2 class="pull-left">New Template</h2>
+      </div>
+
+      <%= render 'form' %>
+
+    </div>
+  </div>
+</div>

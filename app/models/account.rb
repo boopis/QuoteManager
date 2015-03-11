@@ -5,6 +5,7 @@ class Account < ActiveRecord::Base
   has_many :quotes, :dependent => :destroy
   has_many :contacts, :dependent => :destroy
   has_many :users, :dependent => :destroy
+  has_many :templates, :dependent => :destroy
   accepts_nested_attributes_for :users
   validates :company_name, :presence => true
 
@@ -12,6 +13,8 @@ class Account < ActiveRecord::Base
   accepts_nested_attributes_for :company_logo
 
   validates :plan, presence: true, :on => :update
+
+  liquid_methods :company_logo, :company_name
 
   attr_accessor :stripe_card_token
 end

@@ -1,8 +1,9 @@
 class Quote < ActiveRecord::Base
   belongs_to :account
+  belongs_to :template
   belongs_to :request, :autosave => true
   before_create :generate_token
-  liquid_methods :amout, :options, :id, :token, :expires_at, :description
+  liquid_methods :amount, :options, :id, :token, :expires_at, :description
 
 protected
 
