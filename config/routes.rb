@@ -6,14 +6,16 @@ QuoteManager::Application.routes.draw do
   resources :forms
   get '/form-inline/:id' => 'forms#form_inline'
   post 'quotes/accept/:id' => 'quotes#accept_quote'
-  get '/offer/:id' => 'quotes#public'
+  get '/offer/:id' => 'quotes#public', as: :public_quote
 
   post "payments/hook"
 
   resources :requests do
     get '/download/:field_id', action: :download, as: :download
   end
-  resources :quotes 
+  resources :quotes do
+    post '/send-quote', action: :send_quote, as: :send
+  end
   resources :contacts
   devise_for :users
   resources :users do
