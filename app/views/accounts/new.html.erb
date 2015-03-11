@@ -20,6 +20,8 @@
 
   <%= simple_form_for @account do |f| %>
 
+    <%= hidden_field_tag(:plan_id, params[:plan_id]) %>
+
     <div class="row">
       <div class="col-sm-6">
         <%= f.input :company_name, label: false do %>

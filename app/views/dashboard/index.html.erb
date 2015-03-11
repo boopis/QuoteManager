@@ -1,1 +1,14 @@
-<div></div>
+<% content_for :page_script do %>
+  <%= javascript_include_tag "dashboard" %>
+<% end %>
+<div class="row">
+
+  <div class="col-lg-4">
+    <div class="main-box">
+      <h2>Storage Used</h2>
+      <div class="center-block" style="width: 200px;">
+        <input class="knob" data-fgColor="#d5ac08" data-thickness=".4" data-readOnly=true value="<%= (@percent_used*100).to_i %>">
+      </div>
+    </div>
+  </div>
+</div>

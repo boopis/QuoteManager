@@ -58,7 +58,7 @@ class RequestsController < ApplicationController
       end
     else 
       respond_to do |format|
-        format.html { redirect_to request.referrer, alert: 'Invalid form fields' }
+        format.html { redirect_to request.referrer, alert: "Invalid form fields: #{req_params[:errors]}" }
         format.json { render json: req_params[:errors], status: :unprocessable_entity }
       end
     end
@@ -124,7 +124,11 @@ class RequestsController < ApplicationController
             isError = true
           end 
 
-          if (v['request'].tempfile.size / 1000000 > 2) 
+          file_size = v['request'].tempfile.size / 1000000
+          account_used = current_account.storage_usage.to_f/1000000
+          account_limit = current_account.plan.storage
+
+          if (file_size > 2) || (file_size + account_used > account_limit) 
             errors[:file_size] = 'The file size exceeds the limit allowed and cannot be saved'
             isError = true
           end

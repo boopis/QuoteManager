@@ -8,6 +8,8 @@ QuoteManager::Application.routes.draw do
   post 'quotes/accept/:id' => 'quotes#accept_quote'
   get '/offer/:id' => 'quotes#public'
 
+  post "payments/hook"
+
   resources :requests do
     get '/download/:field_id', action: :download, as: :download
   end
@@ -24,6 +26,9 @@ QuoteManager::Application.routes.draw do
     collection do 
       get :new
       post :create
+      get :edit
+      put :update
+      patch :update
     end
   end
   

@@ -2,13 +2,13 @@ class AccountsController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:new, :create, :login]
 
   def new
-    plan = Plan.find(params[:plan_id])
-    @account = plan.accounts.build
+    @account = Account.new
     @account.users.build
   end
 
   def create
     @account = Account.new(account_params)
+    plan_id = params[:plan_id]
     respond_to do |format|
       if @account.save
         sign_in(@account.users[0])

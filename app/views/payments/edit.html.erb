@@ -1,0 +1,37 @@
+<div class="col-sm-12 signin">
+  <h2 class="text-center">Upgrade Your Plan</h2>
+  <hr>
+</div>
+<div class="col-sm-6 col-sm-offset-3 signin">
+  
+  <%= form_tag('/payments', method: :put, id: "update_payment") do %>
+    
+    <% @plans.each do |plan| %>
+      <div class="radio plan">
+        <label>
+          <%= radio_button_tag("plan_id", plan.id, false, disabled: plan == @account.plan ? true : false) %>
+          <%= number_to_currency(plan.price) %>/mo
+          <%= plan.name %>,
+          <%= plan.users > 1 ? "#{plan.users} Users" : "#{plan.users} User" %>,
+          <%= plan.forms %> Forms
+          <br>
+          <%= plan.storage > 999 ? "#{plan.storage/1000} GB" : "#{plan.storage} MB" %> Storage,
+          <%= plan.requests %> Requests
+        </label>
+      </div>
+    <% end %> 
+
+    <%= submit_tag "Upgrade Plan!", class: 'btn btn-theme btn-block' %>
+  <% end %>
+</div>
+<div class="spinner-outer-wrapper" style="display:none;position:fixed;top:0;left:0;z-index: 1100;width:100%;height:100%;background:#000;opacity:0.5;filter:alpha(opacity=50);">
+  <div class="spinner-inner-wrapper" style="position:fixed;left:50%;top:40%;z-index:1101;">
+    <i class="fa fa-spinner fa-5x fa-spin" style="display:block;left:-50%;top-50%;position:relative;"></i>
+  </div>
+</div>
+<script>
+$('#update_payment').submit(function() {
+  $('input[type=submit]').attr('disabled', true);
+  $('.spinner-outer-wrapper').show();
+});
+</script>

@@ -16,6 +16,7 @@ module LayoutHelper
         name = name.to_sym
         name = :success if name == :notice
         name = :error   if name == :alert
+        name = :danger   if name == :error
 
         concat content_tag(:div, 
                            content_tag(:button, raw("&times;"), class: "close", data: {dismiss: "alert"}) +
