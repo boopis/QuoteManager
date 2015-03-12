@@ -5,6 +5,9 @@ class QuotesController < ApplicationController
   before_action :check_token, only: [:public]
   before_action :parse_request, only: [:public]
 
+  # Tracking quote
+  #after_filter :track_action, only: [:public]
+
   # GET /quotes
   # GET /quotes.json
   def index
@@ -85,6 +88,7 @@ class QuotesController < ApplicationController
 
   # GET /quotes?token=
   def public
+
   end
 
   # POST /quotes/:id/send-quote
@@ -103,6 +107,10 @@ class QuotesController < ApplicationController
         format.json { render json: params[:email], status: 400 }
       end
     end
+  end
+
+protected
+  def track_action
   end
 
 private

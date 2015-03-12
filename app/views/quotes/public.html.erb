@@ -173,3 +173,20 @@
 <% else %>
   <%= Liquid::Template.parse(@quote.template.content).render('quote' => @quote, 'company' => @company, 'contact' => @contact, 'total' => @total).html_safe %>
 <% end %>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) { 
+
+    window.startTime = Date.now();
+
+    if (ahoy) {
+
+      ahoy.track("[Quote]Start", { targetable_id: <%= @quote.id %>, targetable_type: "Quote" });
+    }
+
+    $( window ).unload(function() {
+
+      ahoy.track("[Quote]Duration", { id: <%= @quote.id %>, targetable_type: "Quote", duration: Date.now() - window.startTime });
+    });
+  });
+</script>
+

@@ -28,6 +28,8 @@ gem 'tinymce-rails'
 gem 'stripe'
 gem 'liquid'
 
+gem 'ahoy_matey'
+
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'
 

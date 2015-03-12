@@ -5,6 +5,10 @@ class Quote < ActiveRecord::Base
   before_create :generate_token
   liquid_methods :amount, :options, :id, :token, :expires_at, :description
 
+  has_many :events, as: :targetable, dependent: :destroy, :class_name => Ahoy::Event
+
+  visitable
+
 protected
 
   def generate_token
