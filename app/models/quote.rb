@@ -7,6 +7,12 @@ class Quote < ActiveRecord::Base
 
   has_many :visitors, as: :eventable, dependent: :destroy, :class_name => Visit
 
+  scope :analytics, ->(quote_id) { 
+    where(:id => quote_id)
+    .includes(:visitors => :ahoy_events)
+    .where(:ahoy_events => { :name => '[Quote]End' } ) 
+  }
+
 protected
 
   def generate_token

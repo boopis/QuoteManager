@@ -25,3 +25,21 @@
 .sig-title {
   margin-bottom: 10px;
 }
+
+.has-events {
+  cursor: pointer;
+}
+
+.child-menu {
+  .table thead > tr > th {
+    background-color: #f2f2f2;
+    span {
+      border: none;
+    }
+  }
+
+  & > td, .table tbody > tr > td {
+    border-top: none !important;
+    background: #fcfcfc !important;
+  }
+}

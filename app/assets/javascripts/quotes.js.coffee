@@ -74,3 +74,8 @@ $emailAddress.on 'beforeItemAdd', (e) ->
 $('#request-email').click (e) ->
   $emailAddress.tagsinput 'add', $(this).data('request') 
   return false
+
+# Analytics page
+$('tr.has-events').click (e) ->
+  $(this).next().slideToggle()
+  return

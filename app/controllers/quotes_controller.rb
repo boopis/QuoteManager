@@ -120,8 +120,8 @@ class QuotesController < ApplicationController
 
   # GET /quotes/:id/track
   def analytics
-    quote = Quote.includes(:visitors).find(params[:quote_id])
-    @visitors = quote.visitors.page(params[:page]).per(25)
+    @quote = Quote.analytics(params[:quote_id])[0]
+    @visitors = @quote.visitors.page(params[:page]).per(25)
   end
 
 protected
