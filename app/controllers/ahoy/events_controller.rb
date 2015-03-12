@@ -28,7 +28,7 @@ module Ahoy
         
         # Store visitor 
         if ahoy.visit.nil?
-          ahoy.track_visit
+          ahoy.track_visit(event['properties'])
         end
       end
       render json: {}

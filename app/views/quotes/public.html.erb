@@ -176,17 +176,34 @@
 <script>
   document.addEventListener("DOMContentLoaded", function(event) { 
 
+    var body = document.getElementsByTagName('body');
+
     window.startTime = Date.now();
+    window.heatmap = [];
 
     if (ahoy) {
 
-      ahoy.track("[Quote]Start", { targetable_id: <%= @quote.id %>, targetable_type: "Quote" });
+      ahoy.track("[Quote]Start", { eventable_id: <%= @quote.id %>, eventable_type: "Quote" });
     }
 
-    $( window ).unload(function() {
+    // Calculate duration time and send to server
+    $(window).on('beforeunload', function() {
 
-      ahoy.track("[Quote]Duration", { id: <%= @quote.id %>, targetable_type: "Quote", duration: Date.now() - window.startTime });
+      ahoy.track("[Quote]End", { eventable_id: <%= @quote.id %>, eventable_type: "Quote", duration: Date.now() - window.startTime });
+
+      return false;
     });
+
+    setInterval(function (e) {
+         
+      ahoy.track("[Quote]Heatmap", { eventable_id: <%= @quote.id %>, eventable_type: "Quote", heatmap: window.heatmap });
+    }, 15000);
+
+    // heatmap
+    body[0].onmousemove = function(ev) {
+
+      window.heatmap.push({ x: ev.pageX, y: ev.pageY });
+    };
   });
 </script>
 

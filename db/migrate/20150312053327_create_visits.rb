@@ -16,6 +16,7 @@ class CreateVisits < ActiveRecord::Migration
       # user
       t.integer :user_id
       # add t.string :user_type if polymorphic
+      t.references :eventable, polymorphic: true, index: true
 
       # traffic source
       t.string :referring_domain

@@ -5,10 +5,7 @@ class CreateAhoyEvents < ActiveRecord::Migration
       t.uuid :visit_id
 
       # user
-      t.integer :user_id
-      # add t.string :user_type if polymorphic
-
-      t.references :targetable, polymorphic: true, index: true
+      t.references :user, polymorphic: true, index: true
 
       t.string :name
       t.json :properties

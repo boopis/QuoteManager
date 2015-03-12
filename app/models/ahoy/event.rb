@@ -4,6 +4,5 @@ module Ahoy
 
     belongs_to :visit
     belongs_to :user
-    belongs_to :targetable, polymorphic: true
   end
 end
