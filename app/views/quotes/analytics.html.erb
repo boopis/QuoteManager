@@ -1,0 +1,72 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "quotes" %>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="main-box clearfix">
+      <div class="clearfix">
+        <h2 class="pull-left">Quote Analytics Detail</h2>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><a href="#"><span>Visitor</span></a></th>
+              <th class="text-center"><span>IP</span></th>
+              <th class="text-center"><span>Device Type</span></th>
+              <th class="text-center"><span>Browser</span></th>
+              <th class="text-center"><span>OS</span></th>
+              <th class="text-center"><span>Country</span></th>
+              <th class="text-center"><span>City</span></th>
+              <th class="text-center"><span>Screen Height</span></th>
+              <th class="text-center"><span>Screen Width</span></th>
+              <th class="text-center"><span>View Time</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @quote.visitors.each do |v| %>
+              <%= content_tag :tr, class: v.ahoy_events.size > 0 ? 'has-events' : '' do %>
+                <%= content_tag :td, v.id %>
+                <%= content_tag :td, v.ip, class: 'text-center' %>
+                <%= content_tag :td, v.device_type, class: 'text-center' %>
+                <%= content_tag :td, v.browser, class: 'text-center' %>
+                <%= content_tag :td, v.os, class: 'text-center' %>
+                <%= content_tag :td, v.country, class: 'text-center' %>
+                <%= content_tag :td, v.city, class: 'text-center' %>
+                <%= content_tag :td, v.screen_height, class: 'text-center' %>
+                <%= content_tag :td, v.screen_width, class: 'text-center' %>
+                <%= content_tag :td, v.started_at.strftime("%b-%d-%Y"), class: 'text-center' %>
+              <% end %>
+              <tr class='row-details child-menu' style='display:none'>
+                <td colspan='10'>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th class="text-center"><span>Start Time</span></th>
+                          <th class="text-center"><span>Page view duration</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% v.ahoy_events.each do |ev| %>
+                          <tr>
+                            <%= content_tag :td, ev.time, class: 'text-center' %>
+                            <%= content_tag :td, (ev.properties['duration'].to_i / 1000).to_s + 's' , class: 'text-center' %>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <%= paginate @visitors, :pagination_class => "pull-right"%>
+    </div>
+  </div>
+</div>

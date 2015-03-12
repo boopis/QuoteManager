@@ -5,6 +5,9 @@ class QuotesController < ApplicationController
   before_action :check_token, only: [:public]
   before_action :parse_request, only: [:public]
 
+  # Tracking quote
+  #after_filter :track_action, only: [:public]
+
   # GET /quotes
   # GET /quotes.json
   def index
@@ -85,15 +88,17 @@ class QuotesController < ApplicationController
 
   # GET /quotes?token=
   def public
+
   end
 
   # POST /quotes/:id/send-quote
   def send_quote
     quote = Quote.find(params[:quote_id])
     errors = find_invalid_email(params[:email]['addresses'].split(','))
+    quote.email_sent = quote.email_sent + 1
 
     respond_to do |format|
-      if errors.nil? 
+      if errors.nil? && quote.save
         send_quote_email(params[:email], quote)
 
         format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
@@ -103,6 +108,24 @@ class QuotesController < ApplicationController
         format.json { render json: params[:email], status: 400 }
       end
     end
+  end
+
+  # GET /quotes/:id/track
+  def track_email
+    quote = Quote.find(params[:quote_id])
+    quote.update_attribute(:email_opened, quote.email_opened + 1)
+
+    send_file Rails.root.to_s + "/app/assets/images/quote-email-tracking.png", :s_sendfile => true
+  end
+
+  # GET /quotes/:id/track
+  def analytics
+    @quote = Quote.analytics(params[:quote_id])[0]
+    @visitors = @quote.visitors.page(params[:page]).per(25)
+  end
+
+protected
+  def track_action
   end
 
 private

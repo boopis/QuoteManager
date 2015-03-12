@@ -13,13 +13,13 @@ class ApplicationController < ActionController::Base
     head(:ok) if request.request_method == "OPTIONS"
   end
 
-private
+  private
 
   def current_account
     if signed_in?
       @current_account ||= current_user.account
     else
-       @current_account = nil
+      @current_account = nil
     end
   end
   helper_method :current_account
