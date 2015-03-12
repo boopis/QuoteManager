@@ -16,6 +16,8 @@ QuoteManager::Application.routes.draw do
 
   resources :quotes do
     post '/send-quote', action: :send_quote, as: :send
+    get '/email-tracking', action: :track_email , as: :email_tracking
+    get '/analytics', action: :analytics, as: :analytics
   end
   resources :contacts
   devise_for :users

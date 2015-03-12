@@ -64,8 +64,12 @@
   <div class="col-lg-6 col-md-6 col-sm-6">
     <div class="main-box">
       <h2>Quote Analytics</h2>
-      <p>Unique visitors: <strong><%= @quote.visitors.size %></strong></p> 
-      <p>Number quotation email sent: </p>
+      <p>
+        Unique visitors: <strong><%= @quote.visitors.size %></strong>
+        <%= link_to ' (more detail)', quote_analytics_path(@quote) %>
+      </p> 
+      <p>Number quotation email sent: <strong><%= @quote.email_sent %></strong></p>
+      <p>Number quotation email opened: <strong><%= @quote.email_opened %></strong></p>
     </div>
   </div>  
 
@@ -88,7 +92,7 @@
         </div>
 
         <div class='form-group'>
-          <%= submit_tag 'Send Quote', class: 'btn btn-success' %>
+          <%= submit_tag 'Send Quote', class: 'btn btn-success', id: 'send-quotation', :'data-id' => @quote.id %>
           <%= button_tag 'Insert Quote Link To Message', 
             id: 'insert-quote-link', class: 'btn btn-primary', 
             :'data-quote' => public_quote_path(@quote, :token => @quote.token) %>

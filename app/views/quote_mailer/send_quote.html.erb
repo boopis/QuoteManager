@@ -163,6 +163,11 @@ ul li, ol li {
       <table>
         <tr>
           <td>
+            <%= image_tag quote_email_tracking_url(@quote.id) %>
+          </td>
+        </tr>
+        <tr>
+          <td>
             <%= Liquid::Template.parse(@template).render('quote' => @quote).html_safe %>
           </td>
         </tr>

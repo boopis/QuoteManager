@@ -95,9 +95,10 @@ class QuotesController < ApplicationController
   def send_quote
     quote = Quote.find(params[:quote_id])
     errors = find_invalid_email(params[:email]['addresses'].split(','))
+    quote.email_sent = quote.email_sent + 1
 
     respond_to do |format|
-      if errors.nil? 
+      if errors.nil? && quote.save
         send_quote_email(params[:email], quote)
 
         format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
@@ -107,6 +108,20 @@ class QuotesController < ApplicationController
         format.json { render json: params[:email], status: 400 }
       end
     end
+  end
+
+  # GET /quotes/:id/track
+  def track_email
+    quote = Quote.find(params[:quote_id])
+    quote.update_attribute(:email_opened, quote.email_opened + 1)
+
+    send_file Rails.root.to_s + "/app/assets/images/quote-email-tracking.png", :s_sendfile => true
+  end
+
+  # GET /quotes/:id/track
+  def analytics
+    quote = Quote.includes(:visitors).find(params[:quote_id])
+    @visitors = quote.visitors.page(params[:page]).per(25)
   end
 
 protected
