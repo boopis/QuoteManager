@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312122544) do
+ActiveRecord::Schema.define(version: 20150313033202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "accounts", force: true do |t|
     t.string   "company_name"
@@ -31,8 +32,7 @@ ActiveRecord::Schema.define(version: 20150312122544) do
 
   add_index "accounts", ["plan_id"], name: "index_accounts_on_plan_id", using: :btree
 
-  create_table "ahoy_events", id: false, force: true do |t|
-    t.uuid     "id",         null: false
+  create_table "ahoy_events", id: :uuid, force: true do |t|
     t.uuid     "visit_id"
     t.integer  "user_id"
     t.string   "user_type"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20150312122544) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.hstore   "socical",    default: ""
   end
 
   add_index "contacts", ["account_id"], name: "index_contacts_on_account_id", using: :btree
@@ -162,8 +163,7 @@ ActiveRecord::Schema.define(version: 20150312122544) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "visits", id: false, force: true do |t|
-    t.uuid     "id",               null: false
+  create_table "visits", id: :uuid, force: true do |t|
     t.uuid     "visitor_id"
     t.string   "ip"
     t.text     "user_agent"
