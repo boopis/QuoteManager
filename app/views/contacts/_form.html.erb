@@ -17,6 +17,42 @@
       <%= fa.file_field :image, class: "form-control"  %>
     <% end %>
   </div>
+  <div class="form-group row social">
+    <div class='col-md-6 inputs'>
+      <%= f.label :social_media, 'Social Media' %><br>
+      <%= f.fields_for :social_media do |fa| %>
+        <% unless @contact.social_media.nil? %>
+          <% @contact.social_media.each do |k,v| %>
+            <div class="input-group">
+              <span class='input-group-addon'>
+                <%= content_tag :i, '', class: ('fa fa-' + k.to_s + '-square') %>
+              </span>
+              <%= fa.fields_for k.to_sym do |fk| %>
+                <%= fk.text_field :user, value: JSON.parse(v.gsub('=>', ':'))['user'], class: 'form-control', placeholder: 'Enter your social user name' %>
+                <%= fk.text_field :url, value: JSON.parse(v.gsub('=>', ':'))['url'], class: 'form-control', placeholder: 'Enter your social user url' %>
+              <% end %>
+              <span class='remove-social-item'>
+                <i class='fa fa-minus-circle'></i>
+              </span>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="btn-group btn-social">
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class='social-type'>Facebook</span>
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <button type="button" id='add-new-social' class="btn btn-primary">Add more</button>
+      <ul class="dropdown-menu social-list" role="menu">
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
   <div class="actions">
     <%= f.submit class: "btn btn-success" %>
   </div>

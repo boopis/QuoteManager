@@ -36,6 +36,7 @@
           <th><span>Avatar</span></th>
           <th><span>Phone</span></th>
           <th><span>E-Mail</span></th>
+          <th class="text-center"><span>Social Media</span></th>
           <th class="text-center"><span>Requests</span></th>
           <th class="text-center"><a href="#" class="desc"><span>Date updated</span></a></th>
           <th>&nbsp;</th>
@@ -45,9 +46,17 @@
         <% @contacts.each do |contact| %>
         <tr>
           <td><%= contact.name %></td>
-          <td><%= image_tag contact.load_image('no-avatar'), size: '35' %></td>
+          <td><%= image_tag contact.load_image('no-avatar.jpg'), size: '35' %></td>
           <td><%= contact.phone %></td>
           <td><%= contact.email %></td>
+          <td class='text-center'>
+            <% unless contact.social_media.nil? %>
+              <% contact.social_media.each do |k, v| %>
+                <%= content_tag :strong, k.capitalize + ': ' %>
+                <%= content_tag :span, v %>
+              <% end %>
+            <% end %>
+          </td>
           <td class="text-center"><%= contact.requests.count %></td>
           <td class="text-center">
             <%= contact.updated_at.strftime("%b-%d-%Y") %>

@@ -97,11 +97,14 @@
         </div>
         <div class="col-sm-4 profile-social">
           <ul class="fa-ul">
-            <li><i class="fa-li fa fa-twitter-square"></i><a href="#"><span class="label label-danger">Add Social Media</span></a></li>
-            <li><i class="fa-li fa fa-linkedin-square"></i><a href="#"><span class="label label-danger">Add Social Media</span></a></li>
-            <li><i class="fa-li fa fa-facebook-square"></i><a href="#"><span class="label label-danger">Add Social Media</span></a></li>
-            <li><i class="fa-li fa fa-skype"></i><a href="#"><span class="label label-danger">Add Social Media</span></a></li>
-            <li><i class="fa-li fa fa-instagram"></i><a href="#"><span class="label label-danger">Add Social Media</span></a></li>
+            <% unless @contact.social_media.nil? %>
+              <% @contact.social_media.each do |k, v| %>
+                <li>
+                  <%= content_tag :i, '', class: 'fa fa-' + k + '-square' %>
+                  <%= link_to JSON.parse(v.gsub('=>', ':'))['user'], JSON.parse(v.gsub('=>', ':'))['url'], target: '_blank' %>
+                </li>
+              <% end %>
+            <% end %>
           </ul>
         </div>
       </div>

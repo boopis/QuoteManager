@@ -1,0 +1,37 @@
+#add-new-social {
+}
+
+.social {
+  position: relative;
+
+  .remove-social-item {
+    position: absolute;
+    margin: 25px 10px;
+    opacity: 0.7;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      opacity: 1;
+    }
+  }
+
+  .btn-social {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+
+    .social-type {
+      padding-right: 5px;
+    }
+  }
+}
+
+.input-group-addon {
+
+  i {
+    font-size: 16px;
+
+    &.fa-facebook-square {
+    }
+  }
+}

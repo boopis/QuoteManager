@@ -67,6 +67,7 @@ class ContactsController < ApplicationController
   end
 
   private
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
       @contact = current_account.contacts.find(params[:id])
@@ -78,6 +79,11 @@ class ContactsController < ApplicationController
         :name, 
         :phone, 
         :email, 
+        :social_media => [
+          :facebook => [:user, :url], 
+          :twitter => [:user, :url], 
+          :linkedin => [:user, :url]
+        ],
         :avatar_attributes => [:image]
       )
     end
