@@ -4,6 +4,8 @@ class Request < ActiveRecord::Base
   belongs_to :contact
   validate :limit, :on => :create
 
+  has_many :notes, as: :notable
+
   def limit
     if self.account.requests(:reload).where('created_at >= ?', 1.month.ago).count >= self.account.plan.requests
       errors.add(:base, "Account limit reached for requests. Please contact the owner of this form.")

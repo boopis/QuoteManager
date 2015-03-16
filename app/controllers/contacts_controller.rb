@@ -19,11 +19,13 @@ class ContactsController < ApplicationController
   def new
     @contact = current_account.contacts.new
     @contact.avatar ||= Image.new
+    @contact.note ||= Note.new
   end
 
   # GET /contacts/1/edit
   def edit
     @contact.avatar ||= Image.new
+    @contact.note ||= Note.new
   end
 
   # POST /contacts
@@ -84,6 +86,7 @@ class ContactsController < ApplicationController
           :twitter => [:user, :url], 
           :linkedin => [:user, :url]
         ],
+        :note_attributes => [:title, :content],
         :avatar_attributes => [:image]
       )
     end

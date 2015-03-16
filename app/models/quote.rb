@@ -6,6 +6,7 @@ class Quote < ActiveRecord::Base
   liquid_methods :amount, :options, :id, :token, :expires_at, :description
 
   has_many :visitors, as: :eventable, dependent: :destroy, :class_name => Visit
+  has_many :notes, as: :notable
 
   scope :analytics, ->(quote_id) { 
     where(:id => quote_id)
