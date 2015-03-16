@@ -12,14 +12,20 @@ QuoteManager::Application.routes.draw do
   
   resources :requests do
     get '/download/:field_id', action: :download, as: :download
+    patch '/update-note', action: :update_note, as: :update_note
   end
 
   resources :quotes do
     post '/send-quote', action: :send_quote, as: :send
+    patch '/update-note', action: :update_note, as: :update_note
     get '/email-tracking', action: :track_email , as: :email_tracking
     get '/analytics', action: :analytics, as: :analytics
   end
-  resources :contacts
+
+  resources :contacts do
+    patch '/update-note', action: :update_note, as: :update_note
+  end
+
   devise_for :users
   resources :users do
     collection do 

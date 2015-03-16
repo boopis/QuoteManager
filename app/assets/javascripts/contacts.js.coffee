@@ -1,4 +1,5 @@
 #= require bootstrap
+#= require notes
 
 socialType = $('.social-type')
 btnSocial = $('.btn-social')
@@ -26,8 +27,8 @@ $('#add-new-social').click (e) ->
       '<span class="input-group-addon">' +
         '<i class="fa fa-' + type + '-square"></i>' +
       '</span>' +
-      '<input class="form-control" name="contact[social_media][' +  type + '][user]" type="text">' +
-      '<input class="form-control" name="contact[social_media][' +  type + '][url]" type="text">' +
+      '<input class="form-control" name="contact[social_media][' +  type + '][user]" type="text" placeholder="Enter your username">' +
+      '<input class="form-control" name="contact[social_media][' +  type + '][url]" type="text" placeholder="Enter your social media url">' +
       '<span class="remove-social-item">' +
         '<i class="fa fa-minus-circle"></i>' +
       '</span>' +

@@ -10,6 +10,9 @@ class Contact < ActiveRecord::Base
   has_one :avatar, as: :viewable, dependent: :destroy, class: Image
   accepts_nested_attributes_for :avatar
 
+  has_one :note, as: :notable
+  accepts_nested_attributes_for :note
+
   liquid_methods :name, :phone, :email
 
   def load_image(default_img)

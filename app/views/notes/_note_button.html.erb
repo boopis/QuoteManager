@@ -1,0 +1,9 @@
+<%= link_to '#', title: "Take a note", class: "table-link create-note", 
+  :'data-action' => '/' + notable.class.name.downcase + 's/' + notable.id.to_s + '/update-note', 
+  :'data-content' => notable.note.try(:content) || '', :'data-title' => notable.note.try(:title) || '' do %>
+  <span class="fa-stack">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i>
+  </span>
+<% end %>                
+

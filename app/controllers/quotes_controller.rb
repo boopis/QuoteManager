@@ -1,4 +1,6 @@
 class QuotesController < ApplicationController
+  include Notable
+
   before_filter :authenticate_user!, except: [:accept_quote, :public]
   before_filter :block_freeloaders!, except: [:accept_quote, :public]
   before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote]
@@ -11,7 +13,7 @@ class QuotesController < ApplicationController
   # GET /quotes
   # GET /quotes.json
   def index
-    @quotes = current_account.quotes.page(params[:page]).per(25)
+    @quotes = current_account.quotes.includes(:note).page(params[:page]).per(25)
   end
 
   # GET /quotes/1
@@ -24,12 +26,14 @@ class QuotesController < ApplicationController
     @quote = current_account.quotes.new
     @qb = current_account.quotes.new
     @request = current_account.requests.find(params[:request_id]) if params[:request_id]
+    @quote.note ||= Note.new
   end
 
   # GET /quotes/1/edit
   def edit
     @qb = current_account.quotes.find(params[:id])
     @request = current_account.requests.find(@qb.request_id)
+    @quote.note ||= Note.new
   end
 
   # POST /quotes
@@ -110,6 +114,12 @@ class QuotesController < ApplicationController
     end
   end
 
+  # POST /quotes/:id/note
+  def update_note
+    quote = Quote.find(params[:quote_id])
+    update_notable(quote, quote_params)
+  end
+
   # GET /quotes/:id/track
   def track_email
     quote = Quote.find(params[:quote_id])
@@ -163,7 +173,15 @@ private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def quote_params
-    params.require(:quote).permit(:amount, :token, :expires_at, :template_id, :request_id, :description, options: [:description, :amount])
+    params.require(:quote).permit(
+      :amount, 
+      :token, 
+      :expires_at, 
+      :template_id, 
+      :request_id, 
+      :description, 
+      :note_attributes => [:title, :content],
+      options: [:description, :amount])
   end
 
   def token_validity

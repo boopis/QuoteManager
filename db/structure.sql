@@ -204,6 +204,40 @@ ALTER SEQUENCE images_id_seq OWNED BY images.id;
 
 
 --
+-- Name: notes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE notes (
+    id integer NOT NULL,
+    title character varying(255),
+    content text,
+    notable_id integer,
+    notable_type character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE notes_id_seq OWNED BY notes.id;
+
+
+--
 -- Name: plans; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -467,6 +501,13 @@ ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY notes ALTER COLUMN id SET DEFAULT nextval('notes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY plans ALTER COLUMN id SET DEFAULT nextval('plans_id_seq'::regclass);
 
 
@@ -536,6 +577,14 @@ ALTER TABLE ONLY forms
 
 ALTER TABLE ONLY images
     ADD CONSTRAINT images_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY notes
+    ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
 
 
 --
@@ -640,6 +689,13 @@ CREATE INDEX index_forms_on_account_id ON forms USING btree (account_id);
 --
 
 CREATE INDEX index_images_on_viewable_id_and_viewable_type ON images USING btree (viewable_id, viewable_type);
+
+
+--
+-- Name: index_notes_on_notable_id_and_notable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notes_on_notable_id_and_notable_type ON notes USING btree (notable_id, notable_type);
 
 
 --
@@ -778,4 +834,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150312122544');
 INSERT INTO schema_migrations (version) VALUES ('20150313033119');
 
 INSERT INTO schema_migrations (version) VALUES ('20150313033202');
+
+INSERT INTO schema_migrations (version) VALUES ('20150316033449');
 

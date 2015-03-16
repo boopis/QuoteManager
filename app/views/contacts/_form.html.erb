@@ -53,6 +53,7 @@
       </ul>
     </div>
   </div>
+  <%= render partial: 'notes/note_field', :locals => { f: f, notable: @contact } %>
   <div class="actions">
     <%= f.submit class: "btn btn-success" %>
   </div>

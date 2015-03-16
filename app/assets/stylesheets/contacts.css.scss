@@ -3,6 +3,7 @@
 
 .social {
   position: relative;
+  min-height: 80px;
 
   .remove-social-item {
     position: absolute;
@@ -33,5 +34,15 @@
 
     &.fa-facebook-square {
     }
+  }
+}
+
+.actions .btn {
+  margin-top: 15px;
+}
+
+.notes {
+  input, .add-notes {
+    margin-top: 10px;
   }
 }

@@ -7,6 +7,9 @@ class Quote < ActiveRecord::Base
 
   has_many :visitors, as: :eventable, dependent: :destroy, :class_name => Visit
 
+  has_one :note, as: :notable
+  accepts_nested_attributes_for :note
+
   scope :analytics, ->(quote_id) { 
     where(:id => quote_id)
     .includes(:visitors => :ahoy_events)

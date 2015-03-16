@@ -1,4 +1,6 @@
 class ContactsController < ApplicationController
+  include Notable
+
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
   before_filter :block_freeloaders!
@@ -6,7 +8,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @q = current_account.contacts.search(params[:q])
+    @q = current_account.contacts.includes(:note).search(params[:q])
     @contacts = @q.result.page(params[:page]).per(25)
   end
 
@@ -19,11 +21,13 @@ class ContactsController < ApplicationController
   def new
     @contact = current_account.contacts.new
     @contact.avatar ||= Image.new
+    @contact.note ||= Note.new
   end
 
   # GET /contacts/1/edit
   def edit
     @contact.avatar ||= Image.new
+    @contact.note ||= Note.new
   end
 
   # POST /contacts
@@ -56,6 +60,12 @@ class ContactsController < ApplicationController
     end
   end
 
+  # POST /quotes/:id/note
+  def update_note
+    @contact = Contact.find(params[:contact_id])
+    update_notable(@contact, contact_params)
+  end
+
   # DELETE /contacts/1
   # DELETE /contacts/1.json
   def destroy
@@ -84,6 +94,7 @@ class ContactsController < ApplicationController
           :twitter => [:user, :url], 
           :linkedin => [:user, :url]
         ],
+        :note_attributes => [:title, :content],
         :avatar_attributes => [:image]
       )
     end

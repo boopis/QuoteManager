@@ -5,6 +5,7 @@
 #= require tagsinput
 #= require tinymce
 #= require ahoy
+#= require notes
 
 sigdiv = $("#signature").jSignature {'UndoButton':true}
 sigdiv.bind 'change', (event) ->
