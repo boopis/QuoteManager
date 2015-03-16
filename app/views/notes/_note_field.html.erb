@@ -1,0 +1,5 @@
+<div class="form-group notes">
+  <%= f.label :note %><br>
+  <input class="form-control" id="note_attributes_title" name="<%= notable.class.name.downcase  %>[note_attributes][title]" placeholder="Enter note's title" type="text" value="<%= notable.note.try(:title) %>">
+  <textarea class="form-control" id="note_attributes_content" name="<%= notable.class.name.downcase  %>[note_attributes][content]" placeholder="Enter note's content"><%= notable.note.try(:title) %></textarea>
+</div>

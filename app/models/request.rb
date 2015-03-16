@@ -4,7 +4,8 @@ class Request < ActiveRecord::Base
   belongs_to :contact
   validate :limit, :on => :create
 
-  has_many :notes, as: :notable
+  has_one :note, as: :notable
+  accepts_nested_attributes_for :note
 
   def limit
     if self.account.requests(:reload).where('created_at >= ?', 1.month.ago).count >= self.account.plan.requests

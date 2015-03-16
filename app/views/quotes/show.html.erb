@@ -49,7 +49,16 @@
         <strong>Status:</strong>
         <%= @quote.status %>
       </p>
- 
+
+
+      <p>
+        <strong>Note:</strong>
+        <% unless @quote.note.nil? %>
+          <%= content_tag :strong, @quote.note.try(:title) + '- ' %>
+          <%= content_tag :span, @quote.note.try(:content) %>
+        <% end %>
+      </p>
+
       <p>
         <strong>Customer signature:</strong>
         <% if @quote.signature.nil? %>

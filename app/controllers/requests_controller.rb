@@ -1,4 +1,7 @@
 class RequestsController < ApplicationController
+
+  include Notable
+
   before_filter :authenticate_user!, except: [:create]
   before_filter :block_freeloaders!, except: [:create]
   before_action :set_request, only: [:show, :destroy]
@@ -9,7 +12,7 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @q = current_account.requests.search(params[:q])
+    @q = current_account.requests.includes(:note).search(params[:q])
     @requests = @q.result.page(params[:page]).per(25)
     @header = current_account.forms.find(params[:q][:form_id_eq]) if params[:q].present? && params[:q][:form_id_eq].present?
     @forms = current_account.forms.all
@@ -64,6 +67,12 @@ class RequestsController < ApplicationController
         format.json { render json: req_params[:errors], status: :unprocessable_entity }
       end
     end
+  end
+
+  # POST /quotes/:id/note
+  def update_note
+    @request = Request.find(params[:request_id])
+    update_notable(@request, params.require(:request).permit(:note_attributes => [:title, :content]))
   end
 
   # DELETE /requests/1

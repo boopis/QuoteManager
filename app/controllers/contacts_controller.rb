@@ -1,4 +1,6 @@
 class ContactsController < ApplicationController
+  include Notable
+
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
   before_filter :block_freeloaders!
@@ -6,7 +8,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @q = current_account.contacts.search(params[:q])
+    @q = current_account.contacts.includes(:note).search(params[:q])
     @contacts = @q.result.page(params[:page]).per(25)
   end
 
@@ -56,6 +58,12 @@ class ContactsController < ApplicationController
         format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # POST /quotes/:id/note
+  def update_note
+    @contact = Contact.find(params[:contact_id])
+    update_notable(@contact, contact_params)
   end
 
   # DELETE /contacts/1

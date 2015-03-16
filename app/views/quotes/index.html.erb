@@ -25,6 +25,7 @@
           <th><a href="#"><span>Amount</span></a></th>
           <th><span>Options</span></th>
           <th><span>Template</span></th>
+          <th class="text-center"><span>Note</span></th>
           <th><span>Expiration</span></th>
           <th><span>Request</span></th>
           <th><span>Signature</span></th>
@@ -49,6 +50,10 @@
             <% else %>
               <%= quote.template.try(:name) %>
             <% end %>
+          </td>
+          <td class="text-center">
+            <%= content_tag :strong, quote.note.try(:title) %>
+            <%= content_tag :span, quote.note.try(:content) %>
           </td>
           <td>
             <%= quote.expires_at.strftime("%b-%d-%Y") %><br>
@@ -93,6 +98,7 @@
                 <i class="fa fa-reply fa-stack-1x fa-inverse"></i>
               </span>
             <% end %>                
+            <%= render partial: 'notes/note_button', locals: { notable: quote } %>
           </td>
         </tr>
         <% end %>
@@ -102,3 +108,5 @@
 
   <%= paginate @quotes, :pagination_class => "pull-right"%>
 </div>
+
+<%= render partial: 'notes/modal', locals: { notable: @quotes.first || Quote.new } %>

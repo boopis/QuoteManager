@@ -6,7 +6,9 @@ class Quote < ActiveRecord::Base
   liquid_methods :amount, :options, :id, :token, :expires_at, :description
 
   has_many :visitors, as: :eventable, dependent: :destroy, :class_name => Visit
-  has_many :notes, as: :notable
+
+  has_one :note, as: :notable
+  accepts_nested_attributes_for :note
 
   scope :analytics, ->(quote_id) { 
     where(:id => quote_id)

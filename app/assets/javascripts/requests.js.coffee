@@ -1,4 +1,5 @@
 #= require bootstrap
+#= require notes
 
 $('[data-toggle="tooltip"]').tooltip()
 $('tr.chiffon-bg').click (e) ->

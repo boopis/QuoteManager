@@ -79,6 +79,7 @@
                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
               </span>
             <% end %>              
+            <%= render partial: 'notes/note_button', locals: { notable: contact } %>
           </td>
         </tr>
         <% end %>
@@ -89,3 +90,5 @@
   <%= paginate @contacts, :pagination_class => "pull-right" %>
 
 </div>
+
+<%= render partial: 'notes/modal', locals: { notable: @contacts.first || Contact.new } %>

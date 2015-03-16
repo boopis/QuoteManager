@@ -53,13 +53,7 @@
       </ul>
     </div>
   </div>
-  <div class="form-group notes">
-    <%= f.label :note %><br>
-    <%= f.fields_for :note do |fn| %>
-      <%= fn.text_field :title, class: 'form-control', placeholder: "Enter note's title" %>
-      <%= fn.text_area :content, class: 'form-control', placeholder: "Enter note's content" %>
-    <% end %>
-  </div>
+  <%= render partial: 'notes/note_field', :locals => { f: f, notable: @contact } %>
   <div class="actions">
     <%= f.submit class: "btn btn-success" %>
   </div>

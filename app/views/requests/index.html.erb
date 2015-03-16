@@ -114,6 +114,7 @@
           <tr>
             <th><%= sort_link @q, :id, "<span>ID</span>".html_safe %></th>
             <th class="text-center"><span>Summary</span></th>
+            <th class="text-center"><span>Note</span></th>
             <th class="text-center"><span>Form</span></th>
             <th><%= sort_link @q, :created_at, "<span>Created</span>".html_safe %></th>
             <th class="text-center"><span>Status</span></th>
@@ -140,6 +141,10 @@
                 <% end %>
               <% end %>
               </td>
+              <td class="text-center">
+                <%= content_tag :strong, request.note.try(:title) %>
+                <%= content_tag :span, request.note.try(:content) %>
+              </td>
               <td><%= request.form.name if request.form.present? %></td>
               <td><%= request.created_at.strftime("%b-%d-%Y")  %></td>
               <td class="text-center">
@@ -164,6 +169,7 @@
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                   </span>
                 <% end %>
+                <%= render partial: 'notes/note_button', locals: { notable: request } %>
               </td>
             </tr>
           <% end %>
@@ -175,3 +181,5 @@
   <% end %>
 
 </div>
+
+<%= render partial: 'notes/modal', locals: { notable: @requests.first || Request.new } %>

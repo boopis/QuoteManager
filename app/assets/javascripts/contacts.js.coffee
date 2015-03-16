@@ -1,4 +1,5 @@
 #= require bootstrap
+#= require notes
 
 socialType = $('.social-type')
 btnSocial = $('.btn-social')
