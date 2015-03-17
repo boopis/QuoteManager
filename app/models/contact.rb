@@ -13,6 +13,9 @@ class Contact < ActiveRecord::Base
   has_one :note, as: :notable
   accepts_nested_attributes_for :note
 
+  has_one :address, as: :addressable
+  accepts_nested_attributes_for :address
+
   liquid_methods :name, :phone, :email
 
   def load_image(default_img)
@@ -27,10 +30,12 @@ class Contact < ActiveRecord::Base
     contact = [
       req_fields.find{|k,v| v['type'] == 'name'}.try(:last) || {},
       req_fields.find{|k,v| v['type'] == 'phone'}.try(:last) || {},
-      req_fields.find{|k,v| v['type'] == 'email'}.try(:last) || {}
+      req_fields.find{|k,v| v['type'] == 'email'}.try(:last) || {},
+      req_fields.find{|k,v| v['type'] == 'title'}.try(:last) || {},
+      req_fields.find{|k,v| v['type'] == 'description'}.try(:last) || {}
     ]
 
-    name, phone, email = contact.map { |c| c['request'] } 
+    name, phone, email, title, description = contact.map { |c| c['request'] } 
 
     if email.present?
       contact = Contact.find_by_email(email) || Contact.new
@@ -38,6 +43,8 @@ class Contact < ActiveRecord::Base
         :email => email, 
         :name => name, 
         :phone => phone, 
+        :title => title, 
+        :description => description, 
         :account_id => account_id
       )
       contact.requests << request

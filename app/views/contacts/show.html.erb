@@ -46,9 +46,7 @@
         <% end %>
       </div>
 
-      <p>
-        <span class="label label-danger">Add Description</span>
-      </p>
+      <%= content_tag :p, @contact.description %>
 
       <h3><span>User info</span></h3>
 
@@ -72,10 +70,34 @@
           </div>
           <div class="profile-user-details clearfix">
             <div class="profile-user-details-label">
-              Address
+              Address line 1
             </div>
             <div class="profile-user-details-value">
-              <span class="label label-danger">Add address</span>
+              <%= @contact.address.address_line_1 %>
+            </div>
+          </div>
+          <div class="profile-user-details clearfix">
+            <div class="profile-user-details-label">
+              Address line 2
+            </div>
+            <div class="profile-user-details-value">
+              <%= @contact.address.address_line_2 %>
+            </div>
+          </div>
+          <div class="profile-user-details clearfix">
+            <div class="profile-user-details-label">
+              City
+            </div>
+            <div class="profile-user-details-value">
+              <%= @contact.address.city %>
+            </div>
+          </div>
+          <div class="profile-user-details clearfix">
+            <div class="profile-user-details-label">
+              Postal Code
+            </div>
+            <div class="profile-user-details-value">
+              <%= @contact.address.postal_code %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -152,7 +174,7 @@
 
           <div class="tab-pane fade" id="tab-note">
             <% unless @contact.note.nil? %>
-              <%= content_tag :strong, @contact.note.title + ': ' %>
+              <%= content_tag :strong, @contact.note.title + '- ' %>
               <%= content_tag :p, @contact.note.content %>
             <% end %>
           </div>

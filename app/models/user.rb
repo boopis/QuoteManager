@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_one :avatar, as: :viewable, dependent: :destroy, :class_name => Image
   accepts_nested_attributes_for :avatar, :account
 
+  has_one :address, as: :contactable
+  accepts_nested_attributes_for :address
+
   validate :limit, :on => :create, :if => :plan_exists?
 
   def limit
