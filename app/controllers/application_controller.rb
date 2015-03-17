@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
     head(:ok) if request.request_method == "OPTIONS"
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
   private
 
   def current_account

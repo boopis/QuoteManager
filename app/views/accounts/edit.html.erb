@@ -43,10 +43,18 @@
               <%= f.label 'Phone number: ' %>
               <%= f.number_field :phone_number, class: 'form-control', placeholder: 'Your phone number' %>
             </div>
-            
+
             <div class="form-group">
-              <%= f.label :address %>
-              <%= f.text_area :address, class: 'form-control', placeholder: 'Your company address', rows: 5 %>
+              <%= f.fields_for :address do |fad| %><br>
+                <%= fad.label :address_line_1, "Address line 1" %><br>
+                <%= fad.text_field :address_line_1, class: "form-control"  %>
+                <%= fad.label :address_line_2, "Address line 2" %><br>
+                <%= fad.text_field :address_line_2, class: "form-control"  %>
+                <%= fad.label :city %><br>
+                <%= fad.text_field :city, class: "form-control"  %>
+                <%= fad.label :postal_code, "Postal Code" %><br>
+                <%= fad.number_field :postal_code, class: "form-control"  %>
+              <% end %>
             </div>
 
             <div class="form-group">

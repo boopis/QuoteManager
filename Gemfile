@@ -14,6 +14,7 @@ gem 'execjs'
 gem 'therubyracer'
 
 gem 'devise', '~> 3.2.4'
+gem 'cancancan', '~> 1.10.1'
 gem 'simple_form', '~> 3.1.0.rc1'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'carrierwave', '~> 0.10.0'
@@ -24,11 +25,11 @@ gem 'ransack', '~> 1.5.0'
 gem 'kaminari', '~> 0.16.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 gem 'figaro'
-gem 'tinymce-rails'
-gem 'stripe'
-gem 'liquid'
+gem 'tinymce-rails', '~> 4.1.6'
+gem 'stripe', '~> 1.20.2'
+gem 'liquid', '~> 3.0.1'
 
-gem 'ahoy_matey'
+gem 'ahoy_matey', '~> 1.1.1'
 
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'

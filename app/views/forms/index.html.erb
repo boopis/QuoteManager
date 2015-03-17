@@ -12,8 +12,10 @@
         <i class="fa fa-search search-icon"></i>
       </div>
 
-      <%= link_to new_form_path, class: "btn btn-primary pull-right" do %>
-        <i class="fa fa-plus-circle fa-lg"></i> New Form
+      <% if can? :create, Form %>
+        <%= link_to new_form_path, class: "btn btn-primary pull-right" do %>
+          <i class="fa fa-plus-circle fa-lg"></i> New Form
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -95,18 +97,22 @@
                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
               </span>
             <% end %>
-            <%= link_to edit_form_path(form), title: "Edit Form", class: "table-link" do %>
-              <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-              </span>
+            <% if can? :update, form %>
+              <%= link_to edit_form_path(form), title: "Edit Form", class: "table-link" do %>
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>
             <% end %>
-            <%= link_to requests_path(form_id: form.id), title: "Requests", class: "table-link" do %>
-              <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-reply fa-stack-1x fa-inverse"></i>
-              </span>
-            <% end %>                
+            <% if can? :create, Request %>
+              <%= link_to requests_path(form_id: form.id), title: "Requests", class: "table-link" do %>
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-reply fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>                
+            <% end %>
           </td>
         </tr>
         <% end %>

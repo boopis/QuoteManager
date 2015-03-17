@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20150313033202) do
   create_table "accounts", force: true do |t|
     t.string   "company_name"
     t.text     "about"
-    t.text     "address"
     t.string   "phone_number"
     t.integer  "plan_id"
     t.datetime "created_at"

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :set_user, only: [:show, :update, :destroy]
   before_filter :block_freeloaders!
+  load_and_authorize_resource param_method: :user_params
 
   # GET /users
   # GET /users.json
@@ -71,8 +72,8 @@ private
       :password,
       :password_confirmation,
       :bio,
-      :address,
       :phone_number,
+      address_attributes: [:address_line_1, :address_line_2, :city, :postal_code],
       avatar_attributes: [:image],
       account_attributes: [
         :company_name,

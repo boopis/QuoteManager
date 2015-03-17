@@ -73,17 +73,24 @@
                     <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                   </span>
                 <% end %>
-                <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
-                  </span>
+                <% if can? :create, Quote %>
+                  <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                    </span>
+                  <% end %>
                 <% end %>
-                <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                  </span>
+                <% if can? :delete, request %>
+                  <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                  <% end %>
+                <% end %>
+                <% if can? :update, request %>
+                  <%= render partial: 'notes/note_button', locals: { notable: request } %>
                 <% end %>
               </td>
             <% end %>
@@ -157,19 +164,25 @@
                     <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                   </span>
                 <% end %>
-                <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
-                  </span>
+                <% if can? :create, Quote %>
+                  <%= link_to new_quote_path(request_id: request.id), class: "table-link" do %>
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                    </span>
+                  <% end %>
                 <% end %>
-                <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                  </span>
+                <% if can? :delete, request %>
+                  <%= link_to request, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                  <% end %>
                 <% end %>
-                <%= render partial: 'notes/note_button', locals: { notable: request } %>
+                <% if can? :update, request %>
+                  <%= render partial: 'notes/note_button', locals: { notable: request } %>
+                <% end %>
               </td>
             </tr>
           <% end %>

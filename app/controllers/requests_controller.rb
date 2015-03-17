@@ -8,6 +8,7 @@ class RequestsController < ApplicationController
 
   skip_before_filter :verify_authenticity_token
   before_filter  :add_origin_header
+  load_and_authorize_resource param_method: :request_params
 
   # GET /requests
   # GET /requests.json
