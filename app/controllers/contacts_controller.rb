@@ -96,6 +96,7 @@ class ContactsController < ApplicationController
           :twitter => [:user, :url], 
           :linkedin => [:user, :url]
         ],
+        :address_attributes => [:address_line_1, :address_line_2, :city, :postal_code],
         :note_attributes => [:title, :content],
         :avatar_attributes => [:image]
       )
