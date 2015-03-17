@@ -12,7 +12,7 @@ class Account < ActiveRecord::Base
   has_one :company_logo, as: :viewable, dependent: :destroy, :class => Image
   accepts_nested_attributes_for :company_logo
 
-  has_one :address, as: :contactable
+  has_one :address, as: :addressable
   accepts_nested_attributes_for :address
 
   validates :plan, presence: true, :on => :update

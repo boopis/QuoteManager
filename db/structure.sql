@@ -51,7 +51,6 @@ CREATE TABLE accounts (
     id integer NOT NULL,
     company_name character varying(255),
     about text,
-    address text,
     phone_number character varying(255),
     plan_id integer,
     created_at timestamp without time zone,
@@ -452,7 +451,8 @@ CREATE TABLE users (
     lastname character varying(255),
     account_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    role character varying(255) DEFAULT 'viewer'::character varying
 );
 
 
@@ -903,4 +903,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150317021749');
 INSERT INTO schema_migrations (version) VALUES ('20150317021812');
 
 INSERT INTO schema_migrations (version) VALUES ('20150317022046');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317081922');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317091023');
 

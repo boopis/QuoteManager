@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_one :avatar, as: :viewable, dependent: :destroy, :class_name => Image
   accepts_nested_attributes_for :avatar, :account
 
-  has_one :address, as: :contactable
+  has_one :address, as: :addressable
   accepts_nested_attributes_for :address
 
   validate :limit, :on => :create, :if => :plan_exists?
@@ -26,6 +26,10 @@ class User < ActiveRecord::Base
 
   def fullname
     firstname + ' ' + lastname
+  end
+
+  def role?(role)
+    self.role.include? role
   end
 
   def load_image(type, default_img)

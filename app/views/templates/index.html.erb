@@ -7,9 +7,11 @@
     <h2 class="pull-left">Templates</h2>
 
     <div class="filter-block pull-right">
-      <%= link_to new_template_path, class: "btn btn-primary pull-right" do %>
-        <i class="fa fa-plus-circle fa-lg"></i> New Template
-    <% end %>
+      <% if can? :create, Template %>
+        <%= link_to new_template_path, class: "btn btn-primary pull-right" do %>
+          <i class="fa fa-plus-circle fa-lg"></i> New Template
+        <% end %>
+      <% end %>
     </div>
 
   </div>
@@ -38,18 +40,21 @@
                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                 </span>
               <% end %>
-              <%= link_to edit_template_path(template), title: 'Edit Template', class: 'table-link' do %>
-                <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
+              <% if can? :upadte, template %>
+                <%= link_to edit_template_path(template), title: 'Edit Template', class: 'table-link' do %>
+                  <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
               <% end %>
-
-              <%= link_to template, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
-                <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
+              <% if can? :delete, template %>
+                <%= link_to template, method: :delete, data: { confirm: 'Are you sure?' }, class: "table-link danger" do %>
+                  <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
               <% end %>
             </td>
           </tr>

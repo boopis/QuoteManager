@@ -4,6 +4,7 @@ class ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
   before_filter :block_freeloaders!
+  load_and_authorize_resource param_method: :contact_params
   
   # GET /contacts
   # GET /contacts.json

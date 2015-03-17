@@ -40,9 +40,11 @@
     <div class="main-box clearfix">
       <div class="profile-header">
         <h3><span>Personal Bio</span></h3>
-        <%= link_to edit_contact_path(@contact), class: "btn btn-primary edit-profile" do %>
-          <i class="fa fa-pencil-square fa-lg"></i> 
-          Edit Contact
+        <% if can? :update, @contact %>
+          <%= link_to edit_contact_path(@contact), class: "btn btn-primary edit-profile" do %>
+            <i class="fa fa-pencil-square fa-lg"></i> 
+            Edit Contact
+          <% end %>
         <% end %>
       </div>
 

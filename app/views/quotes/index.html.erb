@@ -11,8 +11,10 @@
         <input type="text" class="form-control" placeholder="Search...">
         <i class="fa fa-search search-icon"></i>
       </div>
-      <%= link_to new_quote_path, class: "btn btn-primary pull-right" do %>
-        <i class="fa fa-plus-circle fa-lg"></i> New Quote
+      <% if can? :create, Quote %>
+        <%= link_to new_quote_path, class: "btn btn-primary pull-right" do %>
+          <i class="fa fa-plus-circle fa-lg"></i> New Quote
+        <% end %>
       <% end %>
     </div>
 
@@ -86,11 +88,13 @@
                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
               </span>
             <% end %>
-            <%= link_to edit_quote_path(quote), title: "Edit Quote", class: "table-link" do %>
-              <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-              </span>
+            <% if can? :update, quote %>
+              <%= link_to edit_quote_path(quote), title: "Edit Quote", class: "table-link" do %>
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>
             <% end %>
             <%= link_to quotes_path(quote_id: quote.id), title: "Quotes", class: "table-link" do %>
               <span class="fa-stack">
@@ -98,7 +102,9 @@
                 <i class="fa fa-reply fa-stack-1x fa-inverse"></i>
               </span>
             <% end %>                
-            <%= render partial: 'notes/note_button', locals: { notable: quote } %>
+            <% if can? :update, quote %>
+              <%= render partial: 'notes/note_button', locals: { notable: quote } %>
+            <% end %>
           </td>
         </tr>
         <% end %>

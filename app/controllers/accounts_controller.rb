@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:new, :create, :login]
+  load_and_authorize_resource param_method: :account_params
 
   def new
     @account = Account.new
@@ -36,7 +37,7 @@ class AccountsController < ApplicationController
   end
 
   def edit
-    render :edit, locals: { current_account: current_account, errors: [] }
+    current_account.address ||= Address.new
   end
 
   def update
@@ -74,8 +75,8 @@ private
     params.require(:account).permit(
       :company_name,
       :phone_number,
-      :address,
       :about,
+      address_attributes: [:address_line_1, :address_line_2, :city, :postal_code],
       :company_logo_attributes => [:image]
     )
   end

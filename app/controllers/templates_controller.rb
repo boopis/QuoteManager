@@ -1,5 +1,6 @@
 class TemplatesController < ApplicationController
   before_action :set_template, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource param_method: :template_params
 
   # GET /templates
   # GET /templates.json

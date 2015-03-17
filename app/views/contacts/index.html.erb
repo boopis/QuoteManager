@@ -19,8 +19,10 @@
 
       <% end %>
 
-      <%= link_to new_contact_path, class: "btn btn-primary pull-right" do %>
-        <i class="fa fa-plus-circle fa-lg"></i> New Contact
+      <% if can? :create, Contact %>
+        <%= link_to new_contact_path, class: "btn btn-primary pull-right" do %>
+          <i class="fa fa-plus-circle fa-lg"></i> New Contact
+        <% end %>
       <% end %>
 
 
@@ -73,13 +75,15 @@
                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
               </span>
             <% end %>
-            <%= link_to edit_contact_path(contact), title: "Edit Contact", class: "table-link" do %>
-              <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-              </span>
-            <% end %>              
-            <%= render partial: 'notes/note_button', locals: { notable: contact } %>
+            <% if can? :update, contact %>
+              <%= link_to edit_contact_path(contact), title: "Edit Contact", class: "table-link" do %>
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>              
+              <%= render partial: 'notes/note_button', locals: { notable: contact } %>
+            <% end %>
           </td>
         </tr>
         <% end %>
