@@ -43,6 +43,14 @@ function validate(form) {
               errors ++;
             }
         }
+        if (child.type == 'title' && child.value.length < 1) {
+          a[ii].className = a[ii].className + " qm-error";
+          errors ++;
+        }
+        if (child.type == 'description' && child.value.length < 1) {
+          a[ii].className = a[ii].className + " qm-error";
+          errors ++;
+        }
         if (child.type == "tel" && child.value.length < 1 ) {
           a[ii].className = a[ii].className + " qm-error";
           errors ++;
@@ -115,7 +123,7 @@ function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsTyp
 
   var w = document.createElement('div'),
       x = document.createElement('label'),
-      y = type !== 'paragraph' ? document.createElement('input') : document.createElement('textarea'),
+      y = (type !== 'paragraph' && type !== 'description') ? document.createElement('input') : document.createElement('textarea'),
       u = document.createElement('input'),
       v = document.createElement('input'),
       qmRequire = required ? ' qm-required' : '';
@@ -445,6 +453,16 @@ function buildForm(url, form) {
           break;
         case 'email':
           w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'email', e, i);
+
+          c.appendChild(w);              
+          break;
+        case 'title':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'title', e, i);
+
+          c.appendChild(w);              
+          break;
+        case 'description':
+          w = createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, 'description', e, i);
 
           c.appendChild(w);              
           break;

@@ -82,6 +82,43 @@ ALTER SEQUENCE accounts_id_seq OWNED BY accounts.id;
 
 
 --
+-- Name: addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE addresses (
+    id integer NOT NULL,
+    address_line_1 character varying(255),
+    address_line_2 character varying(255),
+    city character varying(255),
+    postal_code character varying(255),
+    state character varying(255),
+    addressable_id integer,
+    addressable_type character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE addresses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
+
+
+--
 -- Name: ahoy_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -108,7 +145,9 @@ CREATE TABLE contacts (
     account_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    social_media hstore
+    social_media hstore,
+    title character varying(255),
+    description text
 );
 
 
@@ -480,6 +519,13 @@ ALTER TABLE ONLY accounts ALTER COLUMN id SET DEFAULT nextval('accounts_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
 
 
@@ -545,6 +591,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY accounts
     ADD CONSTRAINT accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY addresses
+    ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
 
 
 --
@@ -640,6 +694,13 @@ ALTER TABLE ONLY visits
 --
 
 CREATE INDEX index_accounts_on_plan_id ON accounts USING btree (plan_id);
+
+
+--
+-- Name: index_addresses_on_addressable_id_and_addressable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_addresses_on_addressable_id_and_addressable_type ON addresses USING btree (addressable_id, addressable_type);
 
 
 --
@@ -836,4 +897,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150313033119');
 INSERT INTO schema_migrations (version) VALUES ('20150313033202');
 
 INSERT INTO schema_migrations (version) VALUES ('20150316033449');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317021749');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317021812');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317022046');
 

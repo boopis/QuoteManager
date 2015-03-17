@@ -12,6 +12,9 @@ class Account < ActiveRecord::Base
   has_one :company_logo, as: :viewable, dependent: :destroy, :class => Image
   accepts_nested_attributes_for :company_logo
 
+  has_one :address, as: :contactable
+  accepts_nested_attributes_for :address
+
   validates :plan, presence: true, :on => :update
 
   liquid_methods :company_logo, :company_name

@@ -1,0 +1,22 @@
+<%= content_tag(:div, :class => 'form-field', :'data-id' => id) do %>
+  <% if defined? field %>
+    <%= render 'hidden_option', f: f, field: field, type: 'description' %>
+  <% else %>
+    <%= render 'hidden_option', f: f, field: {}, type: 'description' %>
+  <% end %>
+
+  <div class="form-group">
+    <% if defined? field %>
+      <%= f.label field['label'], :class => "required" %>
+      <div class="input-group">
+      <%= text_field_tag field['label'], nil, class: "form-control", placeholder: "#{field['placeholder']}" %>
+    <% else %>
+      <%= f.label '', :class => 'required' %>
+      <div class="input-group">
+      <%= text_area_tag '', nil, class: "form-control", placeholder: "Enter your description" %>
+    <% end %>
+    <%= render 'forms/remove', cssclass: 'remove_contact_fields' %>
+    </div>
+  </div>
+
+<% end %>
