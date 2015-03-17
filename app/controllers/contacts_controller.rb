@@ -22,11 +22,13 @@ class ContactsController < ApplicationController
     @contact = current_account.contacts.new
     @contact.avatar ||= Image.new
     @contact.note ||= Note.new
+    @contact.address ||= Address.new
   end
 
   # GET /contacts/1/edit
   def edit
     @contact.avatar ||= Image.new
+    @contact.address ||= Address.new
     @contact.note ||= Note.new
   end
 

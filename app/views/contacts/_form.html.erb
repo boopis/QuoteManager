@@ -12,9 +12,29 @@
     <%= f.email_field :email, class: "form-control"  %>
   </div>
   <div class="form-group">
+    <%= f.label :title %><br>
+    <%= f.text_field :title, class: "form-control"  %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description %><br>
+    <%= f.text_area :description, class: "form-control"  %>
+  </div>
+  <div class="form-group">
     <%= f.fields_for :avatar do |fa| %><br>
       <%= fa.label :avatar %><br>
       <%= fa.file_field :image, class: "form-control"  %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <%= f.fields_for :address do |fad| %><br>
+      <%= fad.label :address_line_1, "Address line 1" %><br>
+      <%= fad.text_field :address_line_1, class: "form-control"  %>
+      <%= fad.label :address_line_2, "Address line 2" %><br>
+      <%= fad.text_field :address_line_2, class: "form-control"  %>
+      <%= fad.label :city %><br>
+      <%= fad.text_field :city, class: "form-control"  %>
+      <%= fad.label :postal_code, "Postal Code" %><br>
+      <%= fad.number_field :postal_code, class: "form-control"  %>
     <% end %>
   </div>
   <div class="form-group row social">
