@@ -12,7 +12,6 @@
       </div>
 
       <div class="profile-label">
-        <span class="label label-danger">Add Role</span>
       </div>
 
       <div class="profile-since">
@@ -75,7 +74,7 @@
               Address line 1
             </div>
             <div class="profile-user-details-value">
-              <%= @contact.address.address_line_1 %>
+              <%= @contact.address.try(:address_line_1) %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -83,7 +82,7 @@
               Address line 2
             </div>
             <div class="profile-user-details-value">
-              <%= @contact.address.address_line_2 %>
+              <%= @contact.address.try(:address_line_2) %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -91,7 +90,7 @@
               City
             </div>
             <div class="profile-user-details-value">
-              <%= @contact.address.city %>
+              <%= @contact.address.try(:city) %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -99,7 +98,7 @@
               Postal Code
             </div>
             <div class="profile-user-details-value">
-              <%= @contact.address.postal_code %>
+              <%= @contact.address.try(:postal_code) %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -175,9 +174,9 @@
           </div>
 
           <div class="tab-pane fade" id="tab-note">
-            <% unless @contact.note.nil? %>
-              <%= content_tag :strong, @contact.note.title + '- ' %>
-              <%= content_tag :p, @contact.note.content %>
+            <% unless @contact.note.title.nil? %>
+              <%= content_tag :strong, @contact.note.try(:title) + '- ' %>
+              <%= content_tag :p, @contact.note.try(:content) %>
             <% end %>
           </div>
 

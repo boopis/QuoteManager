@@ -372,6 +372,6 @@ $copyScript.mouseout (e) ->
   $copyScript.text('Copy to clipboard').removeClass('btn-success').addClass('btn-primary')
   return
 
-cloneForm = $('form').parent()
+cloneForm = $('form').parent().clone()
 cloneForm.find('form').attr 'action', 'http://quotemanager.co/requests'
 $('#rawhtml').val cloneForm.html()
