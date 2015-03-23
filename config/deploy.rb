@@ -48,6 +48,12 @@ namespace :puma do
   before :start, :make_dirs
 end
 
+namespace :reset do
+  task :reset_database do
+    run "cd #{current_path} && bundle exec rake db:reset RAILS_ENV=#{rails_env}"
+  end
+end
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
