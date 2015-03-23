@@ -1,4 +1,4 @@
-#= require bootstrap
+#= require application
 #= require moment
 #= require bootstrap-datetimepicker
 #= require jSignature

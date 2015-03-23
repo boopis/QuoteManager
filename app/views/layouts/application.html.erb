@@ -13,10 +13,8 @@
   <%= yield :extended_css %>
   <% if user_signed_in? && current_account.plan.present? %>
     <%= stylesheet_link_tag    'admin' %>
-    <%= javascript_include_tag 'application' %>
   <% else %>
     <%= stylesheet_link_tag    'application' %>
-    <%= javascript_include_tag 'dashboard' %>
   <% end %>
   <%= csrf_meta_tags %>
 </head>
