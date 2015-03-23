@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
       if @account.save
         sign_in(@account.users[0])
         if params[:plan_id].present?
-          format.html { redirect_to new_payment_url.merge(params[:plan_id]), notice: 'Please add payment details to begin trial.' }
+          format.html { redirect_to new_payment_url(plan_id: params[:plan_id]), notice: 'Please add payment details to begin trial.' }
         else
           format.html { redirect_to new_payment_url, notice: 'Account was successfully created. Please choose a plan.' }          
         end
