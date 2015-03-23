@@ -50,7 +50,7 @@ end
 
 namespace :reset do
   task :reset_database do
-    run "cd #{current_path} && bundle exec rake db:reset RAILS_ENV=production"
+    execute "cd #{current_path} && bundle exec rake db:reset RAILS_ENV=production"
   end
 end
 
