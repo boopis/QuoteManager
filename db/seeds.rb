@@ -28,7 +28,7 @@ form = Form.new(
       "css_class"=>"", 
       "position"=>"0", 
       "label"=>"Email", 
-      "placeholder"=>"Enter", 
+      "placeholder"=>"Enter your email", 
       "validate"=>{"validates_presence_of"=>"1"}
     }, 
     "1427095419321"=>{
