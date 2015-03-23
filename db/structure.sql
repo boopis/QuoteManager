@@ -133,6 +133,41 @@ CREATE TABLE ahoy_events (
 
 
 --
+-- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE assets (
+    id integer NOT NULL,
+    asset character varying(255),
+    account_id integer,
+    request_id integer,
+    public integer,
+    field_id character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE assets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE assets_id_seq OWNED BY assets.id;
+
+
+--
 -- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -526,6 +561,13 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY assets ALTER COLUMN id SET DEFAULT nextval('assets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
 
 
@@ -607,6 +649,14 @@ ALTER TABLE ONLY addresses
 
 ALTER TABLE ONLY ahoy_events
     ADD CONSTRAINT ahoy_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (id);
 
 
 --
@@ -729,6 +779,20 @@ CREATE INDEX index_ahoy_events_on_user_id_and_user_type ON ahoy_events USING btr
 --
 
 CREATE INDEX index_ahoy_events_on_visit_id ON ahoy_events USING btree (visit_id);
+
+
+--
+-- Name: index_assets_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_assets_on_account_id ON assets USING btree (account_id);
+
+
+--
+-- Name: index_assets_on_request_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_assets_on_request_id ON assets USING btree (request_id);
 
 
 --
@@ -875,6 +939,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150304085723');
 INSERT INTO schema_migrations (version) VALUES ('20150305092901');
 
 INSERT INTO schema_migrations (version) VALUES ('20150306073658');
+
+INSERT INTO schema_migrations (version) VALUES ('20150309100629');
 
 INSERT INTO schema_migrations (version) VALUES ('20150310060819');
 
