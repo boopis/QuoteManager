@@ -4,7 +4,7 @@ class Ability
   def initialize(user)
     alias_action :create, :update, :index, :show, :to => :crud
 
-    user ||= Admin::User.new
+    user ||= User.new
 
     if user.role? 'admin'
       can :manage, :all
@@ -12,6 +12,9 @@ class Ability
       can :manage, [Contact, Form, Request, Quote, Template]
       can [:show, :update], User, :id => user.id 
     elsif user.role? 'viewer'
+      if user.new_record?
+        can :create, [Account, Plan]
+      end
       can :read, :all
     else
       can :read, :all

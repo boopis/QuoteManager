@@ -1,7 +1,6 @@
 class PaymentsController < ApplicationController
   before_action :set_payments, only: [:new, :create, :edit, :update]
   before_filter :authenticate_user!
-  load_and_authorize_resource param_method: :payment_params
 
   def new
   end
@@ -13,7 +12,8 @@ class PaymentsController < ApplicationController
       customer = Stripe::Customer.create(email: current_user.email, plan: plan.id, card: params[:stripe_card_token])
       @account.stripe_customer_token = customer.id
       @account.stripe_subscription_token = customer.subscriptions.data[0].id
-      @account.save
+      @user.role = 'admin'
+      @account.save && @user.save
       redirect_to root_url, notice: "You're ready to begin your free trial!"
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "Plan is invalid"
@@ -55,6 +55,7 @@ private
   def set_payments
     @account = current_account
     @plans = Plan.all
+    @user = @account.users.find(current_user)
   end
 
   def payment_params
