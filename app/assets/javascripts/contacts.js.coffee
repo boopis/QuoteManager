@@ -1,4 +1,4 @@
-#= require bootstrap
+#= require application
 #= require notes
 
 socialType = $('.social-type')
