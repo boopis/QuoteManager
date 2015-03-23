@@ -320,25 +320,55 @@
         <br>
         <div class="row">
           <div class="col-sm-offset-3 col-sm-6">
-            <form action="/requests" method="post">
-              <input id="request_form_id" name="request[form_id]" type="hidden" value="1">
-              <input id="request_fields_1425392839536_label" name="request[fields][1425392839536][label]" type="hidden" value="Email">
-              <input id="request_fields_1425392839536_type" name="request[fields][1425392839536][type]" type="hidden" value="email">
-              <div class="form-group">
-                <label for="email" style="color:white;">Email</label>
-                <input type="email" class="form-control" id="email" name="request[fields][1425392839536][request]"placeholder="Enter email">
-              </div>
-              <div class="form-group">
-                <label for="message" style="color:white;">Message</label>
-                <input id="request_fields_1425392854989_label" name="request[fields][1425392854989][label]" type="hidden" value="Message">
-                <input id="request_fields_1425392854989_type" name="request[fields][1425392854989][type]" type="hidden" value="text">
-                <textarea class="form-control" rows="7" name="request[fields][1425392854989][request]" placeholder="Please send us a detailed message"></textarea>
-              </div>
-              <br>
-              <div class="form-group">
-                <button type="submit" class="btn btn-theme btn-lg btn-block">Send!</button>
-              </div>
-            </form>
+            <% if @form.nil? %>
+              <form action="/requests" method="post">
+                <input id="request_form_id" name="request[form_id]" type="hidden" value="1">
+                <input id="request_fields_1425392839536_label" name="request[fields][1425392839536][label]" type="hidden" value="Email">
+                <input id="request_fields_1425392839536_type" name="request[fields][1425392839536][type]" type="hidden" value="email">
+                <div class="form-group">
+                  <label for="email" style="color:white;">Email</label>
+                  <input type="email" class="form-control" id="email" name="request[fields][1425392839536][request]"placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label for="message" style="color:white;">Message</label>
+                  <input id="request_fields_1425392854989_label" name="request[fields][1425392854989][label]" type="hidden" value="Message">
+                  <input id="request_fields_1425392854989_type" name="request[fields][1425392854989][type]" type="hidden" value="text">
+                  <textarea class="form-control" rows="7" name="request[fields][1425392854989][request]" placeholder="Please send us a detailed message"></textarea>
+                </div>
+                <br>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-theme btn-lg btn-block">Send!</button>
+                </div>
+              </form>
+            <% else %>
+              <%= form_for @request do |f| %>
+                <%= f.hidden_field :form_id, value: @form.id %>
+                <% @form.fields.each do |id, field| %>
+                  <%= f.fields_for :fields, OpenStruct.new(field), index: id do |rf| %>
+                    <% case field['type'] %>
+                      <% when 'email' %>
+                        <div class="form-group">
+                          <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
+                          <%= rf.hidden_field :label, value: field['label'] %>
+                          <%= rf.hidden_field :type, value: field['type'] %>
+                          <%= rf.email_field :request, class: "form-control" %>
+                        </div>
+                      <% when 'paragraph' %>
+                        <div class="form-group">
+                          <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
+                          <%= rf.hidden_field :label, value: field['label'] %>
+                          <%= rf.hidden_field :type, value: field['type'] %>
+                          <%= rf.text_area :request, class: "form-control" %>
+                        </div>
+                    <% end %><!-- end case -->
+                  <% end %><!-- end fields_for -->
+                <% end %><!-- end form.fields.each -->
+
+                <div class="actions">
+                  <%= f.submit "Submit", class: "btn btn-success" %>
+                </div>
+              <% end %>
+            <% end %>
           </div>
         </div>
 

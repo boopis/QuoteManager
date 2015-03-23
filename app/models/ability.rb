@@ -16,8 +16,10 @@ class Ability
         can :create, [Account, Plan]
       end
       can :read, :all
+      can :create, Request
     else
       can :read, :all
+      can :create, Request
     end
   end
 end
