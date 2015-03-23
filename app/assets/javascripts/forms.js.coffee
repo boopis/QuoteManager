@@ -1,4 +1,4 @@
-#= require bootstrap
+#= require application
 #= require tinymce
 #= require ZeroClipboard
 #= require jquery.ui.sortable
