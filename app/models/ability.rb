@@ -9,7 +9,7 @@ class Ability
     if user.role? 'admin'
       can :manage, :all
     elsif user.role? 'manager'
-      can :manage, [Contact, Form, Request, Quote, Template]
+      can :manage, [Form, Request, Quote, Template]
       can [:show, :update], User, :id => user.id 
     elsif user.role? 'viewer'
       if user.new_record?
