@@ -1,6 +1,5 @@
 //= require jquery
 //= require bootstrap
-//= require smoothscroll
 
 function slideDropdownMenu ($item) {
 

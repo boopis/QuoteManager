@@ -1,3 +1,7 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "payments" %>
+<% end %>
+
 <div class="col-sm-12 signin">
   <h2 class="text-center">Upgrade Your Plan</h2>
   <hr>
@@ -29,9 +33,4 @@
     <i class="fa fa-spinner fa-5x fa-spin" style="display:block;left:-50%;top-50%;position:relative;"></i>
   </div>
 </div>
-<script>
-$('#update_payment').submit(function() {
-  $('input[type=submit]').attr('disabled', true);
-  $('.spinner-outer-wrapper').show();
-});
-</script>
+
