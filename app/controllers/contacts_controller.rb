@@ -92,6 +92,8 @@ class ContactsController < ApplicationController
         :name, 
         :phone, 
         :email, 
+        :title,
+        :description,
         :social_media => [
           :facebook => [:user, :url], 
           :twitter => [:user, :url], 

@@ -5,7 +5,7 @@
 <div class="row" id="user-profile">
   <div class="col-lg-3 col-md-4 col-sm-4">
     <div class="main-box clearfix">
-      <h2><%= @contact.name %></h2>
+      <h2><%= @contact.try(:name) %></h2>
 
       <div class="profile-img img-responsive center-block"> 
           <%= image_tag @contact.load_image('no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
@@ -15,7 +15,7 @@
       </div>
 
       <div class="profile-since">
-        First Contact: <%= @contact.created_at.strftime("%b %d, %Y") %>
+        Added Time: <%= @contact.created_at.strftime("%b %d, %Y") %>
       </div>
 
       <div class="profile-details">
@@ -55,18 +55,10 @@
         <div class="col-sm-8">
           <div class="profile-user-details clearfix">
             <div class="profile-user-details-label">
-              First Name
+              Contact Name
             </div>
             <div class="profile-user-details-value">
-              <%= split_name(@contact.name,0) if @contact.name.present? %>
-            </div>
-          </div>
-          <div class="profile-user-details clearfix">
-            <div class="profile-user-details-label">
-              Last Name
-            </div>
-            <div class="profile-user-details-value">
-              <%= split_name(@contact.name,1) if @contact.name.present? %>
+              <%= @contact.try(:name) %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -114,7 +106,7 @@
               Phone number
             </div>
             <div class="profile-user-details-value">
-              <%= @contact.phone %>
+              <%= @contact.try(:phone) %>
             </div>
           </div>
         </div>

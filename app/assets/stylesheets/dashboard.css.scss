@@ -964,7 +964,7 @@ svg {
   margin: 0 -15px;
   padding: 0 15px;
 
-  .wrapper {
+  & > .wrapper {
     margin-left: 245px;
 
     .content {
