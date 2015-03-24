@@ -22,11 +22,21 @@
               <%= link_to '<i class="fa fa-user"></i>Profile'.html_safe, user_path(current_user) %>
             <% end %>
 
+            <li class="divider"></li>
+
             <% if can? :manage, current_account %>
               <%= content_tag :li do %>
                 <%= link_to '<i class="fa fa-building-o"></i>Company'.html_safe, edit_account_path(current_account) %>
               <% end %>
+              <%= content_tag :li do %>
+                <%= link_to '<i class="fa fa-plus-circle"></i>Add new user'.html_safe, new_user_path %>
+              <% end %>
+              <%= content_tag :li do %>
+                <%= link_to '<i class="fa fa-credit-card"></i>Edit your payment'.html_safe, edit_payments_path %>
+              <% end %>
             <% end %>
+
+            <li class="divider"></li>
 
             <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
             <li><a href="#"><i class="fa fa-envelope-o"></i>Messages</a></li>
