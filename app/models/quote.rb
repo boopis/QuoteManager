@@ -16,6 +16,11 @@ class Quote < ActiveRecord::Base
     .where(:ahoy_events => { :name => '[Quote]End' } ) 
   }
 
+  scope :from_contact, ->(contact_id) {
+    joins(:request)
+    .where(:requests => {:contact_id => contact_id })
+  }
+
 protected
 
   def generate_token
