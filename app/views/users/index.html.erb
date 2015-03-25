@@ -8,9 +8,11 @@
     <h1 class="pull-left">Users</h1>
 
     <div class="pull-right top-page-ui">
-      <%= link_to new_user_path, class: "btn btn-primary pull-right" do %>
-        <i class="fa fa-plus-circle fa-lg"></i> Add user
-    <% end %>
+      <% if can? :create, User %>
+        <%= link_to new_user_path, class: "btn btn-primary pull-right" do %>
+          <i class="fa fa-plus-circle fa-lg"></i> Add user
+        <% end %>
+      <% end %>
     </div>
   </div>
 
@@ -34,7 +36,7 @@
               <td>
                 <%= image_tag user.load_image(:avatar, 'no-avatar.jpg') %>
                 <%= link_to user.fullname, user_path(user), class: "user-link" %>
-                <span class="user-subhead">Add role here</span>
+                <%= content_tag :span, user.role.capitalize, class: 'user-subhead' %>
               </td>
               <td>
                 <%= user.created_at.strftime("%b-%d-%Y") %>
@@ -52,17 +54,21 @@
                   <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                 </span>
               <% end %>
-                <%= link_to edit_user_path(user), class: "table-link" do %>
-                  <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
+                <% if can? :update, user %>
+                  <%= link_to edit_user_path(user), class: "table-link" do %>
+                    <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
               <% end %>
-                <%= link_to user_path(user), :method => 'delete', :data => { :confirm => 'Are you sure?' }, class: "table-link" do %>
-                  <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
+                <% if can? :delete, user %>
+                  <%= link_to user_path(user), :method => 'delete', :data => { :confirm => 'Are you sure?' }, class: "table-link" do %>
+                    <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>
               <% end %>
               </td>
             </tr>

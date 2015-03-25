@@ -24,22 +24,24 @@
 
         <%= content_tag :div, @user.role.capitalize, class: 'profile-label' %>
 
-        <div class="profile-stars">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-
-          <% if @user.role == 'admin' %>
+        <% if @user.role != 'viewer' %>
+          <div class="profile-stars">
+            <i class="fa fa-star"></i>
             <i class="fa fa-star"></i>
             <i class="fa fa-star"></i>
 
-          <% elsif @user.role = 'manager' %>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-          <% end %>
+            <% if @user.role == 'admin' %>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
 
-          <span><%= @user.role.capitalize %> User</span>
-        </div>
+            <% elsif @user.role == 'manager' %>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+            <% end %>
+
+            <span><%= @user.role.capitalize %> User</span>
+          </div>
+        <% end %>
 
         <%= content_tag :div, "Member since: #{@user.created_at.strftime('%m %Y')}", class: 'profile-since' %>
 
@@ -59,7 +61,7 @@
             </li>
             <li>
               <i class="fa-li fa fa-users"></i>
-              Requests: <%= content_tag :span, @no_contacts %>
+              Contacts: <%= content_tag :span, @no_contacts %>
             </li>
 
           </ul>
@@ -81,10 +83,12 @@
             <i class="fa fa-pencil-square fa-lg"></i> 
             Update my profile
           <% end %>
-          <a href="#" class="btn btn-primary edit-profile">
-            <i class="fa fa-pencil-square fa-lg"></i> 
-            Edit profile
-          </a>
+          <% if can? :update, @user %>
+            <a href="#" class="btn btn-primary edit-profile">
+              <i class="fa fa-pencil-square fa-lg"></i> 
+              Edit profile
+            </a>
+          <% end %>
         </div>
 
         <h3><span>User info</span></h3>
