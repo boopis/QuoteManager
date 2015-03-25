@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :set_user, only: [:show, :update, :destroy]
+  before_filter :authenticate_user!, :set_user, only: [:show, :update, :destroy, :edit]
   before_filter :block_freeloaders!
   load_and_authorize_resource param_method: :user_params
 
@@ -23,6 +23,10 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = current_account.users.new
+  end
+
+  # GET /users/:id/edit
+  def edit
   end
 
   # POST /users
