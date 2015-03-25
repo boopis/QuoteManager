@@ -4,7 +4,7 @@ class FormsController < ApplicationController
   before_filter :block_freeloaders!, except: [:show, :form_inline]
   
   before_filter  :add_origin_header
-  load_and_authorize_resource param_method: :form_params
+  load_and_authorize_resource param_method: :form_params, except: [:form_inline]
 
   # GET /forms
   # GET /forms.json

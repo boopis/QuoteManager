@@ -1,12 +1,12 @@
 class QuotesController < ApplicationController
   include Notable
 
-  before_filter :authenticate_user!, except: [:accept_quote, :public]
-  before_filter :block_freeloaders!, except: [:accept_quote, :public]
+  before_filter :authenticate_user!, except: [:accept_quote, :public, :track_email]
+  before_filter :block_freeloaders!, except: [:accept_quote, :public, :track_email]
   before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote]
   before_action :check_token, only: [:public]
   before_action :parse_request, only: [:public]
-  load_and_authorize_resource param_method: :quote_params
+  load_and_authorize_resource param_method: :quote_params, except: [:accept_quote, :public, :track_email]
 
   # Tracking quote
   #after_filter :track_action, only: [:public]

@@ -5,7 +5,7 @@
 <div class="row" id="user-profile">
   <div class="col-lg-3 col-md-4 col-sm-4">
     <div class="main-box clearfix">
-      <h2><%= @contact.name %></h2>
+      <h2><%= @contact.try(:name) %></h2>
 
       <div class="profile-img img-responsive center-block"> 
           <%= image_tag @contact.load_image('no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
@@ -15,13 +15,13 @@
       </div>
 
       <div class="profile-since">
-        First Contact: <%= @contact.created_at.strftime("%b %d, %Y") %>
+        Added Time: <%= @contact.created_at.strftime("%b %d, %Y") %>
       </div>
 
       <div class="profile-details">
         <ul class="fa-ul">
-          <li><i class="fa-li fa fa-question-circle"></i>Requests: <span><%= @contact.requests.count %></span></li>
-          <li><i class="fa-li fa fa-comment"></i>Quotes: <span class="label label-danger">Add Quote Count</span></li>
+          <li><i class="fa-li fa fa-question-circle"></i>Requests: <span><%= @no_requests %></span></li>
+          <li><i class="fa-li fa fa-comment"></i>Quotes: <span><%= @no_quotes %></span></li>
         </ul>
       </div>
 
@@ -55,18 +55,10 @@
         <div class="col-sm-8">
           <div class="profile-user-details clearfix">
             <div class="profile-user-details-label">
-              First Name
+              Contact Name
             </div>
             <div class="profile-user-details-value">
-              <%= split_name(@contact.name,0) if @contact.name.present? %>
-            </div>
-          </div>
-          <div class="profile-user-details clearfix">
-            <div class="profile-user-details-label">
-              Last Name
-            </div>
-            <div class="profile-user-details-value">
-              <%= split_name(@contact.name,1) if @contact.name.present? %>
+              <%= @contact.try(:name) %>
             </div>
           </div>
           <div class="profile-user-details clearfix">
@@ -114,7 +106,7 @@
               Phone number
             </div>
             <div class="profile-user-details-value">
-              <%= @contact.phone %>
+              <%= @contact.try(:phone) %>
             </div>
           </div>
         </div>
@@ -132,12 +124,17 @@
         </div>
       </div>
 
+      <h3><span>Note</span></h3>
+      <% unless @contact.note.try(:title).nil? %>
+        <%= content_tag :strong, @contact.note.try(:title) + '- ' %>
+        <%= content_tag :span, @contact.note.try(:content) %>
+      <% end %>
+
       <div class="tabs-wrapper profile-tabs">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab-activity" data-toggle="tab">Activity</a></li>
           <li><a href="#tab-requests" data-toggle="tab">Requests</a></li>
           <li><a href="#tab-quotes" data-toggle="tab">Quotes</a></li>
-          <li><a href="#tab-note" data-toggle="tab">Note</a></li>
         </ul>
 
         <div class="tab-content">
@@ -166,18 +163,66 @@
           </div>
 
           <div class="tab-pane fade" id="tab-requests">
-            <span class="label label-danger">Index View of Requests specific to this contact</span>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Request ID</th>
+                    <th>Fields</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @requests.last(10).each do |r| %>
+                    <tr>
+                      <td><%= r.id %></td>
+                      <td>
+                        <% r.fields.map do |id, field| %>
+                          <i class='fa fa-angle-double-right'></i>
+                          <%= content_tag :b, field['label'] + ':' %>
+                          <%= content_tag :b, field['request'] %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
           </div>
 
           <div class="tab-pane fade" id="tab-quotes">
-            <span class="label label-danger">Index View of Quotes given to this contact</span>
-          </div>
-
-          <div class="tab-pane fade" id="tab-note">
-            <% unless @contact.note.title.nil? %>
-              <%= content_tag :strong, @contact.note.try(:title) + '- ' %>
-              <%= content_tag :p, @contact.note.try(:content) %>
-            <% end %>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Base Amount</th>
+                    <th>Options</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @quotes.last(10).each do |q| %>
+                    <tr>
+                      <td><%= q.amount %></td>
+                      <td>
+                        <% if q.options.present? %>
+                          <% q.options.each do |id, option| %>
+                            <%= option['amount'] %>: <%= option['description'] %><br>
+                          <% end %>
+                        <% end %>
+                      </td>
+                      <td>
+                        <%= content_tag :label, q.status, :class => 'label label-primary' %>
+                      </td>
+                      <td>
+                        <%= q.created_at.strftime("%b-%d-%Y") %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>

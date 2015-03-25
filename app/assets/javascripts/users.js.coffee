@@ -5,7 +5,7 @@ toggleUpdateForm = (e) ->
   $viewValues = $ '.profile-user-details-value' 
   $fields = $ '.detail-profile .form-control'
   $fieldLabels = $ '.detail-profile label'
-  $updateImage = $ '.wrapper'
+  $updateImage = $ '.avatar .wrapper'
   $submitBtn = $ '.update-profile'
 
   $editViewBtn = $ '.edit-profile'

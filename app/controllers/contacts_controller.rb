@@ -16,6 +16,11 @@ class ContactsController < ApplicationController
   # GET /contacts/1
   # GET /contacts/1.json
   def show
+    @quotes = Quote.from_contact(@contact.id)
+    @requests = @contact.requests
+
+    @no_requests = @requests.pluck(:id).count
+    @no_quotes = @quotes.pluck(:id).count
   end
 
   # GET /contacts/new
@@ -92,6 +97,8 @@ class ContactsController < ApplicationController
         :name, 
         :phone, 
         :email, 
+        :title,
+        :description,
         :social_media => [
           :facebook => [:user, :url], 
           :twitter => [:user, :url], 
