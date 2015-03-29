@@ -1,5 +1,7 @@
 #= require jquery
 #= require smoothscroll
+#= require bootstrap/transition
+#= require bootstrap/collapse
 
 $form = $ 'form'
 
