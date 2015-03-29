@@ -1,11 +1,11 @@
-#= require bootstrap
+#= require application
 # Show / hide update form
 toggleUpdateForm = (e) ->
   $labels = $ '.profile-user-details-label' 
   $viewValues = $ '.profile-user-details-value' 
   $fields = $ '.detail-profile .form-control'
   $fieldLabels = $ '.detail-profile label'
-  $updateImage = $ '.wrapper'
+  $updateImage = $ '.avatar .wrapper'
   $submitBtn = $ '.update-profile'
 
   $editViewBtn = $ '.edit-profile'

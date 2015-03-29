@@ -941,3 +941,57 @@ svg {
 .buffer.right-20 {
 	margin-right: 20px;
 }
+
+/* Sidebar */
+.transition {
+  transition: all .3s ease 0s;
+}
+
+.content {
+  position: relative;
+  min-height: 1059px;
+}
+
+.sidebar {
+  position: absolute;
+  width: 260px;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.content-wrapper {
+  margin: 0 -15px;
+  padding: 0 15px;
+
+  & > .wrapper {
+    margin-left: 245px;
+
+    .content {
+      background: #eeeeee;
+    }
+  }
+}
+
+.vertical-text {
+  transform: rotate(90deg);
+  transform-origin: left top 0;
+}
+
+.util-button {
+  position: fixed;
+  top: 119px;
+  left: 30px;
+  z-index: 1000;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.collapse-sidebar {
+  &.active {
+    background-color: #2bb6a3;
+  }
+}

@@ -1,4 +1,5 @@
-#= require bootstrap
+#= require application
+#= require jquery_ujs
 #= require notes
 
 $('[data-toggle="tooltip"]').tooltip()

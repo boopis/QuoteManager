@@ -11,7 +11,7 @@
 
     <div class="nav-no-collapse pull-right" id="header-nav">
       <ul class="nav navbar-nav pull-right">
-        
+                
         <li class="dropdown profile-dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <%= image_tag current_user.load_image(:avatar, 'guest.png'), class: "img-circle", size: "35" %>
@@ -22,16 +22,33 @@
               <%= link_to '<i class="fa fa-user"></i>Profile'.html_safe, user_path(current_user) %>
             <% end %>
 
+            <li class="divider"></li>
+
             <% if can? :manage, current_account %>
               <%= content_tag :li do %>
                 <%= link_to '<i class="fa fa-building-o"></i>Company'.html_safe, edit_account_path(current_account) %>
               <% end %>
+              <%= content_tag :li do %>
+                <%= link_to '<i class="fa fa-credit-card"></i>Edit your payment'.html_safe, edit_payments_path %>
+              <% end %>
             <% end %>
+            <%= content_tag :li do %>
+              <%= link_to '<i class="fa fa-users"></i>Users in account'.html_safe, users_path %>
+            <% end %>
+
+            <li class="divider"></li>
 
             <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
             <li><a href="#"><i class="fa fa-envelope-o"></i>Messages</a></li>
           </ul>
         </li>
+        
+        <li class='collapse-sidebar'>
+          <a href='#'>
+            <i class='fa fa-arrows-h'></i>
+          </a>
+        </li>
+
         <li class="hidden-xxs">
           <%= link_to destroy_user_session_path, method: 'delete', class: 'btn' do %>
             <i class="fa fa-power-off"></i>

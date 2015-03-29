@@ -13,10 +13,8 @@
   <%= yield :extended_css %>
   <% if user_signed_in? && current_account.plan.present? %>
     <%= stylesheet_link_tag    'admin' %>
-    <%= javascript_include_tag 'application' %>
   <% else %>
     <%= stylesheet_link_tag    'application' %>
-    <%= javascript_include_tag 'dashboard' %>
   <% end %>
   <%= csrf_meta_tags %>
 </head>
@@ -27,19 +25,21 @@
   <%= render 'layouts/user_header' %>
   <div class="container fill">
     <div class="row fill">
-      <%= render 'layouts/user_sidebar' %>
+      <div class='util-button vertical-text hidden transition'>
+        <a class='btn btn-primary'>MENU</a> 
+      </div>
+      <div class='content'>
+        <%= render 'layouts/user_sidebar' %>
 
-      <div class="col-md-10" id="content-wrapper">
-        <div class="row">
-          <div class="col-lg-12">
-
-            <%= admin_messages %>
-            <%= yield %>
-
+        <div class="content-wrapper">
+          <div class="wrapper transition">
+            <div class='content clearfix'>
+              <%= admin_messages %>
+              <%= yield %>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 <% else %>  

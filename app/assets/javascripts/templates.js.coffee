@@ -1,3 +1,4 @@
+#= require application
 #= require tinymce
 tinymce.init
   selector: '#template_content'

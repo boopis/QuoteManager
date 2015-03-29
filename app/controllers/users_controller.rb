@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :set_user, only: [:show, :update, :destroy]
+  before_filter :authenticate_user!, :set_user, only: [:show, :update, :destroy, :edit]
   before_filter :block_freeloaders!
   load_and_authorize_resource param_method: :user_params
 
@@ -13,11 +13,20 @@ class UsersController < ApplicationController
     @user = current_account.users.find(params[:id])
     @user.avatar ||= Image.new
     @user.account.company_logo ||= Image.new
+
+    @no_forms = current_account.forms.pluck(:id).count
+    @no_requests = current_account.requests.pluck(:id).count
+    @no_quotes = current_account.quotes.pluck(:id).count
+    @no_contacts = current_account.contacts.pluck(:id).count
   end
 
   # GET /users/new
   def new
     @user = current_account.users.new
+  end
+
+  # GET /users/:id/edit
+  def edit
   end
 
   # POST /users

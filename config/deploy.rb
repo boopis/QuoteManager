@@ -48,6 +48,14 @@ namespace :puma do
   before :start, :make_dirs
 end
 
+namespace :reset do
+  task :reset_database do
+    on roles(:app) do
+      execute :cd, "#{current_path} && bundle exec rake db:reset RAILS_ENV=production"
+    end
+  end
+end
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -61,10 +69,11 @@ namespace :deploy do
   end
 
   desc "Config nginx"
-  task :config_nginx do
+  task :setup do
     on roles(:app), in: :sequence, wait: 1 do
       execute "sudo rm /etc/nginx/sites-enabled/default"
       execute "sudo ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+      execute "ln -nfs #{shared_path}/config/application.yml #{release_path}/config/application.yml"
       execute "sudo service nginx start"
     end
   end

@@ -1,4 +1,4 @@
-#= require bootstrap
+#= require application
 #= require tinymce
 #= require ZeroClipboard
 #= require jquery.ui.sortable
@@ -372,4 +372,6 @@ $copyScript.mouseout (e) ->
   $copyScript.text('Copy to clipboard').removeClass('btn-success').addClass('btn-primary')
   return
 
-$('#rawhtml').val $('form').html()
+cloneForm = $('form').parent().clone()
+cloneForm.find('form').attr 'action', 'http://quotemanager.co/requests'
+$('#rawhtml').val cloneForm.html()

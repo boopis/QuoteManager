@@ -1,4 +1,4 @@
-#= require jquery
+#= require application
 #= require jquery.knob
 
 $('.knob').knob
