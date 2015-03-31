@@ -13,6 +13,10 @@ class AccountsController < ApplicationController
     respond_to do |format|
       if @account.save
         sign_in(@account.users[0])
+
+        # Send greeting message
+        system_account.send_message(@account.users[0], 'Greeting Message', 'Welcome to Quote Manager system!')
+
         if params[:plan_id].present?
           format.html { redirect_to new_payment_url(plan_id: params[:plan_id]), notice: 'Please add payment details to begin trial.' }
         else
