@@ -1,0 +1,43 @@
+<li class="dropdown hidden-xs">
+  <a class="btn dropdown-toggle" data-toggle="dropdown">
+    <i class="fa fa-envelope-o"></i>
+    <%= content_tag :span, mailbox.try(:inbox).try(:count), class: 'count' %>
+  </a>
+  <ul class="dropdown-menu notifications-list messages-list">
+    <li class="pointer">
+    <div class="pointer-inner">
+      <div class="arrow"></div>
+      <div class="arrow-border"></div>
+    </div>
+    </li>
+    <% if mailbox.try(:inbox).try(:count) > 0 %>
+      <% mailbox.inbox.each do |msg| %>
+        <li class="item">
+          <span class="content">
+            <span class="content-headline">
+              
+            </span>
+            <span class='content-text'>
+            <span>
+          </span>
+        </li>
+      <% end %>
+    <% else %>
+      <li class="item first-item">
+      <a href="#">
+        <span class="content">
+          <span class="content-headline">
+            You don't have any message.
+          </span>
+        </span>
+      </a>
+      </li>
+    <% end %>
+    
+    <li class="item-footer">
+      <a href="#">
+        View all messages
+      </a>
+    </li>
+  </ul>
+</li>
