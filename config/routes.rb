@@ -44,6 +44,8 @@ QuoteManager::Application.routes.draw do
       patch :update
     end
   end
+
+  resources :notifications, only: [:show, :index]
   
   post 'login' => 'accounts#login'
   resources :accounts, except: [:show]
