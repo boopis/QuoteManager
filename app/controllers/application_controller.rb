@@ -19,9 +19,21 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def system_account
+    User.find_by_email('system@qm.com')
+  end
+
   def mailbox
     if signed_in?
       current_user.mailbox
+    else
+      nil
+    end
+  end
+
+  def unread_notifications
+    if signed_in?
+      mailbox.inbox.unread(current_user)
     else
       nil
     end
@@ -35,7 +47,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :current_account, :mailbox
+  helper_method :current_account, :mailbox, :unread_notifications, :system_account
 
   def block_freeloaders!
     if current_account.plan.nil?
