@@ -133,41 +133,6 @@ CREATE TABLE ahoy_events (
 
 
 --
--- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE assets (
-    id integer NOT NULL,
-    asset character varying(255),
-    account_id integer,
-    request_id integer,
-    public integer,
-    field_id character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: assets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE assets_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE assets_id_seq OWNED BY assets.id;
-
-
---
 -- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -274,6 +239,148 @@ CREATE SEQUENCE images_id_seq
 --
 
 ALTER SEQUENCE images_id_seq OWNED BY images.id;
+
+
+--
+-- Name: mailboxer_conversation_opt_outs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mailboxer_conversation_opt_outs (
+    id integer NOT NULL,
+    unsubscriber_id integer,
+    unsubscriber_type character varying(255),
+    conversation_id integer
+);
+
+
+--
+-- Name: mailboxer_conversation_opt_outs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE mailboxer_conversation_opt_outs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mailboxer_conversation_opt_outs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE mailboxer_conversation_opt_outs_id_seq OWNED BY mailboxer_conversation_opt_outs.id;
+
+
+--
+-- Name: mailboxer_conversations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mailboxer_conversations (
+    id integer NOT NULL,
+    subject character varying(255) DEFAULT ''::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: mailboxer_conversations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE mailboxer_conversations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mailboxer_conversations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE mailboxer_conversations_id_seq OWNED BY mailboxer_conversations.id;
+
+
+--
+-- Name: mailboxer_notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mailboxer_notifications (
+    id integer NOT NULL,
+    type character varying(255),
+    body text,
+    subject character varying(255) DEFAULT ''::character varying,
+    sender_id integer,
+    sender_type character varying(255),
+    conversation_id integer,
+    draft boolean DEFAULT false,
+    notification_code character varying(255),
+    notified_object_id integer,
+    notified_object_type character varying(255),
+    attachment character varying(255),
+    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    global boolean DEFAULT false,
+    expires timestamp without time zone
+);
+
+
+--
+-- Name: mailboxer_notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE mailboxer_notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mailboxer_notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE mailboxer_notifications_id_seq OWNED BY mailboxer_notifications.id;
+
+
+--
+-- Name: mailboxer_receipts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mailboxer_receipts (
+    id integer NOT NULL,
+    receiver_id integer,
+    receiver_type character varying(255),
+    notification_id integer NOT NULL,
+    is_read boolean DEFAULT false,
+    trashed boolean DEFAULT false,
+    deleted boolean DEFAULT false,
+    mailbox_type character varying(25),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: mailboxer_receipts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE mailboxer_receipts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mailboxer_receipts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE mailboxer_receipts_id_seq OWNED BY mailboxer_receipts.id;
 
 
 --
@@ -561,13 +668,6 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY assets ALTER COLUMN id SET DEFAULT nextval('assets_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
 
 
@@ -583,6 +683,34 @@ ALTER TABLE ONLY forms ALTER COLUMN id SET DEFAULT nextval('forms_id_seq'::regcl
 --
 
 ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_conversation_opt_outs ALTER COLUMN id SET DEFAULT nextval('mailboxer_conversation_opt_outs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_conversations ALTER COLUMN id SET DEFAULT nextval('mailboxer_conversations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_notifications ALTER COLUMN id SET DEFAULT nextval('mailboxer_notifications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_receipts ALTER COLUMN id SET DEFAULT nextval('mailboxer_receipts_id_seq'::regclass);
 
 
 --
@@ -652,14 +780,6 @@ ALTER TABLE ONLY ahoy_events
 
 
 --
--- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY assets
-    ADD CONSTRAINT assets_pkey PRIMARY KEY (id);
-
-
---
 -- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -681,6 +801,38 @@ ALTER TABLE ONLY forms
 
 ALTER TABLE ONLY images
     ADD CONSTRAINT images_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mailboxer_conversation_opt_outs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY mailboxer_conversation_opt_outs
+    ADD CONSTRAINT mailboxer_conversation_opt_outs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mailboxer_conversations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY mailboxer_conversations
+    ADD CONSTRAINT mailboxer_conversations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mailboxer_notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY mailboxer_notifications
+    ADD CONSTRAINT mailboxer_notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mailboxer_receipts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY mailboxer_receipts
+    ADD CONSTRAINT mailboxer_receipts_pkey PRIMARY KEY (id);
 
 
 --
@@ -782,20 +934,6 @@ CREATE INDEX index_ahoy_events_on_visit_id ON ahoy_events USING btree (visit_id)
 
 
 --
--- Name: index_assets_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_assets_on_account_id ON assets USING btree (account_id);
-
-
---
--- Name: index_assets_on_request_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_assets_on_request_id ON assets USING btree (request_id);
-
-
---
 -- Name: index_contacts_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -814,6 +952,62 @@ CREATE INDEX index_forms_on_account_id ON forms USING btree (account_id);
 --
 
 CREATE INDEX index_images_on_viewable_id_and_viewable_type ON images USING btree (viewable_id, viewable_type);
+
+
+--
+-- Name: index_mailboxer_conversation_opt_outs_on_conversation_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_conversation_opt_outs_on_conversation_id ON mailboxer_conversation_opt_outs USING btree (conversation_id);
+
+
+--
+-- Name: index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type ON mailboxer_conversation_opt_outs USING btree (unsubscriber_id, unsubscriber_type);
+
+
+--
+-- Name: index_mailboxer_notifications_on_conversation_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_notifications_on_conversation_id ON mailboxer_notifications USING btree (conversation_id);
+
+
+--
+-- Name: index_mailboxer_notifications_on_notified_object_id_and_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_notifications_on_notified_object_id_and_type ON mailboxer_notifications USING btree (notified_object_id, notified_object_type);
+
+
+--
+-- Name: index_mailboxer_notifications_on_sender_id_and_sender_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_notifications_on_sender_id_and_sender_type ON mailboxer_notifications USING btree (sender_id, sender_type);
+
+
+--
+-- Name: index_mailboxer_notifications_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_notifications_on_type ON mailboxer_notifications USING btree (type);
+
+
+--
+-- Name: index_mailboxer_receipts_on_notification_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_receipts_on_notification_id ON mailboxer_receipts USING btree (notification_id);
+
+
+--
+-- Name: index_mailboxer_receipts_on_receiver_id_and_receiver_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_mailboxer_receipts_on_receiver_id_and_receiver_type ON mailboxer_receipts USING btree (receiver_id, receiver_type);
 
 
 --
@@ -915,6 +1109,30 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: mb_opt_outs_on_conversations_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_conversation_opt_outs
+    ADD CONSTRAINT mb_opt_outs_on_conversations_id FOREIGN KEY (conversation_id) REFERENCES mailboxer_conversations(id);
+
+
+--
+-- Name: notifications_on_conversation_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_notifications
+    ADD CONSTRAINT notifications_on_conversation_id FOREIGN KEY (conversation_id) REFERENCES mailboxer_conversations(id);
+
+
+--
+-- Name: receipts_on_notification_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mailboxer_receipts
+    ADD CONSTRAINT receipts_on_notification_id FOREIGN KEY (notification_id) REFERENCES mailboxer_notifications(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -939,8 +1157,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150304085723');
 INSERT INTO schema_migrations (version) VALUES ('20150305092901');
 
 INSERT INTO schema_migrations (version) VALUES ('20150306073658');
-
-INSERT INTO schema_migrations (version) VALUES ('20150309100629');
 
 INSERT INTO schema_migrations (version) VALUES ('20150310060819');
 
@@ -973,4 +1189,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150317022046');
 INSERT INTO schema_migrations (version) VALUES ('20150317081922');
 
 INSERT INTO schema_migrations (version) VALUES ('20150317091023');
+
+INSERT INTO schema_migrations (version) VALUES ('20150331024659');
+
+INSERT INTO schema_migrations (version) VALUES ('20150331024660');
+
+INSERT INTO schema_migrations (version) VALUES ('20150331024661');
 
