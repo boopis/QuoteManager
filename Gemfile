@@ -35,6 +35,8 @@ gem 'mailboxer'
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'
 
+gem 'actionpack-page_caching'
+
 gem 'puma'
 
 group :development do
