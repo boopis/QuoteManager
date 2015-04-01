@@ -21,6 +21,15 @@ class Quote < ActiveRecord::Base
     .where(:requests => {:contact_id => contact_id })
   }
 
+  # Find quote by status
+  scope :count_status, ->(account_id) { 
+    joins(:request)
+    .joins(:account)
+    .where(accounts: { id: account_id }) 
+    .group('quotes.status')
+    .count
+  }
+
 protected
 
   def generate_token
