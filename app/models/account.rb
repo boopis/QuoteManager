@@ -20,4 +20,16 @@ class Account < ActiveRecord::Base
   liquid_methods :company_logo, :company_name
 
   attr_accessor :stripe_card_token
+
+  def forms_used
+    forms.pluck(:id).count.to_f
+  end
+
+  def requests_used
+    requests.pluck(:id).count.to_f
+  end
+
+  def storage_used
+    storage_usage.to_f/1000000
+  end
 end
