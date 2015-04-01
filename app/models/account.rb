@@ -22,11 +22,11 @@ class Account < ActiveRecord::Base
   attr_accessor :stripe_card_token
 
   def forms_used
-    forms.pluck(:id).count.to_f
+    forms.pluck(:id).count
   end
 
   def requests_used
-    requests.pluck(:id).count.to_f
+    requests.pluck(:id).count
   end
 
   def storage_used

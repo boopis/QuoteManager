@@ -16,9 +16,9 @@ private
     @forms_used = current_account.forms_used
     @requests_used = current_account.requests_used
 
-    @percent_storage_used = @storage_used / storage
-    @percent_forms_used = @forms_used / forms
-    @percent_requests_used = @requests_used / requests
+    @percent_storage_used = @storage_used * 100.0 / storage
+    @percent_forms_used = @forms_used * 100.0 / forms
+    @percent_requests_used = @requests_used * 100.0 / requests
   end
 
   def request_quote_stat
