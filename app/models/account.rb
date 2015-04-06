@@ -21,16 +21,8 @@ class Account < ActiveRecord::Base
 
   attr_accessor :stripe_card_token
 
-  def forms_used
-    forms.pluck(:id).count
-  end
-
-  def requests_used
-    requests.pluck(:id).count
-  end
-
-  def storage_used
-    storage_usage.to_f/1000000
+  def resource_used
+    [ forms.pluck(:id).count, requests.pluck(:id).count, storage_usage.to_f/1000000 ]
   end
 
   def count_quote
