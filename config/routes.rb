@@ -47,6 +47,7 @@ QuoteManager::Application.routes.draw do
     end
   end
 
+  get '/notifications/unread' => 'notifications#unread'
   resources :notifications, only: [:show, :index]
   
   post 'login' => 'accounts#login'
