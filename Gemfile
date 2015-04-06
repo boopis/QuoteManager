@@ -31,6 +31,7 @@ gem 'liquid', '~> 3.0.1'
 
 gem 'ahoy_matey', '~> 1.1.1'
 gem 'mailboxer'
+gem 'statesman'
 
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'

@@ -3,10 +3,10 @@ class QuotesController < ApplicationController
 
   before_filter :authenticate_user!, except: [:accept_quote, :public, :track_email]
   before_filter :block_freeloaders!, except: [:accept_quote, :public, :track_email]
-  before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote]
+  before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote, :decline_quote]
   before_action :check_token, only: [:public]
   before_action :parse_request, only: [:public]
-  load_and_authorize_resource param_method: :quote_params, except: [:accept_quote, :public, :track_email]
+  load_and_authorize_resource param_method: :quote_params, except: [:accept_quote, :public, :track_email, :decline_quote]
 
   # Tracking quote
   #after_filter :track_action, only: [:public]
@@ -91,6 +91,10 @@ class QuotesController < ApplicationController
     end
   end
 
+  def decline_quote
+    @quote.status = 'declined'
+  end
+
   # GET /quotes?token=
   def public
 
@@ -101,6 +105,7 @@ class QuotesController < ApplicationController
     quote = Quote.find(params[:quote_id])
     errors = find_invalid_email(params[:email]['addresses'].split(','))
     quote.email_sent = quote.email_sent + 1
+    quote.status = 'sent'
 
     respond_to do |format|
       if errors.nil? && quote.save
@@ -121,10 +126,10 @@ class QuotesController < ApplicationController
     update_notable(quote, quote_params)
   end
 
-  # GET /quotes/:id/track
+  # GET /quotes/:id/email-tracking
   def track_email
     quote = Quote.find(params[:quote_id])
-    quote.update_attribute(:email_opened, quote.email_opened + 1)
+    quote.update_columns(email_opened: (quote.email_opened + 1), status: 'viewed')
 
     send_file Rails.root.to_s + "/app/assets/images/quote-email-tracking.png", :s_sendfile => true
   end
@@ -133,10 +138,6 @@ class QuotesController < ApplicationController
   def analytics
     @quote = Quote.analytics(params[:quote_id])[0]
     @visitors = @quote.visitors.page(params[:page]).per(25)
-  end
-
-protected
-  def track_action
   end
 
 private

@@ -9,8 +9,11 @@ class CreateQuotes < ActiveRecord::Migration
       t.text :description
       t.text :signature
       t.string :status
+      t.integer :email_sent, default: 0
+      t.integer :email_opened, default: 0
 
       t.references :account, index: true
+      t.reference :template, index: true
 
       t.timestamps
     end
