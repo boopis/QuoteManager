@@ -12,8 +12,12 @@
   position: relative !important;
 }
 
-#accept {
+.public-btn {
   margin: 50px 0 0 0;
+}
+
+#accept {
+  margin-right: 10px;
 }
 
 .signed {

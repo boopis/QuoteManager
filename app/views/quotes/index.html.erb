@@ -31,7 +31,7 @@
           <th><span>Expiration</span></th>
           <th><span>Request</span></th>
           <th><span>Signature</span></th>
-          <th class="text-center"><span>Status</span></th>
+          <th><span>Status</span></th>
           <th class="text-center"><a href="#" class="desc"><span>Date updated</span></a></th> <th>&nbsp;</th>
         </tr>
       </thead>
@@ -76,7 +76,7 @@
             <% end %>
           </td>
           <td class="text-center">
-            <%= content_tag :label, quote.status, :class => 'label label-primary' %>
+            <%= quote.current_state.capitalize %>
           </td>
           <td class="text-center">
             <%= quote.updated_at.strftime("%b-%d-%Y") %>

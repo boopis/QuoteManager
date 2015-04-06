@@ -1,3 +1,7 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "payments/new" %>
+<% end %>
+
 <div class="col-sm-12 signin">
   <h2 class="text-center">Choose A Plan</h2>
   <hr>
@@ -88,44 +92,5 @@
   </div>
 </div>
 <script>
-var account;
 
-jQuery(function() {
-  return account.setupForm();
-});
-
-account = {
-  setupForm: function() {
-    return $('#new_payment').submit(function() {
-      $('input[type=submit]').attr('disabled', true);
-      $('.spinner-outer-wrapper').show();
-      if ($('#card_number').length) {
-        account.processCard();
-        return false;
-      } else {
-        return true;
-      }
-    });
-  },
-  processCard: function() {
-    var card;
-    card = {
-      number: $('#card_number').val(),
-      cvc: $('#card_code').val(),
-      expMonth: $('#card_month').val(),
-      expYear: $('#card_year').val()
-    };
-    return Stripe.createToken(card, account.handleStripeResponse);
-  },
-  handleStripeResponse: function(status, response) {
-    if (status === 200) {
-      $('#stripe_card_token').val(response.id);
-      return $('#new_payment')[0].submit();
-    } else {
-      $('input[type=submit]').attr('disabled', false);
-      $('.spinner-outer-wrapper').hide();
-      return $('#stripe_error').text(response.error.message).css({"padding":"20px","border-radius":"7px"});
-    }
-  }
-};
 </script>

@@ -20,4 +20,14 @@ class Account < ActiveRecord::Base
   liquid_methods :company_logo, :company_name
 
   attr_accessor :stripe_card_token
+
+  def resource_used
+    [ forms.pluck(:id).count, requests.pluck(:id).count, storage_usage.to_f/1000000 ]
+  end
+
+  def count_quote
+    sum, quotes = 0, self.quotes.to_a
+    quotes.each { |q| sum = sum + q[:email_opened] }
+    { viewed: sum, draft: quotes.size }
+  end
 end

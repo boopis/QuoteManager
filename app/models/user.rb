@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :timeoutable,
-         :recoverable, :rememberable, :trackable, :validatable
+    :recoverable, :rememberable, :trackable, :validatable
 
   has_one :avatar, as: :viewable, dependent: :destroy, :class_name => Image
   accepts_nested_attributes_for :avatar, :account
@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :address
 
   validate :limit, :on => :create, :if => :plan_exists?
+
+  acts_as_messageable
 
   def limit
     if self.account.users(:reload).count >= self.account.plan.users
@@ -26,6 +28,15 @@ class User < ActiveRecord::Base
 
   def fullname
     firstname + ' ' + lastname
+  end
+
+  def mailboxer_email(object)
+    case object
+    when Mailboxer::Message
+      return nil
+    when Mailboxer::Notification
+      return email
+    end
   end
 
   def role?(role)
