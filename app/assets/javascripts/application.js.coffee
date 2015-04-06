@@ -47,4 +47,24 @@ $(document).ready ->
     collBtn.removeClass 'active'
     utilBtn.addClass 'hidden'
     return
+
+  # Get notification from server
+  $.getJSON '/notifications/unread', (data) ->
+    noNotifications = data.notifications.length
+    notificationEles = ''
+    itemHeader = $ 'li.item-header'
+
+    $('span.count').html noNotifications
+    itemHeader.html 'You have ' + noNotifications + ' new notifications'
+    
+    if noNotifications
+      data.notifications.forEach (el) ->
+        notificationEles += '<li class="item">' + '<a href="/notifications/' \
+                         + el.id + '">' + '<i class="fa fa-comment"></i>' \
+                         + '<span class="content">' + el.subject + '</span></a></li>'
+        itemHeader.after(notificationEles)
+        return
+
+    return
+
   return

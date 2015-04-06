@@ -7,7 +7,7 @@
     <div class="main-box">
       <h2>Storage Used</h2>
       <%= content_tag :svg, '', width: '97%', height: '250', id: "storage-used", 
-        data: { used: @storage_used, percent: @percent_storage_used } %>
+        data: { percent: @percent_resource_usage[2] } %>
     </div>
   </div>
 
@@ -15,7 +15,7 @@
     <div class="main-box">
       <h2>Forms Used</h2>
       <%= content_tag :svg, '', width: '97%', height: '250', id: "forms-used", 
-        data: { used: @forms_used, percent: @percent_forms_used } %>
+        data: { percent: @percent_resource_usage[0] } %>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
     <div class="main-box">
       <h2>Requests Used</h2>
       <%= content_tag :svg, '', width: '97%', height: '250', id: "requests-used", 
-        data: { used: @requests_used, percent: @percent_requests_used } %>
+        data: { percent: @percent_resource_usage[1] } %>
     </div>
   </div>
 

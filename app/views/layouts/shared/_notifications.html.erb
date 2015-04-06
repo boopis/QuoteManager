@@ -1,0 +1,28 @@
+<li class="dropdown hidden-xs">
+  <a class="btn dropdown-toggle" data-toggle="dropdown">
+    <i class="fa fa-warning"></i>
+    <span class='count'>0</span>
+  </a>
+  <ul class="dropdown-menu notifications-list">
+    <li class="pointer">
+    <div class="pointer-inner">
+      <div class="arrow"></div>
+      <div class="arrow-border"></div>
+    </div>
+    </li>
+    <%= content_tag :li, "You have 0 new notifications", class: "item-header" %>
+    <% if false  %>
+      <li class="item">
+        <a href="/notifications/<%= conversation.id %>">
+          <i class="fa fa-comment"></i>
+          <%= content_tag :span, conversation.subject, class: 'content' %>
+        </a>
+      </li>
+    <% end %>
+    <li class="item-footer">
+      <a href="/notifications">
+        View all notifications
+      </a>
+    </li>
+  </ul>
+</li>
