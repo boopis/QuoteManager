@@ -22,6 +22,7 @@ private
   end
 
   def request_quote_stat
-    @stat = Quote.count_status(current_account)
+    @stat = QuoteTransition.quote_stat(current_account.id)
+                           .update(current_account.count_quote)
   end
 end

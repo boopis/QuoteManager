@@ -5,10 +5,20 @@ class Quote < ActiveRecord::Base
   before_create :generate_token
   liquid_methods :amount, :options, :id, :token, :expires_at, :description
 
-  has_many :visitors, as: :eventable, dependent: :destroy, :class_name => Visit
-
   has_one :note, as: :notable
   accepts_nested_attributes_for :note
+
+  has_many :visitors, as: :eventable, dependent: :destroy, :class_name => Visit
+  has_many :transitions, class_name: "QuoteTransition"
+
+  # Initialize the state machine
+  def state_machine
+    @state_machine ||= QuoteStateMachine.new(self, transition_class: QuoteTransition,
+                                             association_name: :transitions)
+  end
+
+  # Optionally delegate some methods
+  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, to: :state_machine
 
   scope :analytics, ->(quote_id) { 
     where(:id => quote_id)
@@ -19,15 +29,6 @@ class Quote < ActiveRecord::Base
   scope :from_contact, ->(contact_id) {
     joins(:request)
     .where(:requests => {:contact_id => contact_id })
-  }
-
-  # Find quote by status
-  scope :count_status, ->(account_id) { 
-    joins(:request)
-    .joins(:account)
-    .where(accounts: { id: account_id }) 
-    .group('quotes.status')
-    .count
   }
 
 protected

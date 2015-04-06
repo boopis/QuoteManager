@@ -32,4 +32,10 @@ class Account < ActiveRecord::Base
   def storage_used
     storage_usage.to_f/1000000
   end
+
+  def count_quote
+    sum, quotes = 0, self.quotes.to_a
+    quotes.each { |q| sum = sum + q[:email_opened] }
+    { viewed: sum, draft: quotes.size }
+  end
 end

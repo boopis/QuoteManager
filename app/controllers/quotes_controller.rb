@@ -1,12 +1,13 @@
 class QuotesController < ApplicationController
   include Notable
 
-  before_filter :authenticate_user!, except: [:accept_quote, :public, :track_email]
-  before_filter :block_freeloaders!, except: [:accept_quote, :public, :track_email]
-  before_action :set_quote, only: [:show, :edit, :update, :destroy, :accept_quote, :decline_quote]
+  before_filter :authenticate_user!, except: [:accept, :public, :track_email, :decline]
+  before_filter :block_freeloaders!, except: [:accept, :public, :track_email, :decline]
+  before_action :set_quote, only: [:show, :edit, :update, :destroy]
+  before_action :get_quote, only: [:accept, :decline]
   before_action :check_token, only: [:public]
   before_action :parse_request, only: [:public]
-  load_and_authorize_resource param_method: :quote_params, except: [:accept_quote, :public, :track_email, :decline_quote]
+  load_and_authorize_resource param_method: :quote_params, except: [:accept, :public, :track_email, :decline]
 
   # Tracking quote
   #after_filter :track_action, only: [:public]
@@ -41,7 +42,6 @@ class QuotesController < ApplicationController
   # POST /quotes.json
   def create
     @quote = current_account.quotes.new(quote_params)
-    @quote.status = 'draft'
 
     respond_to do |format|
       if @quote.save
@@ -80,24 +80,32 @@ class QuotesController < ApplicationController
 
   # POST /quotes/:id 
   # User accept a quote
-  def accept_quote
+  def accept
     @quote.signature = params[:sig]
-    @quote.status = 'completed'
     @quote.request.status = 'completed'
-    if @quote.save
+    tran = @quote.transition_to!(:accepted)
+
+    if tran && @quote.save
       redirect_to :back, :notice => "You have accepted this quote"
     else
       redirect_to :back, :notice => "Can't save your signature"
     end
   end
 
-  def decline_quote
-    @quote.status = 'declined'
+  # POST /quotes/:id 
+  # User decline a quote
+  def decline
+    tran = @quote.transition_to!(:declined)
+    if tran
+      redirect_to :back, :notice => "You have declined this quote"
+    else
+      redirect_to :back, :notice => "You can't decline this quote at this time. Please try again!"
+    end
   end
 
   # GET /quotes?token=
   def public
-
+    @quote.update(email_opened:  @quote.email_opened + 1)
   end
 
   # POST /quotes/:id/send-quote
@@ -105,10 +113,10 @@ class QuotesController < ApplicationController
     quote = Quote.find(params[:quote_id])
     errors = find_invalid_email(params[:email]['addresses'].split(','))
     quote.email_sent = quote.email_sent + 1
-    quote.status = 'sent'
+    tran = quote.transition_to!(:sent)
 
     respond_to do |format|
-      if errors.nil? && quote.save
+      if errors.nil? && quote.save && tran
         send_quote_email(params[:email], quote)
 
         format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
@@ -129,7 +137,7 @@ class QuotesController < ApplicationController
   # GET /quotes/:id/email-tracking
   def track_email
     quote = Quote.find(params[:quote_id])
-    quote.update_columns(email_opened: (quote.email_opened + 1), status: 'viewed')
+    quote.update_columns(email_opened: (quote.email_opened + 1))
 
     send_file Rails.root.to_s + "/app/assets/images/quote-email-tracking.png", :s_sendfile => true
   end
@@ -144,6 +152,10 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_quote
     @quote = Quote.find(params[:id])
+  end
+
+  def get_quote
+    @quote = Quote.find(params[:quote_id])
   end
 
   def find_invalid_email(emails)

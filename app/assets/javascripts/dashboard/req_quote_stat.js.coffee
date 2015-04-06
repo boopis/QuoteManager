@@ -13,7 +13,7 @@ checksize = ->
   ), 3000
   return
 
-window.draw = (nodes, links) ->
+draw = (nodes, links) ->
   data =
     'nodes': nodes
     'links': links
@@ -146,4 +146,20 @@ change = (d) ->
   ).attr('fill', 'white').attr 'stroke', 'black'
   return
 
-window.draw([{"name":"Oil"},{"name":"Natural Gas"},{"name":"Coal"},{"name":"Fossil Fuels"},{"name":"Electricity"},{"name":"Energy"}], [{"source":0,"target":3,"value":15},{"source":1,"target":3,"value":20},{"source":2,"target":3,"value":25},{"source":2,"target":4,"value":25},{"source":3,"target":5,"value":60},{"source":4,"target":5,"value":25},{"source":4,"target":4,"value":5}]);
+chart = $ '#chart'
+
+draft = chart.data 'draft'
+sent = chart.data 'sent'
+viewed = chart.data 'viewed'
+accepted = chart.data 'accepted'
+declined = chart.data 'declined'
+
+nodes = [{ name: 'Draft' }, { name: 'Sent' }, { name: 'Accepted' }, { name: 'Declined' }]
+links = [
+  { source: 0, target: 0, value: draft - sent }, 
+  { source: 0, target: 1, value: sent }, 
+  { source: 1, target: 2, value: accepted }, 
+  { source: 1, target: 3, value: declined }
+]
+
+draw(nodes, links);

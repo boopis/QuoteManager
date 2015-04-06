@@ -52,12 +52,12 @@ CREATE TABLE accounts (
     company_name character varying(255),
     about text,
     phone_number character varying(255),
-    plan_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
     stripe_customer_token character varying(255),
     stripe_subscription_token character varying(255),
-    storage_usage integer
+    storage_usage integer,
+    plan_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -141,12 +141,12 @@ CREATE TABLE contacts (
     name character varying(255),
     phone character varying(255),
     email character varying(255),
+    title character varying(255),
+    description text,
     account_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    social_media hstore,
-    title character varying(255),
-    description text
+    social_media hstore
 );
 
 
@@ -181,11 +181,11 @@ CREATE TABLE forms (
     styles text,
     scripts text,
     emails json,
+    ecommerce_type character varying(255),
+    thank_msg text,
     account_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    ecommerce_type character varying(255),
-    thank_msg text
+    updated_at timestamp without time zone
 );
 
 
@@ -454,6 +454,41 @@ ALTER SEQUENCE plans_id_seq OWNED BY plans.id;
 
 
 --
+-- Name: quote_transitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE quote_transitions (
+    id integer NOT NULL,
+    to_state character varying(255) NOT NULL,
+    metadata text DEFAULT '{}'::text,
+    sort_key integer NOT NULL,
+    quote_id integer NOT NULL,
+    most_recent boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: quote_transitions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE quote_transitions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: quote_transitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE quote_transitions_id_seq OWNED BY quote_transitions.id;
+
+
+--
 -- Name: quotes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -466,13 +501,12 @@ CREATE TABLE quotes (
     request_id integer,
     description text,
     signature text,
-    status character varying(255),
-    account_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    template_id integer,
     email_sent integer DEFAULT 0,
-    email_opened integer DEFAULT 0
+    email_opened integer DEFAULT 0,
+    account_id integer,
+    template_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -591,10 +625,10 @@ CREATE TABLE users (
     last_sign_in_ip character varying(255),
     firstname character varying(255),
     lastname character varying(255),
+    role character varying(255) DEFAULT 'viewer'::character varying,
     account_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    role character varying(255) DEFAULT 'viewer'::character varying
+    updated_at timestamp without time zone
 );
 
 
@@ -731,6 +765,13 @@ ALTER TABLE ONLY plans ALTER COLUMN id SET DEFAULT nextval('plans_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY quote_transitions ALTER COLUMN id SET DEFAULT nextval('quote_transitions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY quotes ALTER COLUMN id SET DEFAULT nextval('quotes_id_seq'::regclass);
 
 
@@ -849,6 +890,14 @@ ALTER TABLE ONLY notes
 
 ALTER TABLE ONLY plans
     ADD CONSTRAINT plans_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: quote_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY quote_transitions
+    ADD CONSTRAINT quote_transitions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1018,6 +1067,20 @@ CREATE INDEX index_notes_on_notable_id_and_notable_type ON notes USING btree (no
 
 
 --
+-- Name: index_quote_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_quote_transitions_parent_most_recent ON quote_transitions USING btree (quote_id, most_recent) WHERE most_recent;
+
+
+--
+-- Name: index_quote_transitions_parent_sort; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_quote_transitions_parent_sort ON quote_transitions USING btree (quote_id, sort_key);
+
+
+--
 -- Name: index_quotes_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1154,25 +1217,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150302030823');
 
 INSERT INTO schema_migrations (version) VALUES ('20150304085723');
 
-INSERT INTO schema_migrations (version) VALUES ('20150305092901');
-
-INSERT INTO schema_migrations (version) VALUES ('20150306073658');
-
-INSERT INTO schema_migrations (version) VALUES ('20150310060819');
-
-INSERT INTO schema_migrations (version) VALUES ('20150311052625');
-
-INSERT INTO schema_migrations (version) VALUES ('20150311064220');
-
 INSERT INTO schema_migrations (version) VALUES ('20150311083622');
-
-INSERT INTO schema_migrations (version) VALUES ('20150311100151');
 
 INSERT INTO schema_migrations (version) VALUES ('20150312053327');
 
 INSERT INTO schema_migrations (version) VALUES ('20150312053328');
-
-INSERT INTO schema_migrations (version) VALUES ('20150312122544');
 
 INSERT INTO schema_migrations (version) VALUES ('20150313033119');
 
@@ -1180,19 +1229,13 @@ INSERT INTO schema_migrations (version) VALUES ('20150313033202');
 
 INSERT INTO schema_migrations (version) VALUES ('20150316033449');
 
-INSERT INTO schema_migrations (version) VALUES ('20150317021749');
-
-INSERT INTO schema_migrations (version) VALUES ('20150317021812');
-
 INSERT INTO schema_migrations (version) VALUES ('20150317022046');
-
-INSERT INTO schema_migrations (version) VALUES ('20150317081922');
-
-INSERT INTO schema_migrations (version) VALUES ('20150317091023');
 
 INSERT INTO schema_migrations (version) VALUES ('20150331024659');
 
 INSERT INTO schema_migrations (version) VALUES ('20150331024660');
 
 INSERT INTO schema_migrations (version) VALUES ('20150331024661');
+
+INSERT INTO schema_migrations (version) VALUES ('20150406022232');
 
