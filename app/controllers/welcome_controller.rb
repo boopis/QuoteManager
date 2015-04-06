@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+  caches_page :index
+
   def index
     @account = Account.find_by_company_name('System')
     if @account.present?
