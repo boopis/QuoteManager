@@ -32,6 +32,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.string :firstname
       t.string :lastname
+      t.string :role, default: 'viewer'
 
       t.references :account, index: true
 

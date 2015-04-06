@@ -41,15 +41,14 @@
       </p>
 
       <p>
+      <strong>Status:</strong>
+      <%= @quote.current_state.capitalize %>
+      </p>
+
+     <p>
       <strong>Expires at:</strong>
       <%= @quote.expires_at %>
       </p>
-
-      <p>
-        <strong>Status:</strong>
-        <%= @quote.status %>
-      </p>
-
 
       <p>
         <strong>Note:</strong>
