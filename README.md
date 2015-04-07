@@ -199,3 +199,7 @@ belongs_to form through response
 		<li>Multiple select for select field</li>
 	</ul>
 </ul>
+
+###Versions
+* 1.0.0: Form builder, request, quote, template, role for user.
+* 1.1.0: Notification system, dashboard widgets, improve performance
