@@ -38,6 +38,12 @@ gem 'roadie', '~> 2.4'
 
 gem 'actionpack-page_caching'
 
+gem 'bcrypt-ruby'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-identity'
+
+gem 'google-api-client', :require => 'google/api_client'
+
 gem 'puma'
 
 group :development do

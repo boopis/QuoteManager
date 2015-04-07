@@ -209,6 +209,44 @@ ALTER SEQUENCE forms_id_seq OWNED BY forms.id;
 
 
 --
+-- Name: identities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE identities (
+    id integer NOT NULL,
+    user_id integer,
+    provider character varying(255),
+    uid character varying(255),
+    social_name character varying(255),
+    url character varying(255),
+    access_token character varying(255),
+    refresh_token character varying(255),
+    expires_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: identities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE identities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: identities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE identities_id_seq OWNED BY identities.id;
+
+
+--
 -- Name: images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -716,6 +754,13 @@ ALTER TABLE ONLY forms ALTER COLUMN id SET DEFAULT nextval('forms_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY identities ALTER COLUMN id SET DEFAULT nextval('identities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::regclass);
 
 
@@ -834,6 +879,14 @@ ALTER TABLE ONLY contacts
 
 ALTER TABLE ONLY forms
     ADD CONSTRAINT forms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY identities
+    ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
 
 
 --
@@ -994,6 +1047,13 @@ CREATE INDEX index_contacts_on_account_id ON contacts USING btree (account_id);
 --
 
 CREATE INDEX index_forms_on_account_id ON forms USING btree (account_id);
+
+
+--
+-- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_identities_on_user_id ON identities USING btree (user_id);
 
 
 --
@@ -1238,4 +1298,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150331024660');
 INSERT INTO schema_migrations (version) VALUES ('20150331024661');
 
 INSERT INTO schema_migrations (version) VALUES ('20150406022232');
+
+INSERT INTO schema_migrations (version) VALUES ('20150407082129');
 
