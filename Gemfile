@@ -30,9 +30,13 @@ gem 'stripe', '~> 1.20.2'
 gem 'liquid', '~> 3.0.1'
 
 gem 'ahoy_matey', '~> 1.1.1'
+gem 'mailboxer'
+gem 'statesman'
 
 gem 'mailman', require: false
 gem 'roadie', '~> 2.4'
+
+gem 'actionpack-page_caching'
 
 gem 'puma'
 

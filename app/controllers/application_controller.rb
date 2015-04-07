@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+  helper_method :current_account, :system_account
 
   def add_origin_header
     # For testing on your local machine on a normal browser, change this to your machine's IP
@@ -19,6 +20,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def system_account
+    User.find_by_email('system@qm.com')
+  end
+
   def current_account
     if signed_in?
       @current_account ||= current_user.account
@@ -26,7 +31,6 @@ class ApplicationController < ActionController::Base
       @current_account = nil
     end
   end
-  helper_method :current_account
 
   def block_freeloaders!
     if current_account.plan.nil?

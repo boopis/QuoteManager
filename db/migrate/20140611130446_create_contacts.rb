@@ -4,6 +4,8 @@ class CreateContacts < ActiveRecord::Migration
       t.string :name
       t.string :phone
       t.string :email
+      t.string :title
+      t.text :description
 
       t.references :account, index: true
 

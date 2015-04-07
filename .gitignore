@@ -26,6 +26,9 @@ doc/
 /public/uploads
 /public/uploads/*.*
 
+/public/cache
+/public/cache/*.*
+
 /uploads
 /uploads/*.*
 

@@ -9,6 +9,7 @@ Bundler.require(*Rails.groups)
 module QuoteManager
   class Application < Rails::Application
     config.autoload_paths += %W(#{config.root}/lib/modules)
+    config.autoload_paths += %W(#{config.root}/app/services)
 
     config.active_record.schema_format = :sql
 

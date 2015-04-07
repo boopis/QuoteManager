@@ -7,6 +7,8 @@ class CreateForms < ActiveRecord::Migration
       t.text :styles
       t.text :scripts
       t.json :emails 
+      t.string :ecommerce_type
+      t.text :thank_msg
 
       t.references :account, index: true
 
