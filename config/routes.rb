@@ -27,7 +27,7 @@ QuoteManager::Application.routes.draw do
     patch '/update-note', action: :update_note, as: :update_note
   end
 
-  devise_for :users
+  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   resources :users do
     collection do 
       post :create_user
