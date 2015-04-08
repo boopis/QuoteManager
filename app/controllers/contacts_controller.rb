@@ -54,6 +54,11 @@ class ContactsController < ApplicationController
     end
   end
 
+  # GET /contacts/:id/send-email
+  def send_email
+    @templates = current_account.templates.where(using_type: 'Contact')
+  end
+
   # PATCH/PUT /contacts/1
   # PATCH/PUT /contacts/1.json
   def update

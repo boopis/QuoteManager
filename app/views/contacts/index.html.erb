@@ -1,5 +1,5 @@
 <% content_for :page_script do %>
-  <%= javascript_include_tag "contacts" %>
+  <%= javascript_include_tag "contacts/index" %>
 <% end %>
 
 <div class="main-box clearfix">
@@ -84,6 +84,12 @@
               <% end %>              
               <%= render partial: 'notes/note_button', locals: { notable: contact } %>
             <% end %>
+            <%= link_to contact_send_email_path(contact), title: "Compose an email", class: "table-link" do %>
+              <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+              </span>
+            <% end %>              
           </td>
         </tr>
         <% end %>
