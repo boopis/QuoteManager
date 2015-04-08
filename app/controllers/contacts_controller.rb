@@ -59,6 +59,33 @@ class ContactsController < ApplicationController
     @templates = current_account.templates.where(using_type: 'Contact')
   end
 
+  # POST /contacts/:id/send-email
+  def send_email_to_contact
+    identities = @current_user.identities.where(provider: 'google_oauth2')
+    contact = Contact.find(params[:contact_id])
+
+    respond_to do |format|
+      if identities.count > 0 && contact
+        # Compose new email
+        if params[:send_method] == 'Compose New Email'
+          template = params[:content] 
+        else
+          template = Template.find(params[:template_id]).try(:content)
+        end
+      
+        gmail_api = GmailAPI.new(identities[0].token)
+        mail = ContactMailer.send_email(contact, template, identities[0].social_name, params[:subject])
+        gmail_api.send_message(mail)
+
+        format.html { redirect_to :back, notice: 'Your email is being sent to this contact.' }
+        format.json { render json: params[:email], status: :ok }
+      else
+        format.html { redirect_to :back, alert: 'You must connect your account with Gmail to send your email.' }
+        format.json { render json: params[:email], status: 400 }
+      end
+    end
+  end
+
   # PATCH/PUT /contacts/1
   # PATCH/PUT /contacts/1.json
   def update
