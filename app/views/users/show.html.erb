@@ -123,6 +123,17 @@
               <%= f.text_field :lastname, :class => 'form-control hidden' %>
               <%= content_tag :div, @user.lastname || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
             </div>
+
+            <div class="profile-user-details clearfix">
+              <% if @google_connected.count > 0 %>
+                <div class="profile-user-details-label">
+                  Google account
+                </div>
+                <%= link_to @google_connected[0].social_name, @google_connected[0].url, :class => 'profile-user-details-value' %>
+              <% else %>
+                <%= link_to 'Connect to Google', user_omniauth_authorize_path(provider: 'google_oauth2') %>
+              <% end %> 
+            </div>
           </div>
         </div>
       </div>

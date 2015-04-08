@@ -18,6 +18,8 @@ class UsersController < ApplicationController
     @no_requests = current_account.requests.pluck(:id).count
     @no_quotes = current_account.quotes.pluck(:id).count
     @no_contacts = current_account.contacts.pluck(:id).count
+
+    @google_connected = @user.identities.where(provider: 'google_oauth2')
   end
 
   # GET /users/new
