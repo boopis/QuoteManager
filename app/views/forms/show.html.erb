@@ -19,35 +19,35 @@
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
-                  <%= rf.text_field :request, class: "form-control" %>
+                  <%= rf.text_field :request, class: "form-control", placeholder: field['placeholder'] %>
                 </div>
               <% when 'phone' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
-                  <%= rf.text_field :request, class: "form-control" %>
+                  <%= rf.text_field :request, class: "form-control", placeholder: field['placeholder'] %>
                 </div>
               <% when 'email' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
-                  <%= rf.email_field :request, class: "form-control" %>
+                  <%= rf.email_field :request, class: "form-control", placeholder: field['placeholder'] %>
                 </div>
               <% when 'title' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
-                  <%= rf.text_field :request, class: "form-control" %>
+                  <%= rf.text_field :request, class: "form-control", placeholder: field['placeholder'] %>
                 </div>
               <% when 'description' %>
                 <div class="form-group">
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
-                  <%= rf.text_area :request, class: "form-control" %>
+                  <%= rf.text_area :request, class: "form-control", placeholder: field['placeholder'] %>
                 </div>
               <% when 'text' %>
                 <div class="form-group">
@@ -82,7 +82,7 @@
                   <%= rf.label field['label'], class: "#{field['validate']['validates_presence_of'] == "1" ? "required" : ""}" %>
                   <%= rf.hidden_field :label, value: field['label'] %>
                   <%= rf.hidden_field :type, value: field['type'] %>
-                  <%= rf.text_area :request, class: "form-control" %>
+                  <%= rf.text_area :request, class: "form-control", placeholder: field['placeholder'] %>
                 </div>
               <% when 'radio' %>
                 <div class="form-group">
@@ -158,6 +158,6 @@
 </div>
 
 <% if can? :update, @form %>
-  <%= link_to 'Edit', edit_form_path(@form) %> |
+  <%= link_to 'Edit', edit_form_path(@form), class: 'btn-edit btn btn-success' %>
 <% end %>
-<%= link_to 'Back', forms_path %>
+<%= link_to 'Back', forms_path, class: 'btn btn-primary' %>
