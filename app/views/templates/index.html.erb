@@ -21,6 +21,7 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Using type</th>
           <th>Content</th>
           <th>Description</th>
           <th>&nbsp;</th>
@@ -31,6 +32,7 @@
         <% @templates.each do |template| %>
           <tr>
             <td><%= template.name %></td>
+            <td><%= template.using_type %></td>
             <td><%= template.content %></td>
             <td><%= template.description %></td>
             <td>

@@ -4,3 +4,4 @@ STRIPE_SECRET_KEY: sk_test_w4xco5D4fTBNynZKOaTJ5RS2
 STRIPE_PUBLISHABLE_KEY: pk_test_ZLFlKbf1JqtzzbUTFY9Y6aie
 GOOGLE_CLIENT_ID: 68491985132-o8kp6ljtp90ljlqpplg9md88cm1q1q3o.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET: BKHaWqSPmCF1KfyEJf6Kp6da
+DEFAULT_EMAIL: 'default@email.com'

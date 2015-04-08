@@ -29,12 +29,14 @@ class QuotesController < ApplicationController
     @qb = current_account.quotes.new
     @request = current_account.requests.find(params[:request_id]) if params[:request_id]
     @quote.note ||= Note.new
+    @templates = current_account.templates.where(using_type: 'Quote')
   end
 
   # GET /quotes/1/edit
   def edit
     @qb = current_account.quotes.find(params[:id])
     @request = current_account.requests.find(@qb.request_id) unless @qb.request_id.nil?
+    @templates = current_account.templates.where(using_type: 'Quote')
     @quote.note ||= Note.new
   end
 
@@ -113,10 +115,10 @@ class QuotesController < ApplicationController
     quote = Quote.find(params[:quote_id])
     errors = find_invalid_email(params[:email]['addresses'].split(','))
     quote.email_sent = quote.email_sent + 1
-    tran = quote.transition_to!(:sent)
+    tran = quote.transition_to!(:sent) if quote.current_state == 'draft'
 
     respond_to do |format|
-      if errors.nil? && quote.save && tran
+      if errors.nil? && quote.save 
         send_quote_email(params[:email], quote)
 
         format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
@@ -165,9 +167,19 @@ private
   end
 
   def send_quote_email(email, quote)
-    Thread.new do
+    # Choose to use GMail api or default email
+    identities = @current_user.identities.where(provider: 'google_oauth2')
+    if identities.count > 0
+      gmail_api = GmailAPI.new(identities[0].token)
       email['addresses'].split(',').each do |address|
-        QuoteMailer.send_quote(address, quote, email['content']).deliver
+        msg = QuoteMailer.send_quote(address, quote, email['content'], identities[0].social_name)
+        gmail_api.send_message(msg)
+      end
+    else
+      Thread.new do
+        email['addresses'].split(',').each do |address|
+          QuoteMailer.send_quote(address, quote, email['content'], ENV['DEFAULT_EMAIL']).deliver
+        end
       end
     end
   end

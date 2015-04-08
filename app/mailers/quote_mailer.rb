@@ -1,8 +1,6 @@
 class QuoteMailer < ActionMailer::Base
-  default from: "sir1003dem@gmail.com"
-
-  def send_quote(address, quote, template)
+  def send_quote(address, quote, template, sender)
     @quote, @template = quote, template
-    mail to: address, subject: "Quote link"
+    mail to: address, subject: "Quote link", from: sender
   end
 end
