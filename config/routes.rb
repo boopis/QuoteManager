@@ -25,9 +25,11 @@ QuoteManager::Application.routes.draw do
 
   resources :contacts do
     patch '/update-note', action: :update_note, as: :update_note
+    get '/send-email', action: :send_email
+    post '/send-email', action: :send_email_to_contact, as: :send_email_to_contact
   end
 
-  devise_for :users
+  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   resources :users do
     collection do 
       post :create_user
