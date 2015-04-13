@@ -73,7 +73,7 @@ class ContactsController < ApplicationController
           template = Template.find(params[:template_id]).try(:content)
         end
       
-        gmail_api = GmailAPI.new(identities[0].token)
+        gmail_api = GmailAPI.new(identities[0].fresh_token)
         mail = ContactMailer.send_email(contact, template, identities[0].social_name, params[:subject])
         gmail_api.send_message(mail)
 

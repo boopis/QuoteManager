@@ -223,8 +223,7 @@ CREATE TABLE identities (
     refresh_token character varying(255),
     expires_at timestamp without time zone,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    token character varying(255)
+    updated_at timestamp without time zone
 );
 
 
@@ -1304,6 +1303,4 @@ INSERT INTO schema_migrations (version) VALUES ('20150406022232');
 INSERT INTO schema_migrations (version) VALUES ('20150407082129');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408025512');
-
-INSERT INTO schema_migrations (version) VALUES ('20150408042714');
 
