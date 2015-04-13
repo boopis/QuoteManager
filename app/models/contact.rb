@@ -1,3 +1,5 @@
+require 'roo'
+
 class Contact < ActiveRecord::Base
   belongs_to :account
   has_many :requests
@@ -49,6 +51,39 @@ class Contact < ActiveRecord::Base
       )
       contact.requests << request
       contact.save
+    end
+  end
+
+  def self.import(file, account_id)
+    spreadsheet = open_spreadsheet(file)
+    header = spreadsheet.row(1)
+    contacts = []
+    msg = 'Import errors: <br/>'
+
+    (2..spreadsheet.last_row).each do |i|
+      contacts.push(Contact.find_or_initialize_by(Hash[[header, spreadsheet.row(i)].transpose].merge!({account_id: account_id})))
+    end
+
+    if contacts.map(&:valid?).all?
+      ActiveRecord::Base.transaction do
+        contacts.each(&:save!)
+      end
+      msg = ''
+    else
+      contacts.each_with_index do |contact, index|
+        contact.errors.full_messages.each do |message|
+          msg = msg + "Row #{index + 2}: #{message} <br/>"
+        end
+      end
+    end
+
+    msg
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+    when ".csv" then Roo::CSV.new(file.path)
+    else raise "Unknown file type: #{file.original_filename}"
     end
   end
 end

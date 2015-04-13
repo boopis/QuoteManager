@@ -116,6 +116,25 @@ class ContactsController < ApplicationController
     end
   end
 
+  # POST /contacts/import
+  def import
+    unless params[:file].nil?
+      errors = Contact.import(params[:file], current_account.id)
+    else
+      errors = 'Please insert your import file!'
+    end
+    respond_to do |format|
+      if errors.empty?
+        format.html { redirect_to contacts_path, notice: 'Contact was successfully imported.' }
+        format.json { render :show, status: :ok, location: @contact }
+      else
+        format.html { redirect_to contacts_path, flash: { alert: errors } }
+        format.json { render json: errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
   private
     
     # Use callbacks to share common setup or constraints between actions.

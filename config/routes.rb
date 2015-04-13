@@ -27,6 +27,9 @@ QuoteManager::Application.routes.draw do
     patch '/update-note', action: :update_note, as: :update_note
     get '/send-email', action: :send_email
     post '/send-email', action: :send_email_to_contact, as: :send_email_to_contact
+    collection do
+      post :import
+    end
   end
 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
@@ -38,7 +41,6 @@ QuoteManager::Application.routes.draw do
 
   resources :templates
 
-  post "payments/hook"
   resources :payments do
     collection do 
       get :new
@@ -46,12 +48,19 @@ QuoteManager::Application.routes.draw do
       get :edit
       put :update
       patch :update
+      post :hook
     end
   end
 
-  get '/notifications/unread' => 'notifications#unread'
-  resources :notifications, only: [:show, :index]
+  resources :notifications, only: [:show, :index] do 
+    collection do
+      get :unread
+    end
+  end
   
-  post 'login' => 'accounts#login'
-  resources :accounts, except: [:show]
+  resources :accounts, except: [:show] do
+    collection do
+      post :login
+    end
+  end
 end
