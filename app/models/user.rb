@@ -68,11 +68,11 @@ class User < ActiveRecord::Base
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
     # can be cleaned up at a later date.
-    if identity.user != signed_in_resource
+    if !signed_in_resource.nil? && identity.user != signed_in_resource 
       identity.user = signed_in_resource
       identity.save!
     end
 
-    signed_in_resource ? signed_in_resource : identity.user
+    !signed_in_resource.nil? ? signed_in_resource : identity.user
   end
 end
