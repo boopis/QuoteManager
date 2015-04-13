@@ -99,6 +99,7 @@ class FormsController < ApplicationController
         :column_style,
         :ecommerce_type,
         :thank_msg,
+        :redirect_link,  
         fields: [:label, :type, :validate, :placeholder, :description, :css_class , options: [:name]], 
         emails: [:email]
       )
