@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
 
   # GET /notifications
   def index
-    @notifications = @mailbox.inbox.page(params[:page]).per(25)
+    @notifications = @mailbox.notifications.page(params[:page]).per(25)
 
     # Mark all notification is read
     @unread.each do |un|
@@ -14,7 +14,7 @@ class NotificationsController < ApplicationController
 
   # GET /notifications/:id
   def show
-    @notification = @mailbox.inbox.find(params[:id])
+    @notification = @mailbox.notifications.find(params[:id])
 
     # Mark this notification is read
     @notification.mark_as_read(current_user) unless @notification.nil? && @notification.is_unread?(current_user)
@@ -30,6 +30,6 @@ class NotificationsController < ApplicationController
   end
   
   def get_unread
-    @unread = @mailbox.inbox.unread(current_user)   
+    @unread = @mailbox.notifications.unread
   end
 end

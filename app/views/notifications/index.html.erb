@@ -21,9 +21,9 @@
         <% @notifications.each do |notification| %>
         <tr>
           <%= content_tag :td, notification.id %>
-          <%= content_tag :td, notification.messages[0].subject %>
-          <%= content_tag :td, notification.messages[0].body %>
-          <%= content_tag :td, notification.messages[0].created_at %>
+          <%= content_tag :td, notification.subject %>
+          <%= content_tag :td, notification.body %>
+          <%= content_tag :td, notification.created_at %>
         </tr>
         <% end %>
       </tbody>
