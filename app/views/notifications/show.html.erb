@@ -8,10 +8,10 @@
       <%= content_tag :h2, @notification.subject %>
       <h2></h2>
       <div class="center-block">
-        <%= content_tag :p, @notification.messages.first.body %>
+        <%= content_tag :p, @notification.body %>
       </div>
       <div class="center-block">
-        <%= content_tag :p, @notification.messages.first.created_at %>
+        <%= content_tag :p, @notification.created_at %>
       </div>
     </div>
   </div>

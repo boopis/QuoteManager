@@ -25,6 +25,10 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
+# Cronjob 
+set :whenever_environment, defer { stage }
+set :whenever_command, 'bundle exec whenever'
+
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master
@@ -56,6 +60,8 @@ namespace :reset do
   end
 end
 
+
+after "deploy:symlink", "deploy:update_crontab"  
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -67,6 +73,11 @@ namespace :deploy do
       end
     end
   end
+
+  desc "Update the crontab file"  
+  task :update_crontab, :roles => :db do  
+    run "cd #{release_path} && whenever --update-crontab #{application}"  
+  end  
 
   desc "Config nginx"
   task :setup do

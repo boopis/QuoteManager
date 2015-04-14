@@ -31,6 +31,20 @@ class Quote < ActiveRecord::Base
     .where(:requests => {:contact_id => contact_id })
   }
 
+  scope :nearly_expire, -> {
+    includes(:account)
+    .where(expires_at: 1.day.ago..2.days.from_now)
+    .order('account_id DESC')
+  }
+
+  def self.incomplete_reminder
+    nearly_quotes = nearly_expire
+
+    nearly_quotes.select do |quote|
+      ['draft', 'sent', 'in_discussion'].include? quote.current_state
+    end
+  end
+
 protected
 
   def generate_token
