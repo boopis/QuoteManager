@@ -73,7 +73,7 @@ class ContactsController < ApplicationController
           template = Template.find(params[:template_id]).try(:content)
         end
       
-        gmail_api = GmailAPI.new(identities[0].token)
+        gmail_api = GmailAPI.new(identities[0].fresh_token)
         mail = ContactMailer.send_email(contact, template, identities[0].social_name, params[:subject])
         gmail_api.send_message(mail)
 
@@ -114,6 +114,25 @@ class ContactsController < ApplicationController
       format.html { redirect_to contacts_url }
       format.json { head :no_content }
     end
+  end
+
+  # POST /contacts/import
+  def import
+    unless params[:file].nil?
+      errors = Contact.import(params[:file], current_account.id)
+    else
+      errors = 'Please insert your import file!'
+    end
+    respond_to do |format|
+      if errors.empty?
+        format.html { redirect_to contacts_path, notice: 'Contact was successfully imported.' }
+        format.json { render :show, status: :ok, location: @contact }
+      else
+        format.html { redirect_to contacts_path, flash: { alert: errors } }
+        format.json { render json: errors, status: :unprocessable_entity }
+      end
+    end
+
   end
 
   private

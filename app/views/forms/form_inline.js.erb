@@ -2,12 +2,17 @@ function postForm(form) {
   if (validate(form)) {
     var xhr = new XMLHttpRequest();
     var fData = new FormData(form)
-      xhr.open('POST',form.action,true);
+
+    xhr.open('POST',form.action,true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 201) {
         document.getElementById('qm-modal-inner').innerHTML = '<h2>Form was submitted successfully!</h2>';
         setTimeout(function(){
           document.getElementById('qm-modal').remove();
+          if (redirect !== '') {
+
+            window.location.replace(redirect);
+          }
         },2000)
       }
     };
@@ -626,6 +631,7 @@ head.appendChild(style);
 
 // Form use for render
 var form = <%= form.to_json.html_safe %>;
+var redirect = '<%= form.redirect_link.html_safe %>';
 
 // Get product data
 var json_product = grabProductOption(); 

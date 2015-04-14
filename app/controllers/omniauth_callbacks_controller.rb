@@ -4,8 +4,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       def #{provider}
         @user = User.find_for_oauth(env["omniauth.auth"], current_user)
 
-        unless @user.nil?
-          redirect_to :back, flash: { notice: "Your account is connected to #{provider.capitalize}." }
+        if !@user.nil? && current_user.nil?
+          sign_in(@user)
+          redirect_to root_path, flash: { notice: "Logged in by #{provider.capitalize} successful!" }
+        elsif !@user.nil? && !current_user.nil?
+          redirect_to user_path(@user), flash: { notice: "Your account is connected to #{provider.capitalize}." }
         else
           redirect_to new_user_session_path, flash: { error: "You must manually login and connect to #{provider.capitalize}." }
         end

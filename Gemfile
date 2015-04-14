@@ -42,6 +42,8 @@ gem 'bcrypt-ruby'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-identity'
 
+gem 'roo'
+
 gem 'google-api-client', :require => 'google/api_client'
 
 gem 'puma'

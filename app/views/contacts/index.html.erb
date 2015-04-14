@@ -99,6 +99,14 @@
 
   <%= paginate @contacts, :pagination_class => "pull-right" %>
 
+  <% if can? :create, Contact %>
+    <%= form_tag import_contacts_path, multipart: true, class: 'pull-right' do %>
+      <%= file_field_tag :file, class: 'form-control import' %>
+      <%= button_tag 'Import contacts', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
+
+
 </div>
 
 <%= render partial: 'notes/modal', locals: { notable: @contacts.first || Contact.new } %>
