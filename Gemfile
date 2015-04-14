@@ -43,6 +43,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-identity'
 
 gem 'roo'
+gem 'whenever', require: false
 
 gem 'google-api-client', :require => 'google/api_client'
 
