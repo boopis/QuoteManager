@@ -7,7 +7,7 @@ class QuoteReminders
 
     quotes.each do |quote|
       reminders[quote.account] = '' if reminders[quote.account_id].nil?
-      reminders[quote.account] += "Incomplelte quote no #{quote.id} is nearly expired <br/>"
+      reminders[quote.account] += "Incomplelte quote no #{quote.id} is nearly expired \n"
     end
 
     ActiveRecord::Base.transaction do 
