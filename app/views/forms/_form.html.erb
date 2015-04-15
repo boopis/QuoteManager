@@ -140,22 +140,17 @@
           <div class="tab-pane fade" id="js">
             <p>Your custom form scripts: </p>
             <%= f.text_area :scripts, class: 'form-control full', placeholder: 'Add your custom scripts' %>
-            <p>Which ecommerce website you want to integrate this form:</p>
-            <%= f.radio_button :ecommerce_type, 'Shopify', :class => 'form-control', :checked => true %> 
-            <%= label "", :shopify, "Shopify" %>
-            <%= f.radio_button :ecommerce_type, 'WooCommerce', :class => 'form-control' %> 
-            <%= label "", :woo_commerce, "WooCommerce" %>
-            <%= f.radio_button :ecommerce_type, 'Magento', :class => 'form-control' %> 
-            <%= label "", :magento, "Magento" %>
-            <%= f.radio_button :ecommerce_type, 'ZenCart', :class => 'form-control', :checked => true %> 
-            <%= label "", :shopify, "ZenCart" %>
-            <%= f.radio_button :ecommerce_type, 'PrestaShop', :class => 'form-control' %> 
-            <%= label "", :presta_shop, "Presta Shop" %>
-            <%= f.radio_button :ecommerce_type, 'OpenCart', :class => 'form-control' %> 
-            <%= label "", :open_cart, "Open Cart" %>
-            <p>Generated script for list products page: </p>
-            <%= text_area_tag :list_product_script, "", :class => 'form-control full' %>
-            <strong class='red'>NOTE*: </strong><span>Modify it and copy it to your website.</span>
+            <p>How to trigger this form:</p>
+            <%= radio_button_tag :trigger_method, 'Button', @form.trigger_method != 'Widget' && @form.trigger_method != 'PageLoad', :class => 'form-control' %> 
+            <%= label "", :button, "Click to Button" %>
+            <%= radio_button_tag :trigger_method, 'PageLoad', @form.trigger_method == 'PageLoad', :class => 'form-control' %> 
+            <%= label "", :page_load, "Render when page load" %>
+            <%= radio_button_tag :trigger_method, 'Widget', @form.trigger_method == 'Widget', :class => 'form-control' %> 
+            <%= label "", :widget, "Widget button" %>
+            <div class='trigger-methods'> 
+              <p>ID / Class that trigger this form: </p>
+              <%= f.text_field :trigger_method, :class => 'form-control', :placeholder => 'Enter ID / class of button' %>
+            </div> 
           </div>
 
           <div class="tab-pane fade" id="settings">

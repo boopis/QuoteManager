@@ -97,7 +97,7 @@ class FormsController < ApplicationController
         :scripts,
         :styles, 
         :column_style,
-        :ecommerce_type,
+        :trigger_method,
         :thank_msg,
         :redirect_link,  
         fields: [:label, :type, :validate, :placeholder, :description, :css_class , options: [:name]], 
