@@ -122,8 +122,6 @@ function setProduct(json_product) {
 
   var myQuote = new Object();
 
-  myQuote.productId = json_product['id'];
-  myQuote.productTitle = json_product['title'];
   myQuote.variantId = i;
   myQuote.variantText = t;
 
@@ -239,13 +237,6 @@ function grabProductOption () {
   }
 
   jsonProduct = {
-    id: document.getElementById('shopify-product-reviews').getAttribute('data-id'),
-    price: parseFloat(document.getElementsByClassName('product-price')[0].textContent.replace( /^\D+/g, '')),
-    title: document.querySelector('#product-title h1').textContent,
-    vendor: document.querySelector('#product-title h2 a').textContent,
-    description: document.querySelector('#full_description').textContent,
-    available: true,
-    price_min: 0,
     options: options,
     variants: variants
   };
@@ -613,5 +604,21 @@ var json_product = grabProductOption();
 // Replace add to cart text and if
 document.getElementById('product-add-wrap').innerHTML='<div id="product-add-medallion" class=""></div><input type="submit" name="quote" id="quote" value="Quote" class="smooth">';  
 
-// Render form on click new button
-document.getElementById('quote').onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form, json_product); return false; } 
+// Form Trigger methods 
+<% if form.trigger_method != 'PageLoad' && form.trigger_method != 'Widget' && !form.trigger_method.empty?  %>
+  document.querySelector('<%= form.trigger_method %>').onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form, json_product); return false; } 
+<% elsif form.trigger_method == 'PageLoad' %>
+  window.onload=function() {
+    renderForm('<%= request.protocol + request.host_with_port %>', form, json_product);
+  };
+<% elsif form.trigger_method == 'Widget' %>
+  var widget = document.createElement('button'),
+      body = document.querySelector('body');
+
+  widget.innerText = 'Get Quote'
+  widget.style.cssText = 'position: fixed; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding:15px; background:#FFF; border:3px solid #a1a1a1; bottom: 10%; right: 0px;'
+                              
+  widget.onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form, json_product); return false; } 
+
+  body.appendChild(widget);
+<% end %>
