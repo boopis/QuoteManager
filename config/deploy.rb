@@ -26,7 +26,6 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
 # Cronjob 
-set :whenever_environment, defer { stage }
 set :whenever_command, 'bundle exec whenever'
 
 ## Defaults:
