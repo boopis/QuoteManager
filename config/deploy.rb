@@ -26,7 +26,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
 # Cronjob 
-set :whenever_command, 'bundle exec whenever'
+set :whenever_command, 'cd #{current_path} && bundle exec whenever'
 
 ## Defaults:
 # set :scm,           :git
