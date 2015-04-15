@@ -31,4 +31,8 @@ class Request < ActiveRecord::Base
   def mismatch_fields 
     self.fields.select { |k, v| !v['form_mismatched'].nil? }
   end
+
+  def time_to_complete_form
+    Time.at(time_to_complete / 1000).strftime("%M minute(s) %S second(s)")
+  end
 end

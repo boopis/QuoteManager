@@ -43,7 +43,7 @@ class RequestsController < ApplicationController
       # Check and get errors list
       map_data = form.map_destination_data(req_fields, @request)
       if map_data[:errors].messages.size === 0 
-        @request.assign_attributes(:fields => map_data[:request].fields.dup)
+        @request.assign_attributes({ fields:  map_data[:request].fields.dup }.merge!(get_request_info))
       end
 
       respond_to do |format|
@@ -107,7 +107,7 @@ class RequestsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
-    params.require(:request).permit(:form_id).tap do |whitelisted|
+    params.require(:request).permit(:form_id, :time_to_complete).tap do |whitelisted|
       whitelisted[:fields] = params[:request][:fields]
     end    
   end
@@ -123,6 +123,49 @@ class RequestsController < ApplicationController
       form.emails.each do |e|
         FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
       end
+    end
+  end
+
+  # Get user information when the form is submitted
+  def get_request_info
+    {
+      remote_ip: request.remote_ip,
+      language: request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first,
+      referrer: request.referrer,
+      browser: get_browser,
+      os: get_operating_system,
+    }
+  end
+
+  def get_browser
+    if request.env['HTTP_USER_AGENT'].downcase.match(/crome/i)
+      "Crome"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/msie/i)
+      "Internet Explorer"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/konqueror/i) 
+      "Konqueror"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/firefox/i) 
+      "Mozilla"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/opera/i) 
+      "Opera"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/safari/i) 
+      "Safari"
+    else
+      "Unknown"
+    end
+  end
+
+  def get_operating_system
+    if request.env['HTTP_USER_AGENT'].downcase.match(/mac/i)
+      "Mac"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/windows/i)
+      "Windows"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/linux/i)
+      "Linux"
+    elsif request.env['HTTP_USER_AGENT'].downcase.match(/unix/i)
+      "Unix"
+    else
+      "Unknown"
     end
   end
 
