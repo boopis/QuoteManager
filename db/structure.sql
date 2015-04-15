@@ -181,7 +181,7 @@ CREATE TABLE forms (
     styles text,
     scripts text,
     emails json,
-    ecommerce_type character varying(255),
+    trigger_method character varying(255),
     thank_msg text,
     account_id integer,
     created_at timestamp without time zone,
@@ -1314,4 +1314,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150408025512');
 INSERT INTO schema_migrations (version) VALUES ('20150413070918');
 
 INSERT INTO schema_migrations (version) VALUES ('20150415025721');
+
+INSERT INTO schema_migrations (version) VALUES ('20150415124053');
 

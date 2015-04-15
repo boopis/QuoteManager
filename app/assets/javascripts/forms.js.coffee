@@ -210,43 +210,6 @@ reOrderFormFields = ->
     i++
   return
 
-migrationScript = (ecomType) ->
-  script = $ '#list_product_script'
-  ecommerce = 
-    Shopify:
-      btn: '.btn-cart'
-      price: '.product_price'
-      productItem: '.product'
-    WooCommerce:
-      btn: '.add_to_cart_button'
-      price: '.price'
-      productItem: '.product li'
-    OpenCart:
-      btn: '.cart-button'
-      price: '.price'
-      productItem: '.product-layout'
-    ZenCart:
-      btn: '.product-buttons'
-      price: '.price'
-      productItem: '.product-col'
-    Magento:
-      btn: '.btn-cart'
-      price: '.price-box'
-      productItem: '.product-container'
-    PrestaShop:
-      btn: 'button-container'
-      price: 'content_price'
-      productItem: '.product-container'
-  
-  scriptContent = "a = document.querySelectorAll('" + ecommerce[ecomType].productItem + "'); \n" + 
-            "for (var i=0; i<a.length; i++) { \n" + 
-            "  if ( a[i].querySelector('" + ecommerce[ecomType].price + "').textContent.match(/ 0\./) ) { \n" + 
-            "    a[i].querySelector('" + ecommerce[ecomType].btn + "').innerHTML = 'Quote'; \n" +
-            "  } \n" +
-            "}"
-
-  script.val scriptContent
-
 $("#rendered-form").tooltip({ selector: '[data-toggle=tooltip]' })
 $("#style input:radio").change (e) ->
   $('.form-field-list').removeClass('column column1 column2').addClass('column' + $(this).val())
@@ -289,8 +252,20 @@ $('.tabs-wrapper .nav.nav-tabs a').click (e) ->
   e.preventDefault()
   $(this).tab 'show'
   return
+$('#form_trigger_method').change (e) ->
+  $(this).data 'button', $(this).val()
+  return
 $("#js input:radio").change (e) ->
-  migrationScript $(this).val() 
+  triggerMethod = $ '.trigger-methods'
+  input = $ '#form_trigger_method'
+
+  if $(this).val() == 'Button'
+    triggerMethod.removeClass 'hidden'
+    input.val ''
+    input.val input.data('button')
+  else
+    triggerMethod.addClass 'hidden'
+    input.val $(this).val()
   return
 $('.form-field-list').sortable
   update: (event, ui) ->
@@ -336,13 +311,12 @@ tinymce.init
 $('#contact-email').click()
 $('.form-field').first().click()
 
-if $("#js input:radio").val() != '' 
-  migrationScript 
-
 # Fill thank you message to tinymce editor
 tinyThankMsg = tinyMCE.get 'form_thank_msg' 
 if tinyThankMsg
   tinyThankMsg.setContent $thankMsgTxt.val()
+
+
 
 # Form show page
 # Copy inline javascript link
