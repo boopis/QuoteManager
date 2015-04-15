@@ -72,13 +72,6 @@ namespace :deploy do
     end
   end
 
-  desc "Update the crontab file"  
-  task :update_crontab do  
-    on roles(:db) do
-      run "cd #{release_path} && whenever --update-crontab #{application}"  
-    end
-  end  
-
   desc "Config nginx"
   task :setup do
     on roles(:app), in: :sequence, wait: 1 do
@@ -108,7 +101,7 @@ namespace :deploy do
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
-  after  :finishing,    :update_crontab
+  after  :finishing,    'whenever:update_crontab'
 end
 
 # ps aux | grep puma    # Get puma pid
