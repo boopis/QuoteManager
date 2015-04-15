@@ -580,7 +580,13 @@ CREATE TABLE requests (
     account_id integer,
     contact_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    os character varying(255),
+    referrer character varying(255),
+    remote_ip character varying(255),
+    language character varying(255),
+    browser character varying(255),
+    time_to_complete integer
 );
 
 
@@ -1306,4 +1312,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150407082129');
 INSERT INTO schema_migrations (version) VALUES ('20150408025512');
 
 INSERT INTO schema_migrations (version) VALUES ('20150413070918');
+
+INSERT INTO schema_migrations (version) VALUES ('20150415025721');
 

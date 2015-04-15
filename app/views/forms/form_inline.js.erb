@@ -1,5 +1,10 @@
 function postForm(form) {
   if (validate(form)) {
+
+    // Calculate time to complete form
+    timeToComplete = Date.now() - timeToComplete;
+    window.z.value = timeToComplete;
+
     var xhr = new XMLHttpRequest();
     var fData = new FormData(form)
 
@@ -16,6 +21,7 @@ function postForm(form) {
         },2000)
       }
     };
+
     xhr.send(fData);
   }
 }
@@ -369,51 +375,13 @@ function buildForm(url, form) {
     l.value = d['id'];
     c.appendChild(l);
 
-    // var m = document.createElement('div');
-    // var n = document.createElement('div');
-    // var o = document.createElement('label');
-    // var p = document.createElement('label');
-    // var q = document.createElement('input');
-    // var r = document.createElement('input');
-    // var aa = document.createElement('input');
-    // var ab = document.createElement('input');
+    // Time to complete this form
+    window.z = document.createElement('input');
+    window.z.type = 'hidden';
+    window.z.name = 'request[time_to_complete]';
+    window.z.value = timeToComplete;
+    c.appendChild(window.z);
 
-    // var quote = JSON.parse(sessionStorage.getItem('qm-rfq'));
-
-    // m.className = 'qm-group';
-    // n.className = 'qm-group';
-    // o.htmlFor = 'product';
-    // o.innerHTML = 'Product';
-    // p.htmlFor = 'variant';
-    // p.innerHTML = 'Variants';
-    // q.type = 'text';
-    // q.id = 'qm-product-title'
-    //   q.name = '';
-    // q.readOnly = 'true';
-    // q.value = quote.productTitle;
-    // r.type = 'text';
-    // r.id = 'qm-variant-text'
-    //   r.name = '';
-    // r.readOnly = 'true';
-    // r.value = quote.variantText;  
-    // aa.type = 'hidden';
-    // aa.id = 'qm-product-id'
-    //   aa.name = '';
-    // aa.value = quote.productId;
-    // ab.type = 'hidden';
-    // ab.id = 'qm-variant-id'
-    //   ab.name = '';
-    // ab.value = quote.variantId;
-
-    // m.appendChild(o);
-    // m.appendChild(q);
-    // m.appendChild(aa);
-    // n.appendChild(p);
-    // n.appendChild(r);
-    // n.appendChild(ab);
-
-    // c.appendChild(m);
-    // c.appendChild(n);
 
     var f = document.createElement('div');
     var h = document.createElement('a'); 
@@ -600,6 +568,9 @@ function buildForm(url, form) {
 }
 
 function showModal() {
+  // Calculate the time 
+  timeToComplete = Date.now();
+
   document.getElementById('qm-ajax-loader').remove();
   var a = document.getElementById('qm-modal');
   var b = a.childNodes[0];
@@ -632,6 +603,9 @@ head.appendChild(style);
 // Form use for render
 var form = <%= form.to_json.html_safe %>;
 var redirect = '<%= form.redirect_link.html_safe %>';
+
+// Amount of time to complete this form
+var timeToComplete = 0;
 
 // Get product data
 var json_product = grabProductOption(); 

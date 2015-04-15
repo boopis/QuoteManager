@@ -29,12 +29,31 @@
   <div class="col-lg-6 col-md-6 col-sm-6">
     <div class="main-box">
       <h2>Request Analytics</h2>
-      <p>Display IP Address</p> 
-      <p>Display Language</p> 
+      <p>
+        <span>IP address: </span>
+        <%= content_tag :b, @request.remote_ip %>
+      </p>
+      <p>
+        <span>Language: </span>
+        <%= content_tag :b, @request.language.capitalize %>
+      </p>
+      <p>
+        <span>Traffic source / Referrer: </span>
+        <%= link_to @request.referrer, @request.referrer, target: '_blank' %>
+      </p>
+      <p>
+        <span>Operating system: </span>
+        <%= content_tag :b, @request.os.capitalize %>
+      </p>
+      <p>
+        <span>Browser: </span>
+        <%= content_tag :b, @request.browser.capitalize %>
+      </p>
+      <p>
+        <span>Display amount of time it took to complete form: </span>
+        <%= content_tag :b, @request.time_to_complete_form %>
+      </p>
       <p>Display Country / Territory</p> 
-      <p>Display amount of time it took to complete form</p> 
-      <p>Display referrer / traffic source</p> 
-      <p>Display operating system</p> 
       <p>Display unique or returning</p> 
     </div>
   </div>  
