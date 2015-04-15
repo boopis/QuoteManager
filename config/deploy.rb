@@ -60,7 +60,6 @@ namespace :reset do
 end
 
 
-after "deploy:symlink", "deploy:update_crontab"  
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -107,6 +106,7 @@ namespace :deploy do
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
+  after  :symlink,      :update_crontab
 end
 
 # ps aux | grep puma    # Get puma pid
