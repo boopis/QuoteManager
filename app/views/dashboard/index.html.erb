@@ -5,32 +5,35 @@
 
   <div class="col-md-4">
     <div class="main-box">
-      <h2>Storage Used</h2>
-      <%= content_tag :svg, '', width: '97%', height: '250', id: "storage-used", 
-        data: { percent: @percent_resource_usage[2] } %>
-    </div>
-  </div>
-
-  <div class="col-md-4">
-    <div class="main-box">
-      <h2>Forms Used</h2>
+      <h2>Forms</h2>
       <%= content_tag :svg, '', width: '97%', height: '250', id: "forms-used", 
         data: { percent: @percent_resource_usage[0] } %>
+      <p class="text-center">Max: <%= @forms %> Forms</p>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="main-box">
-      <h2>Requests Used</h2>
+      <h2>Requests</h2>
       <%= content_tag :svg, '', width: '97%', height: '250', id: "requests-used", 
         data: { percent: @percent_resource_usage[1] } %>
+      <p class="text-center">Max: <%= @requests %> Requests/mo</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="main-box">
+      <h2>Storage</h2>
+      <%= content_tag :svg, '', width: '97%', height: '250', id: "storage-used", 
+        data: { percent: @percent_resource_usage[2] } %>
+        <p class="text-center">Max: <%= @storage/1000 %> GB</p>
     </div>
   </div>
 
   <div class="col-md-12">
     <div class="main-box">
-      <h2>Request & Quote Statistic</h2>
-      <%= content_tag :div, 'Total quote viewed: ' + @stat[:viewed].to_s, class: 'total-viewed green pull-right' %>
+      <h2>Pipeline</h2>
+      <%= content_tag :div, 'Total viewed quotes: ' + @stat[:viewed].to_s, class: 'total-viewed green pull-right' %>
       <%= content_tag :div, '', id: 'chart', data: @stat %>
     </div>
   </div>

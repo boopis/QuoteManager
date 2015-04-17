@@ -17,7 +17,7 @@
             <dd><%= field['request'].join(",") %></dd>
           <% else %>
             <% if field['type'] == 'file' %>
-              <dd><%= link_to 'Open file', request_download_path(@request.id, id) %></dd>
+              <dd><%= link_to 'Open file', request_download_path(@request.id, id) if field['request'].present? %></dd>
             <% else %>
               <dd><%= field['request'] %></dd>
             <% end %>
@@ -35,26 +35,24 @@
       </p>
       <p>
         <span>Language: </span>
-        <%= content_tag :b, @request.language.capitalize %>
+        <%= content_tag :b, @request.language.capitalize if @request.language.present? %>
       </p>
       <p>
         <span>Traffic source / Referrer: </span>
-        <%= link_to @request.referrer, @request.referrer, target: '_blank' %>
+        <%= link_to @request.referrer, @request.referrer, target: '_blank' if @request.referrer.present?  %>
       </p>
       <p>
         <span>Operating system: </span>
-        <%= content_tag :b, @request.os.capitalize %>
+        <%= content_tag :b, @request.os.capitalize if @request.os.present? %>
       </p>
       <p>
         <span>Browser: </span>
-        <%= content_tag :b, @request.browser.capitalize %>
+        <%= content_tag :b, @request.browser.capitalize if @request.browser.present? %>
       </p>
       <p>
-        <span>Display amount of time it took to complete form: </span>
-        <%= content_tag :b, @request.time_to_complete_form %>
+        <span>Time to complete: </span>
+        <%= content_tag :b, @request.time_to_complete_form if @request.time_to_complete.present? %>
       </p>
-      <p>Display Country / Territory</p> 
-      <p>Display unique or returning</p> 
     </div>
   </div>  
 </div>

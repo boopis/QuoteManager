@@ -73,11 +73,11 @@
     <div class="main-box">
       <h2>Quote Analytics</h2>
       <p>
-        Unique visitors: <strong><%= @quote.visitors.size %></strong>
+        Unique Visitors: <strong><%= @quote.visitors.size %></strong>
         <%= link_to ' (more detail)', quote_analytics_path(@quote) %>
       </p> 
-      <p>Number quotation email sent: <strong><%= @quote.email_sent %></strong></p>
-      <p>Number quotation email opened: <strong><%= @quote.email_opened %></strong></p>
+      <p>Email's Sent: <strong><%= @quote.email_sent %></strong></p>
+      <p>Email's Opened: <strong><%= @quote.email_opened %></strong></p>
     </div>
   </div>  
 
@@ -86,12 +86,12 @@
 <div class='row'>
   <div class="col-lg-6 col-md-6 col-sm-6">
     <div class="main-box">
-      <h2>Send quotes to your customers</h2>
+      <h2>Send This Quote via Email</h2>
 
       <%= form_tag quote_send_path(@quote), method: :post, :novalidate => true do %>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" data-role="tagsinput" id="email" name="email[addresses]" placeholder="Enter customers' email">
+          <input type="email" class="form-control" data-role="tagsinput" id="email" name="email[addresses]" placeholder="Enter contact email">
         </div>
 
         <div class='form-group'>
@@ -115,20 +115,22 @@
   </div>
   <div class="col-lg-6 col-md-6 col-sm-6">
     <div class="main-box">
-      <h2>Send quote guide</h2>
+      <h2>Guide For Sending Quote</h2>
       <p>
-        - You can use liquid template to write thank you message.
+      - We use the liquid templating method to design the email.
       </p>
       <p>
-        - You can use 'quote' variable to access to your quote. 
+        - You can use the 'quote' variable to write the thank you message. 
       </p>
       <p class='more-info'>
         <span>
-          Never heard about liquid template? Please go to
+          Never heard about liquid template? You can learn more
         </span>
-        <a href='http://liquidmarkup.org' target='_blank'>this link</a> 
+        <a href='http://liquidmarkup.org' target='_blank'>here</a> 
         <span>.</span>
-        <span>You should connect to your Gmail and system will use your address to send quote link.</span>
+      </p>
+
+        <span>You should <%= link_to 'connect', user_path(current_user) %> to your personal or business Google App account to send the email</span>
       </p>
 
     </div>
@@ -137,6 +139,5 @@
 
 
 <% if can? :update, @quote %>
-  <%= link_to 'Edit', edit_quote_path(@quote) %> |
+  <%= link_to 'Edit', edit_quote_path(@quote), class: "btn btn-primary" %>
 <% end %>
-<%= link_to 'Back', quotes_path %> 
