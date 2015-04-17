@@ -86,101 +86,129 @@
             <h2 class="pull-left">Guide</h2>
             <div class='clearfix'></div>
             <p>
-              Form builder uses for creating request to vendor. You can add your form script by getting form script.  
-              Every form is built by many fields.
-              Fields are divided into 2 types: Contact fields and custom fields. 
+              The formbuilder allows you to create a form with custom fields to get the exact information you need. Contact Fields are separately parsed and stored based on email addresses.
             </p>
             <p>
               Contact fields consist of:
             </p>
             <ul>
-              <li>Name field: To enter your name.</li>
-              <li>Email field: To enter your email address.</li>
-              <li>Phone field: To enter your phone number.</li>
+              <li>Name field: A single field to collect both first and last name.</li>
+              <li>Phone field: To acquire the phone number of the lead</li>
+              <li>Email field: Required for identifying the lead and following up with the lead.</li>
+              <li>Title field: To distinguish the role of the lead</li>
+              <li>Description field: To collect a short bio of the lead.</li>
             </ul>
             <p>
               Custom fields consist of:
             </p>
 
             <ul>
-              <li>Text field: To add general information in string.</li>
+              <li>Text field: To add general information as a string.</li>
               <li>
-                Field field: To upload your image, product's specification. 
-                You can upload image file (png, jpg, gif) or archive file (zip).
+                File field: To collect images or product specifications. 
+                You can upload the following data files - png, jpg, gif, or archive file (zip).
               </li>
               <li>
-                In-page field: To enter HTML element's ID or class or product's option name which you want to get in your ecommerce website.
+                In-page field: To collect information from the page where the inline-form.js is added. This field is typically used for ecommerce platforms where fields like the id or model of a product needs to be collected automagically.
               </li>
               <li>
-                Paragraph field: To contain your information in paragraph.
+                Paragraph field: To collect any descriptive information as text.
               </li>
               <li>
-                Select field, radio field, checkbox field: To create multiple option choice. When your product's option have many value like color, size, type...
+                Select field, radio field, checkbox field: To create multiple option choices.
               </li>
             </ul>
             <p>
-              You can add custom style / script by open css / js tab and enter your style / script to text area
+              You can add custom styles in the 'Styles' tab by adding css directly into the text field. You can also divide the form by selecting the option to change the amount of columns in the form.
             </p>
             <p>
-              In settings tab, you can add email of your company. 
+              You can add custom javascript in the 'Javascripts' tab. You can also define how the form will be rendered.
+            </p>
+            <p>
+              Under the settings tab, you can define the emails that will receive a notification email when a form submission is made along with designing the template of the autoresponder.
+            </p>
           </div>
 
           <div class="tab-pane fade" id="style">
-            <p>Your custom form style: </p>
+            <p>Custom style CSS: </p>
             <%= f.text_area :styles, class: 'form-control full', placeholder: 'Add your custom styles' %>
             <div class='clearfix'></div>
-            <p>Number of column: </p>
+            <p>Number of columns: </p>
             <div class='clearfix'></div>
-            <%= f.radio_button :column_style, '1', :class => 'form-control', :checked => true %> 
-            <%= label :column_style_one, 'One column' %>
-            <%= f.radio_button :column_style, '2', :class => 'form-control' %>
-            <%= label :column_style_two, 'Two columns' %>
+            <div class="radio">
+              <%= f.label :column_style_1 do %>
+                <%= f.radio_button :column_style, '1', :checked => true %> 
+                One Column
+              <% end %>
+            </div>
+            <div class="radio">
+              <%= f.label :column_style_2 do %>
+                <%= f.radio_button :column_style, '2' %> 
+                Two Columns
+              <% end %>
+            </div>
           </div>
 
           <div class="tab-pane fade" id="js">
-            <p>Your custom form scripts: </p>
+            <p>Custom Javscript: </p>
             <%= f.text_area :scripts, class: 'form-control full', placeholder: 'Add your custom scripts' %>
-            <p>How to trigger this form:</p>
-            <%= radio_button_tag :trigger_method, 'Button', @form.trigger_method != 'Widget' && @form.trigger_method != 'PageLoad', :class => 'form-control' %> 
-            <%= label "", :button, "Click to Button" %>
-            <%= radio_button_tag :trigger_method, 'PageLoad', @form.trigger_method == 'PageLoad', :class => 'form-control' %> 
-            <%= label "", :page_load, "Render when page load" %>
-            <%= radio_button_tag :trigger_method, 'Widget', @form.trigger_method == 'Widget', :class => 'form-control' %> 
-            <%= label "", :widget, "Widget button" %>
+            <p>Choose an option to render this form:</p>
+            <div class="radio">
+              <%= label_tag :trigger_method_Button do %>
+                <%= radio_button_tag :trigger_method, 'Button', @form.trigger_method != 'Widget' && @form.trigger_method != 'PageLoad' %> 
+                Triggered By Button
+              <% end %>
+            </div>
+            <div class="radio">
+              <%= label_tag :trigger_method_PageLoad do %>
+                <%= radio_button_tag :trigger_method, 'PageLoad', @form.trigger_method == 'PageLoad' %> 
+                Render On Page Load
+              <% end %>
+            </div>
+            <div class="radio">
+              <%= label_tag :trigger_method_Widget do %>
+                <%= radio_button_tag :trigger_method, 'Widget', @form.trigger_method == 'Widget' %> 
+                  Triggered By Widget
+              <% end %>
+            </div>
             <div class='trigger-methods'> 
-              <p>ID / Class that trigger this form: </p>
+            <hr>
+              <p>ID / Class of button to trigger form: </p>
               <%= f.text_field :trigger_method, :class => 'form-control', :placeholder => 'Enter ID / class of button' %>
             </div> 
+
           </div>
 
           <div class="tab-pane fade" id="settings">
             <div class='clearfix'>
-              <p>Notify to form creators through: </p>
+              <p>Add emails to be notified when this form is submitted: </p>
               <%= form_custom_settings(@form.emails, "email", f)%>
             </div>
             <div class='clearfix thank-you-message'>
-              <p>Thank you message after users submitted this form: </p>
+              <p>Deisign the content of the thank you message autoresponder: </p>
               <%= f.text_area :thank_msg, :class => 'form-control full', :placeholder => 'Enter your thank you message' %>
               <p class='note'>
                 <strong class='red'>NOTE*: </strong> 
               </p>
               <p>
-                - You can use liquid template to write thank you message.
+                - We use the liquid templating method to design the template.
               </p>
               <p>
-                - You can use 'customer' variable to get your customer's email, name, phone. 
+                - You can use the 'customer' variable to get your customer's email, name, phone, title, or description. 
               </p>
               <p class='more-info'>
                 <span>
-                  Never heard about liquid template? Please go to
+                  Never heard about liquid template? You can learn more
                 </span>
-                <a href='http://liquidmarkup.org' target='_blank'>this link</a> 
+                <a href='http://liquidmarkup.org' target='_blank'>here</a> 
                 <span>.</span>
               </p>
             </div>
 
+            <hr>
+
             <div class='clearfix '>
-              <p>Redirect after submit: </p>
+              <p>Add the url of the location you want to send the user after successful submission: </p>
               <%= f.text_field :redirect_link, class: 'form-control full', placeholder: 'Enter your redirect link' %>
             </div>
           </div>

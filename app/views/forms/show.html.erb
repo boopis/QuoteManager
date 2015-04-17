@@ -135,17 +135,19 @@
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 side pull-right">
     <div class="main-box">
       <div class="clearfix">
-        <h2 class="pull-left">Add inline script guide</h2>
+        <h2 class="pull-left">How To Use Your Form</h2>
         <div class='clearfix'></div>
         <h5>
-          After created this form, you can add this inline form script to your by two ways:
+          You have two options to add this form to your website:
         </h5>
+        <hr>
         <div class='clearfix'>
-          <p>- Get this form inline script to your website and call renderForm function.</p>
+          <p>- Add this dynamically generated script to your website and call the renderForm function</p>
           <%= text_field_tag 'script', "http://quotemanager.co/form-inline/#{@form.id}.js", :class => 'form-control' %>  
           <a href='#' id='copy-script' class='btn btn-primary copy-btn' data-clipboard-target='script'
           data-toggle="tooltip" data-placement="top" title="Copy to clipboard!">Copy script</a>
         </div>
+        <hr>
         <div class='clearfix'>
           <p>- Use raw HTML directly in your website.</p>
           <%= text_area_tag 'rawhtml', "", :class => 'form-control full' %>  
@@ -160,4 +162,3 @@
 <% if can? :update, @form %>
   <%= link_to 'Edit', edit_form_path(@form), class: 'btn-edit btn btn-success' %>
 <% end %>
-<%= link_to 'Back', forms_path, class: 'btn btn-primary' %>
