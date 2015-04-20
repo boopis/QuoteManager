@@ -162,4 +162,8 @@ links = [
   { source: 1, target: 3, value: declined }
 ]
 
-draw(nodes, links);
+if draft > 0 && sent > 0 && viewed > 0 && accepted > 0 && declined > 0
+  draw(nodes, links)
+else
+  svg.append('text').attr('x', '32%').attr('y', 5).attr('font-size', 16).text("You don't have enough quote data to draw this chart.")
+
