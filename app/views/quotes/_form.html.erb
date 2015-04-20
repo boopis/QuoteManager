@@ -56,8 +56,6 @@
 
   </div>
 
-  <%= render partial: 'notes/note_field', locals: { f: f, notable: @quote } %>
-  
   <% if @quote.options? %>
     <% @quote.options.each do |id, option| %>
       <%= f.fields_for :options, OpenStruct.new(option), index: id do |builder| %>
