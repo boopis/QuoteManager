@@ -8,7 +8,20 @@ $(document).on 'click', 'form .add_fields', (event) ->
   regexp = new RegExp($(this).data('id'), 'g')
   $('.form-field-list').append($(this).data('fields').replace(regexp, time))
   reOrderFormFields()
-  $('.form-field').last().click()
+  currentField = $('.form-field').last()
+  type = currentField.find('input[data-name="type"]').val()
+  currentField.click()
+  # Create sample option if current field is select, radio, checkbox input 
+  if type == 'select' || type == 'radio' || type == 'checkbox'
+    window.setTimeout (->
+      $('a.add_options').click()
+      window.setTimeout (->
+        $('.option-field input').val 'option1' 
+        multiOptionsChanged()
+        return
+      ), 200
+      return
+    ), 300
   event.preventDefault()
 
 $(document).on 'click', 'form .add_contact_fields', (event) ->

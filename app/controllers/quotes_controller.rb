@@ -35,7 +35,6 @@ class QuotesController < ApplicationController
   # GET /quotes/1/edit
   def edit
     @qb = current_account.quotes.find(params[:id])
-    @request = current_account.requests.find(@qb.request_id) unless @qb.request_id.nil?
     @templates = current_account.templates.where(using_type: 'Quote')
     @quote.note ||= Note.new
   end
