@@ -52,12 +52,12 @@ CREATE TABLE accounts (
     company_name character varying(255),
     about text,
     phone_number character varying(255),
-    stripe_customer_token character varying(255),
-    stripe_subscription_token character varying(255),
-    storage_usage integer,
     plan_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    stripe_customer_token character varying(255),
+    stripe_subscription_token character varying(255),
+    storage_usage integer
 );
 
 
@@ -133,6 +133,41 @@ CREATE TABLE ahoy_events (
 
 
 --
+-- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE assets (
+    id integer NOT NULL,
+    asset character varying(255),
+    account_id integer,
+    request_id integer,
+    public integer,
+    field_id character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE assets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE assets_id_seq OWNED BY assets.id;
+
+
+--
 -- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -141,12 +176,12 @@ CREATE TABLE contacts (
     name character varying(255),
     phone character varying(255),
     email character varying(255),
-    title character varying(255),
-    description text,
     account_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    social_media hstore
+    social_media hstore,
+    title character varying(255),
+    description text
 );
 
 
@@ -181,11 +216,11 @@ CREATE TABLE forms (
     styles text,
     scripts text,
     emails json,
-    trigger_method character varying(255),
-    thank_msg text,
     account_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    trigger_method character varying(255),
+    thank_msg text,
     redirect_link character varying(255)
 );
 
@@ -224,7 +259,8 @@ CREATE TABLE identities (
     refresh_token character varying(255),
     expires_at timestamp without time zone,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    token character varying(255)
 );
 
 
@@ -540,12 +576,13 @@ CREATE TABLE quotes (
     request_id integer,
     description text,
     signature text,
-    email_sent integer DEFAULT 0,
-    email_opened integer DEFAULT 0,
+    status character varying(255),
     account_id integer,
-    template_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    template_id integer,
+    email_sent integer DEFAULT 0,
+    email_opened integer DEFAULT 0
 );
 
 
@@ -671,10 +708,10 @@ CREATE TABLE users (
     last_sign_in_ip character varying(255),
     firstname character varying(255),
     lastname character varying(255),
-    role character varying(255) DEFAULT 'viewer'::character varying,
     account_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    role character varying(255) DEFAULT 'viewer'::character varying
 );
 
 
@@ -742,6 +779,13 @@ ALTER TABLE ONLY accounts ALTER COLUMN id SET DEFAULT nextval('accounts_id_seq':
 --
 
 ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY assets ALTER COLUMN id SET DEFAULT nextval('assets_id_seq'::regclass);
 
 
 --
@@ -871,6 +915,14 @@ ALTER TABLE ONLY addresses
 
 ALTER TABLE ONLY ahoy_events
     ADD CONSTRAINT ahoy_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (id);
 
 
 --
@@ -1041,6 +1093,20 @@ CREATE INDEX index_ahoy_events_on_user_id_and_user_type ON ahoy_events USING btr
 --
 
 CREATE INDEX index_ahoy_events_on_visit_id ON ahoy_events USING btree (visit_id);
+
+
+--
+-- Name: index_assets_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_assets_on_account_id ON assets USING btree (account_id);
+
+
+--
+-- Name: index_assets_on_request_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_assets_on_request_id ON assets USING btree (request_id);
 
 
 --
@@ -1285,11 +1351,27 @@ INSERT INTO schema_migrations (version) VALUES ('20150302030823');
 
 INSERT INTO schema_migrations (version) VALUES ('20150304085723');
 
+INSERT INTO schema_migrations (version) VALUES ('20150305092901');
+
+INSERT INTO schema_migrations (version) VALUES ('20150306073658');
+
+INSERT INTO schema_migrations (version) VALUES ('20150309100629');
+
+INSERT INTO schema_migrations (version) VALUES ('20150310060819');
+
+INSERT INTO schema_migrations (version) VALUES ('20150311052625');
+
+INSERT INTO schema_migrations (version) VALUES ('20150311064220');
+
 INSERT INTO schema_migrations (version) VALUES ('20150311083622');
+
+INSERT INTO schema_migrations (version) VALUES ('20150311100151');
 
 INSERT INTO schema_migrations (version) VALUES ('20150312053327');
 
 INSERT INTO schema_migrations (version) VALUES ('20150312053328');
+
+INSERT INTO schema_migrations (version) VALUES ('20150312122544');
 
 INSERT INTO schema_migrations (version) VALUES ('20150313033119');
 
@@ -1297,7 +1379,15 @@ INSERT INTO schema_migrations (version) VALUES ('20150313033202');
 
 INSERT INTO schema_migrations (version) VALUES ('20150316033449');
 
+INSERT INTO schema_migrations (version) VALUES ('20150317021749');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317021812');
+
 INSERT INTO schema_migrations (version) VALUES ('20150317022046');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317081922');
+
+INSERT INTO schema_migrations (version) VALUES ('20150317091023');
 
 INSERT INTO schema_migrations (version) VALUES ('20150331024659');
 
@@ -1310,6 +1400,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150406022232');
 INSERT INTO schema_migrations (version) VALUES ('20150407082129');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408025512');
+
+INSERT INTO schema_migrations (version) VALUES ('20150408042714');
 
 INSERT INTO schema_migrations (version) VALUES ('20150413070918');
 

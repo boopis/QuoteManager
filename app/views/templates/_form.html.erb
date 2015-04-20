@@ -16,7 +16,7 @@
     <%= f.text_field :name, class: "form-control"  %>
   </div>
   <div class="form-group">
-    <%= f.label :using_type, 'This template is used for:' %><br>
+    <%= f.label :using_type, 'Choose Resource To Use Template:' %><br>
     <%= f.select :using_type, options_for_select([["Select One", ""], "Quote", "Contact"]), {}, { class: 'form-control' } %>
   </div>
   <div class="form-group">

@@ -2,16 +2,12 @@
   <%= javascript_include_tag "users" %>
 <% end %>
 
-<h1>User Profile</h1>
 <div class="row" id="user-profile">
   <%= form_for(@user, :html => { :class => 'form-inline' }) do |f| %>
     <div class="col-lg-3 col-md-4 col-sm-4">
       <div class="main-box clearfix">
         <h2><%= @user.fullname %></h2>
 
-        <div class="profile-status">
-          <i class="fa fa-check-circle"></i> Online
-        </div>
         <div class='avatar'>
           <%= image_tag @user.load_image(:avatar, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
 
@@ -23,25 +19,6 @@
         </div>
 
         <%= content_tag :div, @user.role.capitalize, class: 'profile-label' %>
-
-        <% if @user.role != 'viewer' %>
-          <div class="profile-stars">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-
-            <% if @user.role == 'admin' %>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-
-            <% elsif @user.role == 'manager' %>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star-o"></i>
-            <% end %>
-
-            <span><%= @user.role.capitalize %> User</span>
-          </div>
-        <% end %>
 
         <%= content_tag :div, "Member since: #{@user.created_at.strftime('%m %Y')}", class: 'profile-since' %>
 
@@ -67,12 +44,6 @@
           </ul>
         </div>
 
-        <div class="profile-message-btn center-block text-center">
-          <a href="#" class="btn btn-success">
-            <i class="fa fa-envelope"></i>
-            Send message
-          </a>
-        </div>
       </div>
     </div>
 
@@ -91,7 +62,7 @@
           <% end %>
         </div>
 
-        <h3><span>User info</span></h3>
+        <h3><span>User Details</span></h3>
 
         <div class="row profile-user-info">
           <div class="col-sm-8">
@@ -134,6 +105,7 @@
                 <%= link_to 'Connect to Google', user_omniauth_authorize_path(provider: 'google_oauth2') %>
               <% end %> 
             </div>
+
           </div>
         </div>
       </div>
