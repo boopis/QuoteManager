@@ -254,7 +254,6 @@ CREATE TABLE identities (
     provider character varying(255),
     uid character varying(255),
     social_name character varying(255),
-    url character varying(255),
     access_token character varying(255),
     refresh_token character varying(255),
     expires_at timestamp without time zone,
@@ -1408,4 +1407,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150413070918');
 INSERT INTO schema_migrations (version) VALUES ('20150415025721');
 
 INSERT INTO schema_migrations (version) VALUES ('20150415124053');
+
+INSERT INTO schema_migrations (version) VALUES ('20150421084204');
 

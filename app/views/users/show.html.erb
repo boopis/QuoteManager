@@ -100,7 +100,9 @@
                 <div class="profile-user-details-label">
                   Google account
                 </div>
-                <%= link_to @google_connected[0].social_name, @google_connected[0].url, :class => 'profile-user-details-value' %>
+                <div class="profile-user-details-value">
+                  <%= @google_connected[0].social_name %>
+                </div>
               <% else %>
                 <%= link_to 'Connect to Google', user_omniauth_authorize_path(provider: 'google_oauth2') %>
               <% end %> 
