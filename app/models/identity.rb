@@ -22,7 +22,6 @@ class Identity < ActiveRecord::Base
         uid: auth.uid, 
         provider: auth.provider, 
         social_name: auth['info']['email'], 
-        url: auth['info']['urls'].values[0], 
         access_token: auth['credentials']['token'],
         refresh_token: auth['credentials']['refresh_token'],
         expires_at: Time.at(auth['credentials']['expires_at'])
