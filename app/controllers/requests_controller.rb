@@ -48,7 +48,11 @@ class RequestsController < ApplicationController
 
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
-          format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
+          if form.redirect_link.present?
+            format.html { redirect_to form.redirect_link, notice: 'Request was successfully created' }
+          else
+            format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
+          end
           format.json { render json: { request: @request, message: 'Thank you for using our services!' }.to_json, status: :created }
 
           send_thank_you_message_to_customer(form, @request.contact)
