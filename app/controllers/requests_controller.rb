@@ -117,15 +117,33 @@ class RequestsController < ApplicationController
   end
 
   def send_thank_you_message_to_customer(form, contact)
-    Thread.new do
-      FormMailer.thank_customer(contact, form).deliver
+    # Choose to use GMail api or default email
+    identities = @current_user.identities.where(provider: 'google_oauth2')
+    if identities.count > 0
+      gmail_api = GmailAPI.new(identities[0].token)
+      msg = FormMailer.thank_customer(contact, form)
+      gmail_api.send_message(msg)
+    else
+      Thread.new do
+        FormMailer.thank_customer(contact, form).deliver
+      end
     end
   end
 
   def send_mail_to_form_creator(form, submitted_user)
-    Thread.new do
+    # Choose to use GMail api or default email
+    identities = @current_user.identities.where(provider: 'google_oauth2')
+    if identities.count > 0
+      gmail_api = GmailAPI.new(identities[0].token)
       form.emails.each do |e|
-        FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
+        msg = FormMailer.alert_to_form_creators(e['email'], submitted_user, form)
+        gmail_api.send_message(msg)
+      end
+    else
+      Thread.new do
+        form.emails.each do |e|
+          FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
+        end
       end
     end
   end
