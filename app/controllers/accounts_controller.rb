@@ -9,7 +9,6 @@ class AccountsController < ApplicationController
 
   def create
     @account = Account.new(account_params)
-    plan_id = params[:plan_id]
     respond_to do |format|
       if @account.save
         sign_in(@account.users[0])
@@ -33,11 +32,11 @@ class AccountsController < ApplicationController
     @account = current_account
     if @account
       redirect_to new_user_session_url
-   else
+    else
       redirect_to new_account_path, flash: { 
         :alert => 'Account is invalid. Create an account.' 
       }
-   end
+    end
   end
 
   def edit
@@ -80,6 +79,7 @@ private
       :company_name,
       :phone_number,
       :about,
+      :currency,
       address_attributes: [:address_line_1, :address_line_2, :city, :postal_code],
       :company_logo_attributes => [:image]
     )

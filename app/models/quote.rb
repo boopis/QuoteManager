@@ -45,6 +45,16 @@ class Quote < ActiveRecord::Base
     end
   end
 
+  def get_currency
+    if !currency.nil? 
+      currency
+    elsif current_account.currency.nil?
+      current_account.currency
+    else
+      ''
+    end
+  end
+
 protected
 
   def generate_token
