@@ -38,7 +38,7 @@
       <tbody>
         <% @quotes.each do |quote| %>
         <tr>
-          <td><%= quote.amount %></td>
+          <td><%= quote.amount.to_s + ' ' + quote.get_currency %></td>
           <td>
           <% if quote.options.present? %>
             <% quote.options.each do |id, option| %>
