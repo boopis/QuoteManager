@@ -38,7 +38,7 @@
       <tbody>
         <% @quotes.each do |quote| %>
         <tr>
-          <td><%= quote.amount %></td>
+          <td><%= quote.amount.to_s + ' ' + quote.get_currency %></td>
           <td>
           <% if quote.options.present? %>
             <% quote.options.each do |id, option| %>
@@ -54,8 +54,7 @@
             <% end %>
           </td>
           <td class="text-center">
-            <%= content_tag :strong, quote.note.try(:title) %>
-            <%= content_tag :span, quote.note.try(:content) %>
+            <%= content_tag :strong, quote.note.display %>
           </td>
           <td>
             <%= quote.expires_at.strftime("%b-%d-%Y") %><br>

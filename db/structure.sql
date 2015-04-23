@@ -57,7 +57,8 @@ CREATE TABLE accounts (
     storage_usage integer,
     plan_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    currency character varying(255)
 );
 
 
@@ -544,7 +545,8 @@ CREATE TABLE quotes (
     account_id integer,
     template_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    currency character varying(255)
 );
 
 
@@ -1317,4 +1319,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150415025721');
 INSERT INTO schema_migrations (version) VALUES ('20150415124053');
 
 INSERT INTO schema_migrations (version) VALUES ('20150421084204');
+
+INSERT INTO schema_migrations (version) VALUES ('20150423034020');
 

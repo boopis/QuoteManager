@@ -114,14 +114,20 @@ class QuotesController < ApplicationController
     quote = Quote.find(params[:quote_id])
     errors = find_invalid_email(params[:email]['addresses'].split(','))
     quote.email_sent = quote.email_sent + 1
-    tran = quote.transition_to!(:sent) if quote.current_state == 'draft'
+    quote.transition_to!(:sent) if quote.current_state == 'draft'
 
     respond_to do |format|
       if errors.nil? && quote.save 
-        send_quote_email(params[:email], quote)
+    
+        identities = @current_user.identities.where(provider: 'google_oauth2')
+        unless identities.count > 0 && identities[0].refresh_token.nil?
+          send_quote_email(params[:email], quote, identities)
 
-        format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
-        format.json { render json: params[:email], status: :ok }
+          format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
+          format.json { render json: params[:email], status: :ok }
+        else
+          format.html { redirect_to request.referrer, alert: "Unable to get Google refresh token. Please contact to supporter to fix this error." }
+        end
       else 
         format.html { redirect_to :back, alert: 'Invalid email address.' }
         format.json { render json: params[:email], status: 400 }
@@ -165,9 +171,8 @@ private
     end
   end
 
-  def send_quote_email(email, quote)
+  def send_quote_email(email, quote, identities)
     # Choose to use GMail api or default email
-    identities = @current_user.identities.where(provider: 'google_oauth2')
     if identities.count > 0
       gmail_api = GmailAPI.new(identities[0].token)
       email['addresses'].split(',').each do |address|
@@ -204,13 +209,14 @@ private
       :expires_at, 
       :template_id, 
       :request_id, 
+      :currency,
       :description, 
       :note_attributes => [:title, :content],
       options: [:description, :amount])
   end
 
   def token_validity
-    token = Quote.find_by_token(params[:token])
+    Quote.find_by_token(params[:token])
   end
 
   def check_token

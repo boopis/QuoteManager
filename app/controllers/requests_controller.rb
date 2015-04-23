@@ -48,19 +48,25 @@ class RequestsController < ApplicationController
 
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
+          
+          identities = @current_user.identities.where(provider: 'google_oauth2')
+          unless identities.count > 0 && identities[0].refresh_token.nil?
+            send_thank_you_message_to_customer(form, @request.contact, identities)
+            send_mail_to_form_creator(
+              form,  
+              req_fields.find{|k,v| v['type'] == 'email'}.last['request'],
+              identities
+            )
+          else
+            format.html { redirect_to request.referrer, alert: "Unable to get Google refresh token. Please contact to supporter to fix this error." }
+          end
+
           if form.redirect_link.present?
             format.html { redirect_to form.redirect_link, notice: 'Request was successfully created' }
           else
             format.html { redirect_to request.referrer, notice: 'Request was successfully created' }
           end
           format.json { render json: { request: @request, message: 'Thank you for using our services!' }.to_json, status: :created }
-
-          send_thank_you_message_to_customer(form, @request.contact)
-          send_mail_to_form_creator(
-            form,  
-            req_fields.find{|k,v| v['type'] == 'email'}.last['request']
-          )
-          
         else
           format.html { redirect_to request.referrer, alert: 'You need to enter all required fields' }
           format.json { render json: map_data[:errors], status: :unprocessable_entity }
@@ -116,16 +122,32 @@ class RequestsController < ApplicationController
     end    
   end
 
-  def send_thank_you_message_to_customer(form, contact)
-    Thread.new do
-      FormMailer.thank_customer(contact, form).deliver
+  def send_thank_you_message_to_customer(form, contact, identities)
+    # Choose to use GMail api or default email
+    if identities.count > 0
+      gmail_api = GmailAPI.new(identities[0].token)
+      msg = FormMailer.thank_customer(contact, form)
+      gmail_api.send_message(msg)
+    else
+      Thread.new do
+        FormMailer.thank_customer(contact, form).deliver
+      end
     end
   end
 
   def send_mail_to_form_creator(form, submitted_user)
-    Thread.new do
+    # Choose to use GMail api or default email
+    if identities.count > 0
+      gmail_api = GmailAPI.new(identities[0].token)
       form.emails.each do |e|
-        FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
+        msg = FormMailer.alert_to_form_creators(e['email'], submitted_user, form)
+        gmail_api.send_message(msg)
+      end
+    else
+      Thread.new do
+        form.emails.each do |e|
+          FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
+        end
       end
     end
   end
