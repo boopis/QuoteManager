@@ -20,9 +20,9 @@ draw = (nodes, links) ->
   change data
   return
 
-window.onresize = ->
-  window.location.reload()
-  return
+#window.onresize = ->
+  #window.location.reload()
+  #return
 
 #<!--DATA INIT-->
 data = 
