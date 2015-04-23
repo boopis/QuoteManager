@@ -204,13 +204,14 @@ private
       :expires_at, 
       :template_id, 
       :request_id, 
+      :currency,
       :description, 
       :note_attributes => [:title, :content],
       options: [:description, :amount])
   end
 
   def token_validity
-    token = Quote.find_by_token(params[:token])
+    Quote.find_by_token(params[:token])
   end
 
   def check_token
