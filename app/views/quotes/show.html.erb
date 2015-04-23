@@ -53,8 +53,7 @@
       <p>
         <strong>Note:</strong>
         <% unless @quote.note.nil? %>
-          <%= content_tag :strong, @quote.note.try(:title) + '- ' %>
-          <%= content_tag :span, @quote.note.try(:content) %>
+          <%= content_tag :span, @quote.note.display %>
         <% end %>
       </p>
 

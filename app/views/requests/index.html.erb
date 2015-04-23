@@ -149,8 +149,7 @@
               <% end %>
               </td>
               <td class="text-center">
-                <%= content_tag :strong, request.note.try(:title) %>
-                <%= content_tag :span, request.note.try(:content) %>
+                <%= content_tag :span, request.note.display %>
               </td>
               <td><%= request.form.name if request.form.present? %></td>
               <td><%= request.created_at.strftime("%b-%d-%Y")  %></td>
