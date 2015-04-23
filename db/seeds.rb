@@ -46,7 +46,6 @@ form = Form.new(
   styles: "", 
   scripts: "", 
   emails: [{"email"=>"daveedchun@gmail.com "}, {"email"=>"sir1001dem@gmail.com"}], 
-  ecommerce_type: "ZenCart", 
   thank_msg: "p>Contact form in landing page has submitted</p>\r\n<p>User {{ customer.email }} has sent a message in contact form (landing page)</p>"
 )
 
