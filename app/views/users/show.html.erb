@@ -94,7 +94,12 @@
               <%= f.text_field :lastname, :class => 'form-control hidden' %>
               <%= content_tag :div, @user.lastname || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
             </div>
-
+            <div class="profile-user-details clearfix">
+              <div class="profile-user-details-label">
+                Currency 
+              </div>
+              <%= content_tag :div, @user.account.currency || '&nbsp;'.html_safe, :class => 'profile-user-details-value' %>
+            </div>
             <div class="profile-user-details clearfix">
               <% if @google_connected.count > 0 %>
                 <div class="profile-user-details-label">

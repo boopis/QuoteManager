@@ -61,8 +61,7 @@
             <% end %>
           </td>
           <td class="text-center">
-            <%= content_tag :strong, contact.note.try(:title) %>
-            <%= content_tag :span, contact.note.try(:content) %>
+            <%= content_tag :span, contact.note.display %>
           </td>
           <td class="text-center"><%= contact.requests.count %></td>
           <td class="text-center">
