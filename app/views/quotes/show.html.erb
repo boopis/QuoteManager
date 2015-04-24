@@ -11,10 +11,19 @@
       <%= @quote.amount %>
       </p>
 
+      <strong>Currency:</strong>
+      <%= @quote.get_currency %>
+      </p>
+
       <p>
       <strong>Description:</strong>
       <%= @quote.description %>
       </p>
+
+      <p>
+      <strong>View Quote:</strong>
+      <%= link_to "Quote", public_quote_path(@quote, :token => @quote.token)  %>
+      </p> 
 
       <p>
       <strong>Quote template:</strong>
