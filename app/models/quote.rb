@@ -48,8 +48,6 @@ class Quote < ActiveRecord::Base
   def get_currency
     if !currency.nil? 
       currency
-    elsif current_account.currency.nil?
-      current_account.currency
     else
       ''
     end

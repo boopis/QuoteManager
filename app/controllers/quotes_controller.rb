@@ -191,7 +191,9 @@ private
   def parse_request
     @quote = Quote.find(params[:id])
     @company = @quote.account
-    @contact = @quote.request.contact
+    if @quote.request.present?
+      @contact = @quote.request.contact
+    end
     if @quote.options.present?
       @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
     else
