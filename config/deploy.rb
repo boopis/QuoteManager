@@ -78,7 +78,7 @@ namespace :deploy do
       execute "sudo rm /etc/nginx/sites-enabled/default"
       execute "sudo ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
       execute "ln -nfs #{shared_path}/config/application.yml #{release_path}/config/application.yml"
-      execute "sudo service nginx start"
+      execute "sudo /etc/init.d/nginx restart"
     end
   end
 
