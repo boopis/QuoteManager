@@ -111,7 +111,7 @@
           <%= submit_tag 'Send Quote', class: 'btn btn-success', id: 'send-quotation', :'data-id' => @quote.id %>
           <%= button_tag 'Insert Quote Link To Message', 
             id: 'insert-quote-link', class: 'btn btn-primary', 
-            data: {quote: public_quote_url(@quote, :token => @quote.token)} %>
+            data: {quote: url_for(controller: 'quotes', action: 'public', token: @quote.token, only_path: false)} %>
           <% unless @quote.request.try(:contact).nil? %>
             <%= button_tag 'Add Email Address From Your Request', id: 'request-email', 
               class: 'btn btn-primary', :'data-request' => @quote.request.contact.email %>

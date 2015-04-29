@@ -46,6 +46,8 @@ $quoteEmail = $ '#send-quote'
 tinymce.init
   selector: '#send-quote'
   menubar : false
+  relative_urls: false
+  remove_script_host: false
   plugins: [
     'visualblocks code fullscreen'
     'contextmenu paste'
