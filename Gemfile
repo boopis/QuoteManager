@@ -51,6 +51,7 @@ gem 'puma'
 
 group :development do
   gem 'capistrano',         require: false
+  gem 'sshkit-sudo'
   gem 'capistrano-rvm',     require: false
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
