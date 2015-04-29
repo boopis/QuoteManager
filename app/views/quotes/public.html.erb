@@ -28,11 +28,13 @@
                         <i class="fa fa-home"></i> From
                       </div>
                       <div class="invoice-company">
-                        <h4><%= @quote.request.contact.name.try(:capitalize) %></h4>
-                        <p>
-                        <%= @quote.request.contact.phone %><br>
-                        <%= @quote.request.contact.email %><br>
-                        </p>
+                        <% if @quote.request.present? %>
+                          <h4><%= @quote.request.contact.name.try(:capitalize) %></h4>
+                          <p>
+                          <%= @quote.request.contact.phone %><br>
+                          <%= @quote.request.contact.email %><br>
+                          </p>
+                        <% end %>
                       </div>
                     </div>
                     <div class="col-sm-4 invoice-box">
@@ -95,15 +97,13 @@
                         Subtotal
                       </div>
                       <div class="col-sm-3 col-md-2 col-xs-6 text-right invoice-box-total-value">
-                        $ <%= @total %>
-                    </div>
+                        <%= @quote.get_currency %> <%= @total %>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-9 col-md-10 col-xs-6 text-right invoice-box-total-label">
-                        VAT (10%)
                       </div>
                       <div class="col-sm-3 col-md-2 col-xs-6 text-right invoice-box-total-value">
-                        $ <%= (@total * 0.1).round(2) %>
                     </div>
                     </div>
                     <div class="row grand-total">
@@ -111,7 +111,7 @@
                         Grand total
                       </div>
                       <div class="col-sm-3 col-md-2 col-xs-6 text-right invoice-box-total-value">
-                        $ <%= (@total * 1.1).round(2) %>
+                        <%= @quote.get_currency %> <%= (@total * 1.1).round(2) %>
                     </div>
                     </div>
                   </div>
@@ -120,7 +120,7 @@
                     <div class="col-md-3 col-sm-6 col-xs-12">
                       <div class="invoice-summary-item">
                         <span>Account No.</span>
-                        <%= content_tag :div, @quote.request.contact.id %>
+                        <%= content_tag :div, @quote.request.present? ? @quote.request.contact.id : "N/A"  %>
                       </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
@@ -138,7 +138,7 @@
                     <div class="col-md-3 col-sm-6 col-xs-12">
                       <div class="invoice-summary-item">
                         <span>Total</span>
-                        <%= content_tag :div, '$ ' + (@total * 1.1).round(2).to_s %>
+                        <%= content_tag :div, @quote.get_currency + ' ' + (@total * 1.1).round(2).to_s %>
                       </div>
                     </div>
                   </div>

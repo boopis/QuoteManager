@@ -46,6 +46,8 @@ $quoteEmail = $ '#send-quote'
 tinymce.init
   selector: '#send-quote'
   menubar : false
+  relative_urls: false
+  remove_script_host: false
   plugins: [
     'visualblocks code fullscreen'
     'contextmenu paste'
@@ -61,7 +63,7 @@ tinymce.init
   toolbar: 'styleselect | bold italic | bullist numlist outdent indent | link image | fullscreen | code'
 
 $('#insert-quote-link').click (e) -> 
-  publicQuoteLink = 'http://quotemanager.co' + $(this).data('quote')
+  publicQuoteLink =  $(this).data('quote')
   tinyMCE.activeEditor.dom.add tinyMCE.activeEditor.getBody(), 'a', { href: publicQuoteLink }, 'link to quote'
   return false
 

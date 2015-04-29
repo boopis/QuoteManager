@@ -9,12 +9,7 @@
   </div>
   <div class="form-group col-md-5 col-sm-5">
     <%= f.label :amount, "Item Amount" %>
-    <div class="input-group">
-      <span class="input-group-addon">$</span>
-      <%= f.text_field :amount, class: "form-control", placeholder: "Item Amount" %>
-      <span class="input-group-addon">.00</span>
-    </div>
-    <span class="help-block">In US Dollars</span>
+    <%= f.text_field :amount, class: "form-control", placeholder: "Item Amount" %>
   </div>
   <div class="col-md-1 col-sm-1 height-full">
     <div class="top-31">

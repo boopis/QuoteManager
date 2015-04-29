@@ -123,10 +123,10 @@ class QuotesController < ApplicationController
         unless identities.count > 0 && identities[0].refresh_token.nil?
           send_quote_email(params[:email], quote, identities)
 
-          format.html { redirect_to :back, notice: 'Your email is being sent to customer.' }
+          format.html { redirect_to :back, notice: "Your email is on it's way!." }
           format.json { render json: params[:email], status: :ok }
         else
-          format.html { redirect_to request.referrer, alert: "Unable to get Google refresh token. Please contact to supporter to fix this error." }
+          format.html { redirect_to request.referrer, alert: "Looks like permissions have changed. Unlink your account and revoke access to this application and restart the syncing process." }
         end
       else 
         format.html { redirect_to :back, alert: 'Invalid email address.' }
@@ -174,7 +174,7 @@ private
   def send_quote_email(email, quote, identities)
     # Choose to use GMail api or default email
     if identities.count > 0
-      gmail_api = GmailAPI.new(identities[0].token)
+      gmail_api = GmailAPI.new(identities[0].fresh_token)
       email['addresses'].split(',').each do |address|
         msg = QuoteMailer.send_quote(address, quote, email['content'], identities[0].social_name)
         gmail_api.send_message(msg)
@@ -191,7 +191,9 @@ private
   def parse_request
     @quote = Quote.find(params[:id])
     @company = @quote.account
-    @contact = @quote.request.contact
+    if @quote.request.present?
+      @contact = @quote.request.contact
+    end
     if @quote.options.present?
       @total = @quote.amount + @quote.options.map { |id, op| op['amount'].to_f }.inject(:+) 
     else
