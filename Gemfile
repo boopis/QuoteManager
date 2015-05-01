@@ -47,6 +47,8 @@ gem 'whenever', require: false
 
 gem 'google-api-client', :require => 'google/api_client'
 
+gem 'newrelic_rpm'
+
 gem 'puma'
 
 group :development do
