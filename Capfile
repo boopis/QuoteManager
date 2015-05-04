@@ -7,6 +7,7 @@ require 'capistrano/bundler'
 require 'capistrano/rvm'
 require 'capistrano/puma'
 require "whenever/capistrano"
+require 'sshkit/sudo'
 
 Rake::Task[:production].invoke
 invoke :production

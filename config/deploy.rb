@@ -77,8 +77,14 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 1 do
       execute "sudo rm /etc/nginx/sites-enabled/default"
       execute "sudo ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+      execute "sudo /etc/init.d/nginx restart"
+    end
+  end
+  
+  desc 'Copy application.yml file'
+  task :copy_config_file do
+    on roles(:app), in: :sequence, wait: 1 do
       execute "ln -nfs #{shared_path}/config/application.yml #{release_path}/config/application.yml"
-      execute "sudo service nginx start"
     end
   end
 
@@ -98,6 +104,7 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
+  before :restart,      :copy_config_file
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
