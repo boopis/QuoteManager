@@ -158,6 +158,9 @@ common: &default_settings
     # not be captured.  Relevant only when `explain_enabled` is true.
     # explain_threshold: 0.5
 
+  # Puma config
+  restart_thread_in_children: true
+
   # Error collector captures information about uncaught exceptions and
   # sends them to New Relic for viewing
   error_collector:
