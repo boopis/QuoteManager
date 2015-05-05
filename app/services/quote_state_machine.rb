@@ -10,5 +10,6 @@ class QuoteStateMachine
 
   # Define transition rules
   transition from: :draft, to: :sent
+  transition from: :draft, to: [:accepted, :declined]
   transition from: :sent, to: [:accepted, :declined]
 end
