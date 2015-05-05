@@ -80,13 +80,15 @@
                         <td class="text-center">Base Amount</td>
                         <td class="text-center"><%= @quote.amount %></td>
                       </tr>
-                      <% @quote.options.each_with_index do |(id, option), index| %>
-                        <tr>
-                        <%= content_tag :td, index + 2, :class => 'text-center' %>
-                        <%= content_tag :td, option['description'], :class => 'text-center' %>
-                        <%= content_tag :td, option['amount'].to_f, :class => 'text-center' %>
-                      </tr>
-                    <% end %>
+                      <% unless @quote.options.nil? %>
+                        <% @quote.options.each_with_index do |(id, option), index| %>
+                          <tr>
+                            <%= content_tag :td, index + 2, :class => 'text-center' %>
+                            <%= content_tag :td, option['description'], :class => 'text-center' %>
+                            <%= content_tag :td, option['amount'].to_f, :class => 'text-center' %>
+                          </tr>
+                        <% end %>
+                      <% end %>
                       </tbody>
                     </table>
                   </div>
