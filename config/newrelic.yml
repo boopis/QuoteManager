@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: ENV['NEW_RELIC_KEY']
+  license_key: 5f34a02f6fb88633c8b596072606d303abf296ab
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -64,16 +64,16 @@ common: &default_settings
   # The newrelic agent generates its own log file to keep its logging
   # information separate from that of your application. Specify its
   # log level here.
-  log_level: info
+  log_level: debug
 
   # Optionally set the path to the log file This is expanded from the
   # root directory (may be relative or absolute, e.g. 'log/' or
   # '/var/log/') The agent will attempt to create this directory if it
   # does not exist.
-  # log_file_path: 'log'
+  log_file_path: 'log'
 
   # Optionally set the name of the log file, defaults to 'newrelic_agent.log'
-  # log_file_name: 'newrelic_agent.log'
+  log_file_name: 'newrelic_agent.log'
 
   # The newrelic agent communicates with the service via https by default.  This
   # prevents eavesdropping on the performance metrics transmitted by the agent.
@@ -158,6 +158,9 @@ common: &default_settings
     # not be captured.  Relevant only when `explain_enabled` is true.
     # explain_threshold: 0.5
 
+  # Puma config
+  restart_thread_in_children: true
+
   # Error collector captures information about uncaught exceptions and
   # sends them to New Relic for viewing
   error_collector:
@@ -191,7 +194,7 @@ common: &default_settings
 development:
   <<: *default_settings
   # Turn on communication to New Relic service in development mode
-  monitor_mode: true
+  monitor_mode: false
   app_name: Quote Manager (Development)
 
   # Rails Only - when running in Developer Mode, the New Relic Agent will
@@ -199,7 +202,7 @@ development:
   # executed since starting the mongrel.
   # NOTE: There is substantial overhead when running in developer mode.
   # Do not use for production or load testing.
-  developer_mode: true
+  developer_mode: false
 
 test:
   <<: *default_settings
@@ -220,5 +223,5 @@ production:
 # here.  By default, the staging environment has the agent turned on.
 staging:
   <<: *default_settings
-  monitor_mode: true
+  monitor_mode: false
   app_name: Quote manager (Staging)
