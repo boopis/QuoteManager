@@ -135,7 +135,7 @@ class RequestsController < ApplicationController
     end
   end
 
-  def send_mail_to_form_creator(form, submitted_user)
+  def send_mail_to_form_creator(form, submitted_user, identities)
     # Choose to use GMail api or default email
     if identities.count > 0
       gmail_api = GmailAPI.new(identities[0].token)
