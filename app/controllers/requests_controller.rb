@@ -49,7 +49,7 @@ class RequestsController < ApplicationController
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
           
-          identities = @current_user.identities.where(provider: 'google_oauth2')
+          identities = Identity.by_account(form.account_id)
           unless identities.count > 0 && identities[0].refresh_token.nil?
             send_thank_you_message_to_customer(form, @request.contact, identities)
             send_mail_to_form_creator(
@@ -196,7 +196,7 @@ class RequestsController < ApplicationController
   end
 
   def store_file(params, account_id)
-    errors, files = {}, []
+    errors = {}
 
     params['fields'].each do |k, v| 
       if v['type'] == 'file'
