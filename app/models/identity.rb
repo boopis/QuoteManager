@@ -6,6 +6,12 @@ class Identity < ActiveRecord::Base
   validates_presence_of :uid, :provider
   validates_uniqueness_of :uid, :scope => :provider
 
+  scope :by_account, ->(account_id) {
+    joins(:user)
+    .where('users.account_id' => account_id)
+    .where(provider: 'google_oauth2')
+  }
+
   def to_params
     {
       'refresh_token' => refresh_token,
