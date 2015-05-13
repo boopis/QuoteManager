@@ -98,9 +98,9 @@ class QuotesController < ApplicationController
   def decline
     tran = @quote.transition_to!(:declined)
     if tran
-      redirect_to :back, :notice => "You have declined this quote"
+      redirect_to :back, :alert => "You have declined this quote"
     else
-      redirect_to :back, :notice => "You can't decline this quote at this time. Please try again!"
+      redirect_to :back, :alert => "You can't decline this quote at this time. Please try again!"
     end
   end
 
