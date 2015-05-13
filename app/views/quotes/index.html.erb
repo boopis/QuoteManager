@@ -68,9 +68,9 @@
             <% end %>
           </td>
           <td>
-            <% if quote.signature.nil? %>
+            <% if quote.signature.nil? && quote.current_state != 'declined' %>
               <label>Not signed yet!</label>
-            <% else %>
+            <% elsif quote.current_state == 'accepted' %>
               <%= image_tag "data:image/svg+xml;base64,#{quote.signature}" %> 
             <% end %>
           </td>
