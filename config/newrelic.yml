@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: ENV['NEW_RELIC_KEY']
+  license_key: 38142bd518599604f3660414b4410f3f801f5bc6
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -70,10 +70,10 @@ common: &default_settings
   # root directory (may be relative or absolute, e.g. 'log/' or
   # '/var/log/') The agent will attempt to create this directory if it
   # does not exist.
-  # log_file_path: 'log'
+  log_file_path: 'log'
 
   # Optionally set the name of the log file, defaults to 'newrelic_agent.log'
-  # log_file_name: 'newrelic_agent.log'
+  log_file_name: 'newrelic_agent.log'
 
   # The newrelic agent communicates with the service via https by default.  This
   # prevents eavesdropping on the performance metrics transmitted by the agent.
@@ -199,7 +199,7 @@ development:
   # executed since starting the mongrel.
   # NOTE: There is substantial overhead when running in developer mode.
   # Do not use for production or load testing.
-  developer_mode: true
+  developer_mode: false
 
 test:
   <<: *default_settings
@@ -214,6 +214,7 @@ test:
 production:
   <<: *default_settings
   monitor_mode: true
+  app_name: Quote Manager
 
 # Many applications have a staging environment which behaves
 # identically to production. Support for that environment is provided
