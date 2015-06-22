@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   private
 
   def system_account
-    User.find_by_email('system@qm.com')
+    User.find_by_email('phuong@boopis.com')
   end
 
   def current_account
