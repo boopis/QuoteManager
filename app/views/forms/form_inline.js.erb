@@ -327,6 +327,7 @@ function buildForm(url, form) {
 
   var al = document.createElement('img');
   al.id = 'qm-ajax-loader';
+  // Todo: shopify dependency
   al.src = '//cdn.shopify.com/s/global/lightbox/v204/loading.gif';
   al.style.position = 'fixed';
   al.style.left = '50%';
@@ -602,6 +603,7 @@ var timeToComplete = 0;
 var json_product = grabProductOption(); 
 
 // Replace add to cart text and if
+// Todo: shopify
 document.getElementById('product-add-wrap').innerHTML='<div id="product-add-medallion" class=""></div><input type="submit" name="quote" id="quote" value="Quote" class="smooth">';  
 
 // Form Trigger methods 
