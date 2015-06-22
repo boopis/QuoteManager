@@ -9,6 +9,12 @@ class AccountsController < ApplicationController
 
   def create
     @account = Account.new(account_params)
+    if params[:plan_id] == '4'
+      plan = Plan.find(params[:plan_id])
+      @account.plan = plan
+      @account.users[0].role = 'admin'
+    end
+
     respond_to do |format|
       if @account.save
         sign_in(@account.users[0])
@@ -17,7 +23,11 @@ class AccountsController < ApplicationController
         Mailboxer::Notification.notify_all(@account.users, 'Greeting Message', 'Welcome to Quote Manager system!', send_mail = false)
 
         if params[:plan_id].present?
-          format.html { redirect_to new_payment_url(plan_id: params[:plan_id]), notice: 'Please add payment details to begin trial.' }
+          if params[:plan_id] != '4'
+            format.html { redirect_to new_payment_url(plan_id: params[:plan_id]), notice: 'Please add payment details to begin trial.' }
+          else
+            format.html { redirect_to root_url, notice: "You've created your account successfully!" }
+          end
         else
           format.html { redirect_to new_payment_url, notice: 'Account was successfully created. Please choose a plan.' }          
         end
