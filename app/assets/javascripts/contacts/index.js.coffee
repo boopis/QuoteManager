@@ -1,4 +1,5 @@
 #= require application
+#= require jquery_ujs
 #= require notes
 
 socialType = $('.social-type')
