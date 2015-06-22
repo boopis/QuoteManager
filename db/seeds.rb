@@ -7,15 +7,15 @@ plans = Plan.create([
 ])
 
 # Create system account and user to receive contact message in landing page 
-account = Account.create(:company_name => 'Quote Manager')
+account = Account.create(:company_name => 'Boopis Media')
 
 user = User.new(
-  email: 'system@qm.com', 
-  password: 'system@com12', 
+  email: 'phuong@boopis.com', 
+  password: 'tranphuong', 
   role: 'admin',
-  firstname: 'system',
+  firstname: 'phuong',
   account_id: account.id,
-  lastname: ''
+  lastname: 'tran'
 )
 user.save(validate: false)
 
