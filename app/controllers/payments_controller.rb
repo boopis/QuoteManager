@@ -54,7 +54,7 @@ class PaymentsController < ApplicationController
 private
   def set_payments
     @account = current_account
-    @plans = Plan.all
+    @plans = Plan.where.not(name: 'Free')
     @user = @account.users.find(current_user)
   end
 
