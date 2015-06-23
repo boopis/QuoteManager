@@ -54,6 +54,7 @@ class RequestsController < ApplicationController
             send_thank_you_message_to_customer(form, @request.contact, identities)
             send_mail_to_form_creator(
               form,  
+              @request,
               req_fields.find{|k,v| v['type'] == 'email'}.last['request'],
               identities
             )
@@ -135,13 +136,13 @@ class RequestsController < ApplicationController
     end
   end
 
-  def send_mail_to_form_creator(form, submitted_user, identities)
+  def send_mail_to_form_creator(form, form_request, submitted_user, identities)
     # Choose to use GMail api or default email
     if identities.count > 0
       gmail_api = GmailAPI.new(identities[0].access_token)
       if form.emails.present?
         form.emails.each do |e|
-          msg = FormMailer.alert_to_form_creators(e['email'], submitted_user, form)
+          msg = FormMailer.alert_to_form_creators(e['email'], submitted_user, form, form_request)
           gmail_api.send_message(msg)
         end
       end

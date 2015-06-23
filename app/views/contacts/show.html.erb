@@ -38,6 +38,12 @@
             Edit Contact
           <% end %>
         <% end %>
+        <% if can? :delete, @contact %>
+          <%= link_to @contact, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger edit-profile delete-profile" do %>
+            <i class="fa fa-trash-o fa-lg"></i> 
+            Delete Contact
+          <% end %>
+        <% end %>
       </div>
 
       <%= content_tag :p, @contact.description %>
