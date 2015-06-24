@@ -7,7 +7,7 @@ class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :destroy]
 
   skip_before_filter :verify_authenticity_token
- access_token before_filter  :add_origin_header
+  before_filter  :add_origin_header
   load_and_authorize_resource param_method: :request_params
 
   # GET /requests
