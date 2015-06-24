@@ -178,7 +178,7 @@ ul li, ol li {
           <td>
             <h3>Analytics data</h3>
             <%= content_tag :p, "User OS: #{@request.os}" %>
-            <%= content_tag :p, "Form was submitted from website: #{@request.os}" %>
+            <%= content_tag :p, "Form was submitted from website: #{@request.referrer}" %>
             <%= content_tag :p, "User IP: #{@request.remote_ip}" %>
             <%= content_tag :p, "User language: #{@request.language}" %>
             <%= content_tag :p, "User browser: #{@request.browser}" %>
