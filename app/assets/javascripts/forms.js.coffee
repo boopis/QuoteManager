@@ -280,6 +280,7 @@ $("#js input:radio").change (e) ->
     triggerMethod.addClass 'hidden'
     input.val $(this).val()
   return
+$("#js input:radio").change()
 $('.form-field-list').sortable
   update: (event, ui) ->
     reOrderFormFields()
