@@ -13,16 +13,18 @@ module LayoutHelper
     capture do
       flash.each do |name, msg|
 
-        name = name.to_sym
-        name = :success if name == :notice
-        name = :error   if name == :alert
-        name = :danger   if name == :error
+        if msg != ''
+          name = name.to_sym
+          name = :success if name == :notice
+          name = :error   if name == :alert
+          name = :danger   if name == :error
 
-        concat content_tag(:div, 
-                           content_tag(:button, raw("&times;"), class: "close", data: {dismiss: "alert"}) +
-                           content_tag(:i, "", class: "fa fa-#{name == :success ? "check-circle" : "warning"} fa-fw fa-lg") +
-                           msg.html_safe, 
-                           class: "alert alert-#{name} fade in")
+          concat content_tag(:div, 
+                            content_tag(:button, raw("&times;"), class: "close", data: {dismiss: "alert"}) +
+                            content_tag(:i, "", class: "fa fa-#{name == :success ? "check-circle" : "warning"} fa-fw fa-lg") +
+                            msg.html_safe, 
+                            class: "alert alert-#{name} fade in")
+        end
       end
     end
   end
