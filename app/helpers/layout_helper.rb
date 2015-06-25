@@ -13,7 +13,7 @@ module LayoutHelper
     capture do
       flash.each do |name, msg|
 
-        if msg != ''
+        if msg != '' && name.to_s != 'timedout'
           name = name.to_sym
           name = :success if name == :notice
           name = :error   if name == :alert
