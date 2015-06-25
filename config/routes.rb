@@ -5,6 +5,10 @@ QuoteManager::Application.routes.draw do
   end
   root 'welcome#index'
 
+  namespace :admin do
+    get '/', action: :index
+  end
+
   resources :forms
   get '/form-inline/:id' => 'forms#form_inline'
   

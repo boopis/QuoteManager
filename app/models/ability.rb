@@ -6,8 +6,11 @@ class Ability
 
     user ||= User.new
 
-    if user.role? 'admin'
+    if user.role? 'super'
       can :manage, :all
+    elsif user.role? 'admin'
+      can :manage, [Form, Request, Quote, Template, Account, Plan, Contact]
+      can :manage, User, account_id: user.account_id
     elsif user.role? 'manager'
       can :manage, [Form, Request, Quote, Template]
       can [:show, :update], User, :id => user.id 

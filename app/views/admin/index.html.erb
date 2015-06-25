@@ -1,0 +1,52 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "admin/index" %>
+<% end %>
+<div class="main-box clearfix">
+  <div class="clearfix">
+    <h2 class="pull-left">Admin</h2>
+
+    <div class="filter-block pull-right">
+      <div class="form-group pull-left">
+        <input type="text" class="form-control" placeholder="Search...">
+        <i class="fa fa-search search-icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center"><span>ID</span></th>
+          <th class="text-center"><span>Company Name</span></th>
+          <th class="text-center"><span>Plan</span></th>
+          <th class="text-center"><span>Storage Usage</span></th>
+          <th class="text-center"><span>Users</span></th>
+          <th class="text-center"><span>Forms</span></th>
+          <th class="text-center"><span>Requests</span></th>
+          <th class="text-center"><span>Quotes</span></th>
+          <th class="text-center"><span>Templates</span></th>
+          <th class="text-center"><span>Created At</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @accounts.each do |a| %>
+          <tr>
+            <%= content_tag :td, a.id, class: 'text-center' %>
+            <%= content_tag :td, a.company_name, class: 'text-center' %>
+            <%= content_tag :td, a.plan.name, class: 'text-center' %>
+            <%= content_tag :td, a.storage_usage, class: 'text-center' %>
+            <%= content_tag :td, a.users.size, class: 'text-center' %>
+            <%= content_tag :td, a.forms.size, class: 'text-center' %>
+            <%= content_tag :td, a.requests.size, class: 'text-center' %>
+            <%= content_tag :td, a.quotes.size, class: 'text-center' %>
+            <%= content_tag :td, a.templates.size, class: 'text-center' %>
+            <%= content_tag :td, a.created_at.strftime('%Y/%m/%d %I:%M %p'), class: 'text-center' %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= paginate @accounts, :pagination_class => "pull-right"%>
+</div>
