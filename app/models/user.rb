@@ -75,4 +75,12 @@ class User < ActiveRecord::Base
 
     !signed_in_resource.nil? ? signed_in_resource : identity.user
   end
+
+  def active_for_authentication?
+    super && account_active?
+  end
+
+  def account_active?
+    self.active 
+  end
 end

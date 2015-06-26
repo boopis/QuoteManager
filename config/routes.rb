@@ -7,6 +7,8 @@ QuoteManager::Application.routes.draw do
 
   namespace :admin do
     get '/', action: :index
+    post '/deactive/:account_id', action: :deactive, as: :deactive
+    post '/active/:account_id', action: :active, as: :active
   end
 
   resources :forms
