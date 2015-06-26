@@ -58,13 +58,13 @@ class AccountsController < ApplicationController
       if current_account.update(edit_params)
         format.html { 
           redirect_to(
-            edit_account_path(current_account), 
+            :back,
             notice: 'User profile was successfully updated.' 
           )
         }
         format.json { render :edit, status: :ok, location: current_account }
       else
-        format.html { render :edit, alert: 'User profile was not successfully updated.' }
+        format.html { redirect_to :back, alert: 'User profile was not successfully updated.' }
         format.json { render json: current_account.errors, status: :unprocessable_entity }
       end
     end
