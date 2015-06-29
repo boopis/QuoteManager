@@ -1,0 +1,152 @@
+<% content_for :page_script do %>
+  <%= javascript_include_tag "admin/index" %>
+<% end %>
+<div class="main-box clearfix">
+  <div class="clearfix">
+    <h2 class="pull-left">Admin</h2>
+
+    <div class="filter-block pull-right">
+      <div class="form-group pull-left">
+        <input type="text" class="form-control" placeholder="Search...">
+        <i class="fa fa-search search-icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center"><span>ID</span></th>
+          <th class="text-center"><span>Company Name</span></th>
+          <th class="text-center"><span>Plan</span></th>
+          <th class="text-center"><span>Storage Usage</span></th>
+          <th class="text-center"><span>Users</span></th>
+          <th class="text-center"><span>Forms</span></th>
+          <th class="text-center"><span>Requests</span></th>
+          <th class="text-center"><span>Quotes</span></th>
+          <th class="text-center"><span>Templates</span></th>
+          <th class="text-center"><span>Created At</span></th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @accounts.each do |a| %>
+          <tr class="<%= a.actived? ? '' : 'danger' %>">
+            <%= content_tag :td, class: 'text-center' do %>
+              <%= link_to a.id, "#more#{a.id}", class: 'more-info', role: "button", data: { toggle: "collapse"}, :'aria-expanded' => "false", :'aria-controls' => "more#{a.id}" %>
+            <% end %>
+            <%= content_tag :td, a.company_name, class: 'text-center' %>
+            <%= content_tag :td, a.plan.name, class: 'text-center' %>
+            <%= content_tag :td, "#{a.storage_usage} / #{a.plan.storage}", class: 'text-center' %>
+            <%= content_tag :td, "#{a.users.size} / #{a.plan.users}", class: 'text-center' %>
+            <%= content_tag :td, "#{a.forms.size} / #{a.plan.forms}", class: 'text-center' %>
+            <%= content_tag :td, "#{a.requests.size} / #{a.plan.requests}", class: 'text-center' %>
+            <%= content_tag :td, a.quotes.size, class: 'text-center' %>
+            <%= content_tag :td, a.templates.size, class: 'text-center' %>
+            <%= content_tag :td, a.created_at.strftime('%Y/%m/%d %I:%M %p'), class: 'text-center' %>
+            <td>
+              <% if a.actived? %>
+                <%= link_to admin_deactive_path(a.id), method: :post, title: "Deactive", data: { confirm: 'This account will be deactived. Are you sure?' }, class: "table-link danger" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-eraser fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>                
+              <% else %>
+                <%= link_to admin_active_path(a.id), method: :post, title: "Re-active", data: { confirm: 'This account will be actived again. Are you sure?' }, class: "table-link" do %>
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
+                  </span>
+                <% end %>                
+              <% end %>                
+              <%= link_to "#more#{a.id}", class: 'more-info', role: "button", data: { toggle: "collapse"}, :'aria-expanded' => "false", :'aria-controls' => "more#{a.id}" do %>
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
+                </span>
+              <% end %>                
+            </td>
+          </tr>
+          <tr class="collapse" id="<%= "more#{a.id}" %>">
+            
+            <td colspan='11'>
+              <div class="profile-user-details clearfix">
+                <p><b>Company Information:</b></p>
+                
+                <%= simple_form_for a do |f| %>
+                  <div class='col-sm-3'>
+                    <div class="form-group">
+                      <%= f.label 'Company logo: ' %>
+                      <%= image_tag current_user.load_image(:company_logo, 'no-avatar.jpg'), class: "profile-img img-responsive center-block", size: "169" %>
+                      <%= f.fields_for :company_logo do |fcl| %>
+                        <%= fcl.file_field :image, :class => 'form-control' %>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class='col-sm-6'>
+                    <div class="form-group">
+                      <%= f.label 'Company name: ' %>
+                      <%= f.input_field :company_name, class: 'form-control', placeholder: 'Company Name' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label 'Phone number: ' %>
+                      <%= f.number_field :phone_number, class: 'form-control', placeholder: 'Your phone number' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label 'Currency: ' %>
+                      <%= f.select :currency, currency_list, { prompt: 'Select Default Currency' }, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.fields_for :address do |fad| %><br>
+                        <%= fad.label :address_line_1, "Address line 1" %><br>
+                        <%= fad.text_field :address_line_1, class: "form-control"  %>
+                        <%= fad.label :address_line_2, "Address line 2" %><br>
+                        <%= fad.text_field :address_line_2, class: "form-control"  %>
+                        <%= fad.label :city %><br>
+                        <%= fad.text_field :city, class: "form-control"  %>
+                        <%= fad.label :postal_code, "Postal Code" %><br>
+                        <%= fad.number_field :postal_code, class: "form-control"  %>
+                      <% end %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :about %>
+                      <%= f.text_area :about, class: 'form-control', placeholder: 'Company general information', rows: 10 %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.button :submit, class: 'btn btn-primary pull-right' %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+
+              <hr>
+              <% a.users.each do |u| %>
+                <%= form_for(u, :html => { :class => 'form-inline' }) do |f| %>
+                  <div class="profile-user-details clearfix">
+                    <p><b>List Users:</b></p>
+                    <%= content_tag :b, "User: #{u.fullname}", class: 'u-name-big' %>
+                    <label>First name: </label>
+                    <%= f.text_field :firstname, :class => 'form-control u-name-big', placeholder: 'Enter firstname' %>
+                    <label>Last name: </label>
+                    <%= f.text_field :lastname, :class => 'form-control u-name-big', placeholder: 'Enter lastname' %>
+                    <%= f.button 'Update', class: 'btn btn-primary' %>
+                  </div>
+                <% end %>
+              <% end %>
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= paginate @accounts, :pagination_class => "pull-right"%>
+</div>

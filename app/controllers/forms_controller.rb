@@ -97,6 +97,8 @@ class FormsController < ApplicationController
         :scripts,
         :styles, 
         :column_style,
+        :wrapper,
+        :wrapper_content,
         :trigger_method,
         :thank_msg,
         :redirect_link,  

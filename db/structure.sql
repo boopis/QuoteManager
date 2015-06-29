@@ -187,7 +187,9 @@ CREATE TABLE forms (
     account_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    redirect_link character varying(255)
+    redirect_link character varying(255),
+    wrapper character varying(255),
+    wrapper_content character varying(255)
 );
 
 
@@ -675,7 +677,8 @@ CREATE TABLE users (
     role character varying(255) DEFAULT 'viewer'::character varying,
     account_id integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    active boolean DEFAULT true
 );
 
 
@@ -1321,4 +1324,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150415124053');
 INSERT INTO schema_migrations (version) VALUES ('20150421084204');
 
 INSERT INTO schema_migrations (version) VALUES ('20150423034020');
+
+INSERT INTO schema_migrations (version) VALUES ('20150625035134');
+
+INSERT INTO schema_migrations (version) VALUES ('20150626033116');
 
