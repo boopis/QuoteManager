@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User profile was successfully updated.' }
+        format.html { redirect_to :back, notice: 'User profile was successfully updated.' }
         format.json { render :show, status: :ok, location: @form }
       else
         format.html { render :show, alert: 'User profile was not successfully updated.' }
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 private
 
   def set_user
-    @user = current_account.users.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def user_params

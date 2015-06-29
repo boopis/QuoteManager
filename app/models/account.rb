@@ -30,4 +30,8 @@ class Account < ActiveRecord::Base
     quotes.each { |q| sum = sum + q[:email_opened] }
     { viewed: sum, draft: quotes.size }
   end
+
+  def actived?
+    self.users.all? { |u| u.active }
+  end
 end

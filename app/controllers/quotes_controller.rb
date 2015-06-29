@@ -119,9 +119,10 @@ class QuotesController < ApplicationController
     respond_to do |format|
       if errors.nil? && quote.save 
     
-        identities = @current_user.identities.where(provider: 'google_oauth2')
-        unless identities.count > 0 && identities[0].refresh_token.nil?
-          send_quote_email(params[:email], quote, identities)
+        identity = Identity.by_google_account(current_user.account_id)
+        send_quote_email(params[:email], quote, identity)
+
+        unless identity.present? && identity.refresh_token.present?
 
           format.html { redirect_to :back, notice: "Your email is on it's way!." }
           format.json { render json: params[:email], status: :ok }
@@ -171,10 +172,12 @@ private
     end
   end
 
-  def send_quote_email(email, quote, identities)
+  def send_quote_email(email, quote, identity)
     # Choose to use GMail api or default email
-    if identities.count > 0
-      gmail_api = GmailAPI.new(identities[0].fresh_token)
+    if identity.present? && identity.refresh_token.present?
+      google_auth = GoogleAuth.new(identity)
+      gmail_api = GmailAPI.new(google_auth.fresh_token)
+
       email['addresses'].split(',').each do |address|
         msg = QuoteMailer.send_quote(address, quote, email['content'], identities[0].social_name)
         gmail_api.send_message(msg)

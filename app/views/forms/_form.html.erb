@@ -152,6 +152,7 @@
           <div class="tab-pane fade" id="js">
             <p>Custom Javscript: </p>
             <%= f.text_area :scripts, class: 'form-control full', placeholder: 'Add your custom scripts' %>
+            <hr>
             <p>Choose an option to render this form:</p>
             <div class="radio">
               <%= label_tag :trigger_method_Button do %>
@@ -171,12 +172,19 @@
                   Triggered By Widget
               <% end %>
             </div>
-            <div class='trigger-methods'> 
-            <hr>
+            <div class='trigger-methods secondary-block'> 
               <p>ID / Class of button to trigger form: </p>
               <%= f.text_field :trigger_method, :class => 'form-control', :placeholder => 'Enter ID / class of button' %>
             </div> 
-
+            <hr>
+            <div class='wrapper'> 
+              <p>ID / Class of button want to rename: </p>
+              <%= f.text_field :wrapper, :class => 'form-control', :placeholder => 'Enter ID / class of button' %>
+            </div> 
+            <div class='wrapper-content secondary-block'> 
+              <p>New html for wrapper: </p>
+              <%= f.text_area :wrapper_content, class: 'form-control full', placeholder: 'Add your new content for trigger button' %>
+            </div> 
           </div>
 
           <div class="tab-pane fade" id="settings">
