@@ -61,11 +61,11 @@ class ContactsController < ApplicationController
 
   # POST /contacts/:id/send-email
   def send_email_to_contact
-    identities = @current_user.identities.where(provider: 'google_oauth2')
+    identity = Identity.by_google_account(current_user.account_id)
     contact = Contact.find(params[:contact_id])
 
     respond_to do |format|
-      if identities.count > 0 && contact
+      if identity.present? && contact
         # Compose new email
         if params[:send_method] == 'Compose New Email'
           template = params[:content] 
@@ -73,8 +73,9 @@ class ContactsController < ApplicationController
           template = Template.find(params[:template_id]).try(:content)
         end
       
-        unless identities[0].refresh_token.nil?
-          gmail_api = GmailAPI.new(identities[0].fresh_token)
+        unless identity.refresh_token.nil?
+          google_auth = GoogleAuth.new(identity)
+          gmail_api = GmailAPI.new(google_auth.fresh_token)
           mail = ContactMailer.send_email(contact, template, identities[0].social_name, params[:subject])
           gmail_api.send_message(mail)
 
