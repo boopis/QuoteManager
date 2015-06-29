@@ -10,7 +10,6 @@ class Identity < ActiveRecord::Base
     joins(:user)
     .where('users.account_id' => account_id)
     .where(provider: 'google_oauth2')
-    .where('users.role' => 'admin')
     .first
   }
 
