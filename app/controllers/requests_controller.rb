@@ -49,16 +49,15 @@ class RequestsController < ApplicationController
       respond_to do |format|
         if map_data[:errors].messages.size == 0 && @request.save
           
-          identities = Identity.by_account(form.account_id)
-          unless identities.count > 0 && identities[0].refresh_token.nil?
-            send_thank_you_message_to_customer(form, @request.contact, identities)
-            send_mail_to_form_creator(
-              form,  
-              @request,
-              req_fields.find{|k,v| v['type'] == 'email'}.last['request'],
-              identities
-            )
-          else
+          identity = Identity.by_google_account(form.account_id)
+          send_thank_you_message_to_customer(form, @request.contact, identity)
+          send_mail_to_form_creator(
+            form,  
+            @request,
+            req_fields.find{|k,v| v['type'] == 'email'}.last['request'],
+            identity
+          )
+          if identity.nil?
             format.html { redirect_to request.referrer, alert: "Unable to get Google refresh token. Please contact to supporter to fix this error." }
           end
 
@@ -123,10 +122,12 @@ class RequestsController < ApplicationController
     end    
   end
 
-  def send_thank_you_message_to_customer(form, contact, identities)
+  def send_thank_you_message_to_customer(form, contact, identity)
     # Choose to use GMail api or default email
-    if identities.count > 0
-      gmail_api = GmailAPI.new(identities[0].fresh_token)
+    if identity.present? && identity.refresh_token.present?
+      google_auth = GoogleAuth.new(identity)
+      gmail_api = GmailAPI.new(google_auth.fresh_token)
+
       msg = FormMailer.thank_customer(contact, form)
       gmail_api.send_message(msg)
     else
@@ -136,10 +137,12 @@ class RequestsController < ApplicationController
     end
   end
 
-  def send_mail_to_form_creator(form, form_request, submitted_user, identities)
+  def send_mail_to_form_creator(form, form_request, submitted_user, identity)
     # Choose to use GMail api or default email
-    if identities.count > 0
-      gmail_api = GmailAPI.new(identities[0].fresh_token)
+    if identity.present? && identity.refresh_token.present?
+      google_auth = GoogleAuth.new(identity)
+      gmail_api = GmailAPI.new(google_auth.fresh_token)
+
       if form.emails.present?
         form.emails.each do |e|
           msg = FormMailer.alert_to_form_creators(e['email'], submitted_user, form, form_request)

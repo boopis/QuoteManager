@@ -5,6 +5,12 @@ QuoteManager::Application.routes.draw do
   end
   root 'welcome#index'
 
+  namespace :admin do
+    get '/', action: :index
+    post '/deactive/:account_id', action: :deactive, as: :deactive
+    post '/active/:account_id', action: :active, as: :active
+  end
+
   resources :forms
   get '/form-inline/:id' => 'forms#form_inline'
   

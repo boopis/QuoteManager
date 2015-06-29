@@ -33,7 +33,7 @@
       <div class="profile-header">
         <h3><span>Personal Bio</span></h3>
         <% if can? :update, @contact %>
-          <%= link_to edit_contact_path(@contact), class: "btn btn-primary edit-profile" do %>
+          <%= link_to edit_contact_path(@contact), class: "btn btn-primary edit-profile right" do %>
             <i class="fa fa-pencil-square fa-lg"></i> 
             Edit Contact
           <% end %>
