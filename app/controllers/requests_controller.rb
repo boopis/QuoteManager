@@ -153,7 +153,7 @@ class RequestsController < ApplicationController
       if form.emails.present?
         Thread.new do
           form.emails.each do |e|
-            FormMailer.alert_to_form_creators(e['email'], submitted_user, form).deliver
+            FormMailer.alert_to_form_creators(e['email'], submitted_user, form, form_request).deliver
           end
         end
       end
