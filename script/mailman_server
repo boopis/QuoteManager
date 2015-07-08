@@ -4,23 +4,27 @@ require "rubygems"
 require "bundler/setup"
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'environment'))
 require 'mailman'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'extended', 'mailman'))
 
 Mailman.config.ignore_stdin = true
 Mailman.config.logger = Logger.new File.expand_path("../../log/mailman_#{Rails.env}.log", __FILE__)
-
-Mailman.config.logger = Logger.new File.expand_path("../../log/mailman_#{Rails.env}.log", __FILE__)
 Mailman.config.poll_interval = 60
-Mailman.config.imap = {
-  server: 'imap.gmail.com',
-  port: 993,  # usually 995, 993 for gmail
-  ssl: true,
-  username: 'my@email.com',
-  password: 'my_password'
+Mailman.config.gmail = {
+  mailman_user: ENV['MAILMAN_USER']
 }
 
 Mailman::Application.run do
-  default do
+  subject(/Change request #(\d+) to (\w+)/) do |request_id, state|
     begin
+      # Ensure that the user have permission with this request and update request state
+      user = User.find_by_email(message.from.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i))
+      if user.present?
+        req = Request.find(request_id.to_i)
+        if req.present? && Ability.new(user).can?(:update, req) 
+          req.update_attributes(status: state)
+          Mailman.logger.info "Update new state (#{state}) to request #{request_id}"
+        end
+      end
     rescue Exception => e
       Mailman.logger.error "Exception occurred while receiving message:\n#{message}"
       Mailman.logger.error [e, *e.backtrace].join("\n")
