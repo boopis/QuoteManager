@@ -19,6 +19,7 @@ class GmailAPI
     ) 
   end
 
+  # Get list of message id 
   def get_list_message_id
     emails = nil
     next_page_token = nil
@@ -31,7 +32,7 @@ class GmailAPI
         parameters: {
           userId: 'me',
           maxResults: 100,
-          q: "is:unread",
+          q: "is:unread in:inbox category:primary",
           pageToken: next_page_token,
         }
       )
@@ -42,6 +43,7 @@ class GmailAPI
     emails.flatten!
   end
 
+  # Read the email and mark it as read
   def get_message_by_id(id)
     res = @client.execute(
       api_method: @gmail.users.messages.get,
@@ -50,15 +52,29 @@ class GmailAPI
         id: id,
       }
     )
+
+    @client.execute(
+      api_method: @gmail.users.messages.modify,
+      parameters: {
+        userId: 'me',
+        id: id,
+      },
+      body_object: {
+        removeLabelIds: ['UNREAD']
+      }
+    )
+
     data = JSON.parse(res.body)
 
+    # just retrieve the subject, from and body in message
     { 
       subject: self.get_attribute(data, 'Subject'),
       from: self.get_attribute(data, 'From'),
-      body: data['parts']
+      body: data['payload']['body']
     }
   end
 
+  # Get the attribute from message
   def get_attribute(data, attribute)
     header = data['payload']['headers']
     array = header.reject { |hash| hash['name'] != attribute }

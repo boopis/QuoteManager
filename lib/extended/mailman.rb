@@ -26,7 +26,7 @@ module Mailman
 
       # GMail API
       elsif config.gmail
-        options = {:processor => @processor}.merge(config.gmail_api)
+        options = {:processor => @processor}.merge(config.gmail)
         Mailman.logger.debug "GMail API enabled (#{options[:username]})"
         polling_loop Receiver::Gmail.new(options)
 
@@ -94,24 +94,38 @@ module Mailman
 
       def connect
         user = User.find_by_email(@mailman_user) 
-        @gmail_api = GmailAPI.new(GoogleAuth.new(user.identities[0]).fresh_token)
+        if user.present?
+          @gmail_api = GmailAPI.new(GoogleAuth.new(user.identities[0]).fresh_token)
+        end
       end
 
       # Do nothing with Gmail api
       def disconnect
+        false # always false because we don't need to disconnect action with api
       end
 
       # Iterates through new messages, passing them to the processor, and
       # deleting them.
       def get_messages
-        @gmail_api.get_list_message do |message|
-          begin
-            @processor.process(message)
-          rescue StandardError => error
-            Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class.to_s}: #{error.message}\n #{error.backtrace.join("\n")}"
-            next
+        if @gmail_api.present?
+          list_message_id = @gmail_api.get_list_message_id
+          if list_message_id.present?
+            list_message_id.each do |message_id|
+              begin
+                @processor.process(@gmail_api.get_message_by_id(message_id))
+              rescue StandardError => error
+                Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class.to_s}: #{error.message}\n #{error.backtrace.join("\n")}"
+                next
+              end
+            end
           end
+        else
+          Mailman.logger.error "Wrong email address."
         end
+      end
+
+      def started?
+        true
       end
     end
   end
