@@ -109,6 +109,7 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
   after  :finishing,    'whenever:update_crontab'
+  after  :finishing,    'mailman:restart'
 end
 
 # ps aux | grep puma    # Get puma pid
