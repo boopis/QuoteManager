@@ -90,42 +90,13 @@ function validate(form) {
   if (errors < 1) { return true }
 }
 
-function renderForm(url, form, json_product) {
+function renderForm(url, form) {
   var a = document.getElementById('qm-modal');
   if (a) {
-    setProduct(json_product);
-    var quote = JSON.parse(sessionStorage.getItem('qm-rfq'));
-    document.getElementById('qm-variant-text').value = quote.variantText;
-    document.getElementById('qm-variant-id').value = quote.variantId;  
     a.style.display = 'block';
   } else {
-    setProduct(json_product);
     buildForm(url, form);
   }
-}
-
-function setProduct(json_product) {
-  var e = document.getElementById('product-select');
-  if (e.disabled == false) {
-    var i = e.options[e.selectedIndex].value;
-    var t = e.options[e.selectedIndex].text;
-  } else { 
-    var i = '';
-    var t = '';
-    for (var k=0; k<json_product['options'].length; k++) {
-      var l = document.getElementById('product-select-option-'+k);
-      var m = l.options[l.selectedIndex].value;
-      t = t + json_product['options'][k] + ': ' + m + ' / ';
-    }
-    t = t.substring(0, t.length - 3);
-  };
-
-  var myQuote = new Object();
-
-  myQuote.variantId = i;
-  myQuote.variantText = t;
-
-  sessionStorage.setItem('qm-rfq', JSON.stringify(myQuote));
 }
 
 function createTextFieldType (required, reqFieldsReq, reqFieldsLbl, reqFieldsType, type, label, fieldType, id, field) {
@@ -207,42 +178,6 @@ function createCheckboxOrRadio (required, reqFieldsReq, reqFieldsLbl, reqFieldsT
   return w;
 }
 
-// Find product's option by element id, class, product's name
-function grabProductOption () {
-
-  var jsonProduct = {},
-      options = [],
-      variants = [],
-      variantOptions,
-      temp;
-
-  // Get all options product have
-  temp = document.querySelectorAll('#product-variants label');
-  for (var i = 0; i < temp.length; i++) {
-    options.push(temp[i].textContent);
-  }
-
-  // Get all variants
-  temp = document.querySelectorAll('#product-select option');
-  for (var j = 0; j < temp.length; j++) {
-    variantOptions = temp[j].textContent.split('-');
-
-    variants.push({
-      id: temp[j].value,
-      title: variantOptions[0],
-      options: variantOptions[0].split('/'),
-      price: parseFloat(variantOptions[1].replace( /^\D+/g, '')),
-      available: true
-    });
-  }
-
-  jsonProduct = {
-    options: options,
-    variants: variants
-  };
-
-  return jsonProduct;
-}
 
 function getInpageCustomData(objSpec) {
 
@@ -598,9 +533,6 @@ var redirect = '<%= form.redirect_link.html_safe %>';
 // Amount of time to complete this form
 var timeToComplete = 0;
 
-// Get product data
-var json_product = grabProductOption(); 
-
 // Replace add to cart text and if
 <% if form.wrapper.present? && form.wrapper_content.present? %>
   document.querySelector('<%= form.wrapper %>').innerHTML='<%= form.wrapper_content.html_safe %>';  
@@ -608,10 +540,10 @@ var json_product = grabProductOption();
 
 // Form Trigger methods 
 <% if form.trigger_method != 'PageLoad' && form.trigger_method != 'Widget' && !form.trigger_method.empty?  %>
-  document.querySelector('<%= form.trigger_method %>').onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form, json_product); return false; } 
+  document.querySelector('<%= form.trigger_method %>').onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form); return false; } 
 <% elsif form.trigger_method == 'PageLoad' %>
   window.onload=function() {
-    renderForm('<%= request.protocol + request.host_with_port %>', form, json_product);
+    renderForm('<%= request.protocol + request.host_with_port %>', form);
   };
 <% elsif form.trigger_method == 'Widget' %>
   var widget = document.createElement('button'),
@@ -620,7 +552,7 @@ var json_product = grabProductOption();
   widget.innerText = 'Get Quote'
   widget.style.cssText = 'position: fixed; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding:15px; background:#FFF; border:3px solid #a1a1a1; bottom: 10%; right: 0px;'
                               
-  widget.onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form, json_product); return false; } 
+  widget.onclick = function() { renderForm('<%= request.protocol + request.host_with_port %>', form); return false; } 
 
   body.appendChild(widget);
 <% end %>
