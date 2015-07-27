@@ -59,6 +59,30 @@ namespace :reset do
   end
 end
 
+namespace :mailman do
+  desc "Mailman::Start"
+  task :start, :roles => [:app] do
+    run "cd #{current_path}; RAILS_ENV=production script/mailman_server start"
+  end
+
+  desc "Mailman::Stop"
+  task :stop, :roles => [:app] do
+    run "cd #{current_path}; RAILS_ENV=production script/mailman_server stop"
+  end
+  desc "Mailman::Status"
+  task :status, :roles => [:app] do
+    run "cd #{current_path}; RAILS_ENV=production script/mailman_server status"
+  end
+
+  desc "Mailman::Restart"
+  task :restart, :roles => [:app] do
+    mailman.stop
+    mailman.start
+  end
+end
+
+before :deploy, "mailman:stop"
+after :deploy, "mailman:start"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
