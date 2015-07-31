@@ -61,30 +61,29 @@ end
 
 namespace :mailman do
   desc "Mailman::Start"
-  task :start, :roles => [:app] do
-    run "cd #{current_path}; RAILS_ENV=production script/mailman_server start"
+  task :start do
+    on roles(:app) do
+      execute "cd #{current_path}; RAILS_ENV=production script/mailman_server start"
+    end
   end
 
   desc "Mailman::Stop"
-  task :stop, :roles => [:app] do
-    run "cd #{current_path}; RAILS_ENV=production script/mailman_server stop"
-  end
-  desc "Mailman::Status"
-  task :status, :roles => [:app] do
-    run "cd #{current_path}; RAILS_ENV=production script/mailman_server status"
+  task :stop do
+    on roles(:app) do
+      execute "cd #{current_path}; RAILS_ENV=production script/mailman_server stop"
+    end
   end
 
   desc "Mailman::Restart"
-  task :restart, :roles => [:app] do
-    mailman.stop
-    mailman.start
+  task :restart do
+    on roles(:app) do
+      mailman.stop
+      mailman.start
+    end
   end
 end
 
-before :deploy, "mailman:stop"
-after :deploy, "mailman:start"
-
-namespace :deploy do
+namespace deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
@@ -104,7 +103,7 @@ namespace :deploy do
       execute "sudo /etc/init.d/nginx restart"
     end
   end
-
+  
   desc 'Copy application.yml file'
   task :copy_config_file do
     on roles(:app), in: :sequence, wait: 1 do
@@ -133,7 +132,6 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
   after  :finishing,    'whenever:update_crontab'
-  after  :finishing,    'mailman:restart'
 end
 
 # ps aux | grep puma    # Get puma pid
