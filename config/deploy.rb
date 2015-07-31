@@ -53,11 +53,8 @@ end
 
 namespace :mailman do
   desc "Mailman::Start"
-
   task :start do
-    on roles(:app) do
-      execute :cd, "#{current_path}; RAILS_ENV=production script/mailman_server start"
-    end
+    execute :cd, "#{current_path}; RAILS_ENV=production script/mailman_server start"
   end
 
   desc "Mailman::Stop"
@@ -68,9 +65,11 @@ namespace :mailman do
   end
 
   desc "Mailman::Restart"
-  task :restart, :roles => [:app] do
-    mailman.stop
-    mailman.start
+  task :restart do
+    on roles(:app) do
+      mailman.stop
+      mailman.start
+    end
   end
 end
 
