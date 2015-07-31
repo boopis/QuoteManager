@@ -63,14 +63,6 @@ namespace :mailman do
       execute :cd, "#{current_path}; RAILS_ENV=production script/mailman_server stop"
     end
   end
-
-  desc "Mailman::Restart"
-  task :restart do
-    on roles(:app) do
-      mailman.stop
-      mailman.start
-    end
-  end
 end
 
 namespace :deploy do
@@ -122,7 +114,6 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
   after  :finishing,    'whenever:update_crontab'
-  after  :finishing,    'mailman:restart'
 end
 
 # ps aux | grep puma    # Get puma pid
