@@ -51,14 +51,6 @@ namespace :puma do
   before :start, :make_dirs
 end
 
-namespace :reset do
-  task :reset_database do
-    on roles(:app) do
-      execute :cd, "#{current_path} && bundle exec rake db:reset RAILS_ENV=production"
-    end
-  end
-end
-
 namespace :mailman do
   desc "Mailman::Start"
   task :start do
@@ -79,6 +71,14 @@ namespace :mailman do
     on roles(:app) do
       mailman.stop
       mailman.start
+    end
+  end
+end
+
+namespace :reset do
+  task :reset_database do
+    on roles(:app) do
+      execute :cd, "#{current_path} && bundle exec rake db:reset RAILS_ENV=production"
     end
   end
 end
