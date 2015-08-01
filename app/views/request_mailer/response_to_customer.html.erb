@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Thank you</title>
+<title>Form submitted</title>
 <style>
 /* -------------------------------------
     GLOBAL
@@ -163,7 +163,10 @@ ul li, ol li {
       <table>
         <tr>
           <td>
-            <%= Liquid::Template.parse(@form.thank_msg).render('customer' => @customer).html_safe %>
+            <% if @user.present? %>
+              <h3>Dear, <%= @user %></h3>
+            <% end %>
+            <%= content_tag :p, @response_msg %>
           </td>
         </tr>
       </table>
@@ -187,7 +190,7 @@ ul li, ol li {
         <table>
           <tr>
             <td align="center">
-                <h4>Powered by <a href='http://quotemanager.co' title='quotemanager'><b>QuoteManager</b></a></h4>
+              <h4>Powered by <a href='http://quotemanager.co' title='quotemanager'><b>QuoteManager</b></a></h4>
             </td>
           </tr>
         </table>

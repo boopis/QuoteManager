@@ -17,6 +17,7 @@ QuoteManager::Application.routes.draw do
   resources :requests do
     get '/download/:field_id', action: :download, as: :download
     patch '/update-note', action: :update_note, as: :update_note
+    post '/update-state', action: :update_state, as: :update_state
   end
 
   get '/offer/:id' => 'quotes#public', as: :public_quote
