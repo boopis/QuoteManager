@@ -20,6 +20,11 @@
             <span class="hidden-xs"><%= current_user.fullname %></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
+            <% if can? :manage, :all %>
+              <%= content_tag :li do %>
+                <%= link_to '<i class="fa fa-globe"></i>Administrators panel'.html_safe, admin_path %>
+              <% end %>
+            <% end %>
             <%= content_tag :li do %>
               <%= link_to '<i class="fa fa-user"></i>Profile'.html_safe, user_path(current_user) %>
             <% end %>
@@ -47,7 +52,7 @@
         </li>
 
         <li class="hidden-xxs">
-          <%= link_to destroy_user_session_path, method: 'delete', class: 'btn' do %>
+          <%= link_to destroy_user_session_path, class: 'btn' do %>
             <i class="fa fa-power-off"></i>
           <% end %>
         </li>

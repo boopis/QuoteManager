@@ -3,18 +3,19 @@ plans = Plan.create([
   { id: 1, name: 'Individual',  price: 19, users: 1, forms: 5, storage: 100, requests: 500}, 
   { id: 2, name: 'Small Business',  price: 49, users: 3, forms: 10, storage: 1000, requests: 1500}, 
   { id: 3, name: 'Premium Business',  price: 99, users: 5, forms: 20, storage: 5000, requests: 5000}, 
+  { id: 4, name: 'Free', price: 0, users: 1, forms: 1, storage: 20, requests: 100}
 ])
 
 # Create system account and user to receive contact message in landing page 
-account = Account.create(:company_name => 'System')
+account = Account.create(:company_name => 'Boopis Media')
 
 user = User.new(
-  email: 'system@qm.com', 
-  password: 'system@com12', 
+  email: 'phuong@boopis.com', 
+  password: 'tranphuong', 
   role: 'admin',
-  firstname: 'system',
+  firstname: 'phuong',
   account_id: account.id,
-  lastname: ''
+  lastname: 'tran'
 )
 user.save(validate: false)
 

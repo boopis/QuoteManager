@@ -163,8 +163,27 @@ ul li, ol li {
       <table>
         <tr>
           <td>
-            <h2>Dear, <%= @receiver %></h2>
-            <p>Your form <%= "(id: #{@form.id}, title: #{@form.name})" %>  has been submitted by <%= @user %></p>
+            <% if @receiver.present? %>
+              <h3>Dear, <%= @receiver %></h3>
+            <% end %>
+            <p>Your form <%= "(id: #{@form.id}, title: #{@form.name})" %>  has been submitted by <%= @user %> at <%= Time.now.strftime("%m/%d/%Y %I:%M%p") %></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h3>Request information</h3>
+            <% @request.fields.each do |k,v| %>
+              <%= content_tag :p, "#{v['label']}: #{v['request']}" %>
+            <% end %>
+          </td>
+        </tr>
+          <td>
+            <h3>Analytics data</h3>
+            <%= content_tag :p, "User OS: #{@request.os}" %>
+            <%= content_tag :p, "Form was submitted from website: #{@request.referrer}" %>
+            <%= content_tag :p, "User IP: #{@request.remote_ip}" %>
+            <%= content_tag :p, "User language: #{@request.language}" %>
+            <%= content_tag :p, "User browser: #{@request.browser}" %>
           </td>
         </tr>
       </table>
@@ -188,6 +207,7 @@ ul li, ol li {
         <table>
           <tr>
             <td align="center">
+              
             </td>
           </tr>
         </table>
