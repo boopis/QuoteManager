@@ -163,49 +163,11 @@ ul li, ol li {
       <table>
         <tr>
           <td>
-            <% if @receiver.present? %>
-              <h3>Dear, <%= @receiver %></h3>
+            <% if @user.present? %>
+              <h3>Dear, <%= @user %></h3>
             <% end %>
-            <p>Your form <%= "(id: #{@form.id}, title: #{@form.name})" %>  has been submitted by <%= @user %> at <%= Time.now.strftime("%m/%d/%Y %I:%M%p") %></p>
+            <%= content_tag :p, @response_msg %>
           </td>
-        </tr>
-        <tr>
-          <td>
-            <h3>Request information</h3>
-            <% @request.fields.each do |k,v| %>
-              <%= content_tag :p, "#{v['label']}: #{v['request']}" %>
-            <% end %>
-          </td>
-        </tr>
-          <td>
-            <h3>Analytics data</h3>
-            <%= content_tag :p, "User OS: #{@request.os}" %>
-            <%= content_tag :p, "Form was submitted from website: #{@request.referrer}" %>
-            <%= content_tag :p, "User IP: #{@request.remote_ip}" %>
-            <%= content_tag :p, "User language: #{@request.language}" %>
-            <%= content_tag :p, "User browser: #{@request.browser}" %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-          <h3>Reply to your customer</h3>
-          <%= form_tag request_update_state_url(@request.id), method: :post, authenticity_token: false do %>
-            <%= hidden_field_tag :user, @user %>
-            <%= hidden_field_tag :form_creator, @receiver %>
-            <%= hidden_field_tag :form, @form.id %>
-            <div>
-            <label>Subject: </label>
-            <%= text_field_tag :subject, '' %>
-            </div>
-            <div>
-            <label>Body: </label>
-            <%= text_area_tag :body, '' %>
-            </div>
-            <div>
-            <%= button_tag 'Reply to Customer', class: 'button-primary' %>
-            </div>
-          <% end %>
-        </td>
         </tr>
       </table>
       </div>
@@ -228,7 +190,7 @@ ul li, ol li {
         <table>
           <tr>
             <td align="center">
-              
+              <h4>Powered by <a href='http://quotemanager.co' title='quotemanager'><b>QuoteManager</b></a></h4>
             </td>
           </tr>
         </table>
