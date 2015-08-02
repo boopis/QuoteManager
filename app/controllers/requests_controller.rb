@@ -109,18 +109,6 @@ class RequestsController < ApplicationController
     end
   end
 
-  # POST from alert to form creator email
-  def update_state
-    # update request statcustomere
-    req = Request.find(params[:request_id])
-    req.update_attributes(status: 'responded')
-
-    identity = Identity.by_google_account(req.account_id)
-    send_reponse_message_to_customer(params[:subject], params[:body], identity, params[:user])
-
-    render text: "Your email is sent to your customer!"
-  end
-
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_request
@@ -132,23 +120,6 @@ class RequestsController < ApplicationController
     params.require(:request).permit(:form_id, :time_to_complete).tap do |whitelisted|
       whitelisted[:fields] = params[:request][:fields]
     end    
-  end
-
-  def send_reponse_message_to_customer(subject, body, identity, customer)
-
-    # Choose to use GMail api or default email
-    if identity.present? && identity.refresh_token.present?
-      google_auth = GoogleAuth.new(identity)
-      gmail_api = GmailAPI.new(google_auth.fresh_token)
-
-      msg = RequestMailer.response_to_customer(customer, subject, body)
-      gmail_api.send_message(msg)
-    else
-      Thread.new do
-        RequestMailer.response_to_customer(customer, subject, body).deliver
-      end
-    end
-
   end
 
   def send_thank_you_message_to_customer(form, contact, identity)

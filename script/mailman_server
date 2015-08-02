@@ -8,21 +8,34 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'extende
 
 Mailman.config.ignore_stdin = true
 Mailman.config.logger = Logger.new File.expand_path("../../log/mailman_#{Rails.env}.log", __FILE__)
-Mailman.config.poll_interval = 60
+Mailman.config.poll_interval = ENV['MAILMAN_POLLING_TIME'].to_i
 Mailman.config.gmail = {
   mailman_user: ENV['MAILMAN_USER']
 }
 
 Mailman::Application.run do
-  subject(/Change request #(\d+) to (\w+)/) do |request_id, state|
+  default do
     begin
-      # Ensure that the user have permission with this request and update request state
-      user = User.find_by_email(message.from.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i))
-      if user.present?
-        req = Request.find(request_id.to_i)
-        if req.present? && Ability.new(user).can?(:update, req) 
-          req.update_attributes(status: state)
-          Mailman.logger.info "Update new state (#{state}) to request #{request_id}"
+      # Only process email has cc field to mailman setting user
+      to_user, from_user, cc_user = message.to.scan(/(\w+@\w+.\w+)/).flatten.first, message.from.scan(/(\w+@\w+.\w+)/).flatten.first, message.cc.first
+      if cc_user == ENV['MAILMAN_USER']
+        # Find request of 
+        account = Identity.find_by_social_name(from_user).try(:user).try(:account)
+        binding.pry
+
+        if account.present?
+          binding.pry
+          new_requests = account.requests.order('created_at DESC').where(status: 'new')
+          # Find the newest message has email field is to user
+          new_requests = new_requests.select do |req| 
+            email_fields = req.fields.values.select do |field|
+              field['type'] == 'email' && field['request'] == to_user
+            end
+
+            email_fields.empty?
+          end
+
+          new_requests.first.update_attributes(status: 'responded')
         end
       end
     rescue Exception => e
