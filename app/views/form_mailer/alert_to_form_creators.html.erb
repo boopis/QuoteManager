@@ -189,22 +189,7 @@ ul li, ol li {
         <tr>
           <td>
           <h3>Reply to your customer</h3>
-          <%= form_tag request_update_state_url(@request.id), method: :post, authenticity_token: false do %>
-            <%= hidden_field_tag :user, @user %>
-            <%= hidden_field_tag :form_creator, @receiver %>
-            <%= hidden_field_tag :form, @form.id %>
-            <div>
-            <label>Subject: </label>
-            <%= text_field_tag :subject, '' %>
-            </div>
-            <div>
-            <label>Body: </label>
-            <%= text_area_tag :body, '' %>
-            </div>
-            <div>
-            <%= button_tag 'Reply to Customer', class: 'button-primary' %>
-            </div>
-          <% end %>
+          <p>If you want to change your request status through this email, please add <%= ENV['MAILMAN_USER'] %> to cc address. </p>
         </td>
         </tr>
       </table>
