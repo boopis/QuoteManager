@@ -120,6 +120,7 @@ module Mailman
             end
           end
         else
+          puts "Wrong mailman setting, couldn't found mailman user."
           Mailman.logger.error "Wrong email address."
         end
       end

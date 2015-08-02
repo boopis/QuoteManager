@@ -70,6 +70,8 @@ class GmailAPI
     { 
       subject: self.get_attribute(data, 'Subject'),
       from: self.get_attribute(data, 'From'),
+      to: self.get_attribute(data, 'To'),
+      cc: self.get_attribute(data, 'Cc'),
       body: data['payload']['body']
     }
   end
