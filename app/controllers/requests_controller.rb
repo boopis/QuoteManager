@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
   # GET /requests.json
   def index
     @q = current_account.requests.includes(:note).search(params[:q])
-    @requests = @q.result.page(params[:page]).per(25)
+    @requests = @q.result.page(params[:page]).per(25).order('id DESC')
     @header = current_account.forms.find(params[:q][:form_id_eq]) if params[:q].present? && params[:q][:form_id_eq].present?
     @forms = current_account.forms.all
     if params[:q].present? && params[:q][:key].present?
@@ -165,7 +165,7 @@ class RequestsController < ApplicationController
     {
       remote_ip: request.remote_ip,
       language: request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first,
-      referrer: request.referrer,
+      referrer: request.referer,
       browser: get_browser,
       os: get_operating_system,
     }

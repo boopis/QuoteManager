@@ -1,7 +1,7 @@
 class FormMailer < ActionMailer::Base
   def alert_to_form_creators(receiver, user, form, request)
     @form, @user, @receiver, @request = form, user, receiver, request
-    mail to: receiver, subject: "Request ##{request.id} for #{form.name}"
+    mail to: receiver, reply_to: user, subject: "Request ##{request.id} for #{form.name}"
   end
 
   def thank_customer(customer, form)

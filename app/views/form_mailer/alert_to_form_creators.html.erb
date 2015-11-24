@@ -164,7 +164,7 @@ ul li, ol li {
         <tr>
           <td>
             <% if @receiver.present? %>
-              <h3>Dear, <%= @receiver %></h3>
+              <h3>Hi <%= @receiver %>,</h3>
             <% end %>
             <p>Your form <%= "(id: #{@form.id}, title: #{@form.name})" %>  has been submitted by <%= @user %> at <%= Time.now.strftime("%m/%d/%Y %I:%M%p") %></p>
           </td>
