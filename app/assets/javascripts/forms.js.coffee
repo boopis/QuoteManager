@@ -361,5 +361,5 @@ $copyScript.mouseout (e) ->
   return
 
 cloneForm = $('form').parent().clone()
-cloneForm.find('form').attr 'action', 'http://quotemanager.co/requests'
+cloneForm.find('form').attr 'action', 'https://quotemanager.co/requests'
 $('#rawhtml').val cloneForm.html()
