@@ -7,16 +7,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to root_url(subdomain: false), class: 'navbar-brand' do %>
+      <%= link_to root_url, class: 'navbar-brand' do %>
         <licon class="li_bubble"></licon> <b>QuoteManager</b>
       <% end %>
     </div>
 
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav cl-effect-13">
-        <li><%= link_to "Features", root_url(subdomain: false, anchor: "features"), class: "smoothScroll" %></li>
-        <li><%= link_to "Pricing", root_url(subdomain: false, anchor: "pricing"), class: "smoothScroll" %></li>
-        <li><%= link_to "Contact", root_url(subdomain: false, anchor: "contact"), class: "smoothScroll" %></li>
+        <li><%= link_to "Features", root_url(anchor: "features"), class: "smoothScroll" %></li>
+        <li><%= link_to "Pricing", root_url(anchor: "pricing"), class: "smoothScroll" %></li>
+        <li><%= link_to "Contact", root_url(anchor: "contact"), class: "smoothScroll" %></li>
       </ul>
 
       <!-- Sign In / Sign Up -->
@@ -27,7 +27,7 @@
           <% end %>
         </li>
         <li>
-          <%= link_to "Free Trial", root_url(subdomain: false, anchor: "pricing"), class: "smoothScroll btn btn-sm btn-theme pad" %>
+          <%= link_to "Free Trial", root_url(anchor: "pricing"), class: "smoothScroll btn btn-sm btn-theme pad" %>
         </li>
       </ul>
     </div><!--/nav-collapse -->
